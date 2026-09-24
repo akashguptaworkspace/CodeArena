@@ -5,14 +5,16 @@ services:
     build:
       context: .
       args:
-        - VITE_APP_URL=${VITE_APP_URL:-http://localhost:80}
+        - VITE_APP_URL=${VITE_APP_URL}
         - VITE_API_URL=${VITE_API_URL}
         - VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}
-        - VITE_ENABLE_PAYWALL=${VITE_ENABLE_PAYWALL:-false}
+        - VITE_ENABLE_PAYWALL=${VITE_ENABLE_PAYWALL}
         - VITE_PRESENCE_URL=${VITE_PRESENCE_URL}
     container_name: codearena-frontend
     ports:
       - "80:80"
+    env_file:
+      - .env
     restart: unless-stopped
     networks:
       - codearena-network

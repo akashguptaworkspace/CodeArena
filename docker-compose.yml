@@ -11,7 +11,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=4000
-      - CLIENT_ORIGINS=${CLIENT_ORIGINS:-http://localhost:80}
+      - CLIENT_ORIGINS=${CLIENT_ORIGINS:-https://codearena.vedantaa.in}
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - DB_NAME=${DB_NAME}
