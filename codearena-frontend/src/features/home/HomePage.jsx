@@ -16,7 +16,7 @@ export function HomePage() {
   return (
     <Stack gap="section">
       <PageIntro eyebrow="Welcome to CodeArena" title="Crack your next interview, one module at a time">
-        <p>{APP_TAGLINE} Start with DSA, then system design, then the Node.js and MySQL rounds.</p>
+        <p>{APP_TAGLINE} Start with DSA, then system design, then the Node.js and SQL rounds.</p>
       </PageIntro>
       <div className={styles.grid}>
         {MODULES.map((module) => (

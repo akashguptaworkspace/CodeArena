@@ -8,8 +8,9 @@ import { HttpError } from "../utils/HttpError.js";
 const ISSUER = "codearena";
 const sha256 = (value) => crypto.createHash("sha256").update(value).digest("hex");
 const DAY_MS = 24 * 60 * 60 * 1000;
-// Two tabs reloading at once both send the same refresh token; the second one arrives just after
-// the first rotated it. Within this window that's treated as a race, not theft.
+// A just-rotated token can legitimately come back: two tabs reloading at once, or a refresh whose
+// response never reached the browser (page reloaded mid-request, network drop), leaving it with the
+// old cookie. Within this window it's exchanged again instead of being treated as theft.
 const REUSE_GRACE_MS = 60 * 1000;
 
 // ---- Access tokens: short-lived JWTs sent as "Authorization: Bearer …" ----
@@ -66,18 +67,17 @@ export async function rotateSession(token, meta = {}) {
       lock: transaction.LOCK?.UPDATE,
     });
     if (!session) return { error: HttpError.unauthorized() };
-    if (session.revokedAt) {
-      if (Date.now() - session.revokedAt.getTime() < REUSE_GRACE_MS) {
-        return { error: HttpError.unauthorized("Session was just refreshed in another tab.", "stale_refresh") };
-      }
-      // Report reuse instead of throwing here: throwing would roll back the revocation below.
-      return { reusedByUserId: session.userId };
-    }
     if (session.expiresAt <= new Date()) {
       return { error: HttpError.unauthorized("Your session expired. Please sign in again.") };
     }
-
-    await session.update({ revokedAt: new Date(), lastUsedAt: new Date() }, { transaction });
+    if (session.revokedAt) {
+      if (Date.now() - session.revokedAt.getTime() >= REUSE_GRACE_MS) {
+        // Report reuse instead of throwing here: throwing would roll back the revocation below.
+        return { reusedByUserId: session.userId };
+      }
+    } else {
+      await session.update({ revokedAt: new Date(), lastUsedAt: new Date() }, { transaction });
+    }
     const next = await createSession({ id: session.userId }, meta, transaction);
     return { userId: session.userId, refreshToken: next };
   });
@@ -92,9 +92,12 @@ export async function rotateSession(token, meta = {}) {
 
 export async function revokeSession(token) {
   if (!token) return;
-  await Session.update({ revokedAt: new Date() }, { where: { tokenHash: sha256(token), revokedAt: { [Op.is]: null } } });
+  // Expiring as well as revoking keeps a logged-out token out of the rotation grace window.
+  const now = new Date();
+  await Session.update({ revokedAt: now, expiresAt: now }, { where: { tokenHash: sha256(token), expiresAt: { [Op.gt]: now } } });
 }
 
 export async function revokeAllSessions(userId) {
-  await Session.update({ revokedAt: new Date() }, { where: { userId, revokedAt: { [Op.is]: null } } });
+  const now = new Date();
+  await Session.update({ revokedAt: now, expiresAt: now }, { where: { userId, expiresAt: { [Op.gt]: now } } });
 }

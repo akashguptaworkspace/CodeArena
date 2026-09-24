@@ -7,8 +7,8 @@ import styles from "./QuestionHeader.module.css";
 export function QuestionHeader({ question, track, status, onStatusChange }) {
   return (
     <header className={styles.header}>
-      <Link to={`/system-design/${track.id}`} className={styles.back}>
-        ← All {track.short} questions
+      <Link to={track.path} className={styles.back}>
+        ← {track.backLabel ?? `All ${track.short} questions`}
       </Link>
       <p className={styles.eyebrow}>
         {track.short} · {question.category}

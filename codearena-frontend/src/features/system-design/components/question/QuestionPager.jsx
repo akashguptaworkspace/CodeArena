@@ -10,7 +10,7 @@ export function QuestionPager({ track, question }) {
   return (
     <nav className={styles.pager} aria-label="Other questions">
       {prev ? (
-        <Link to={`/system-design/${track.id}/${prev.id}`} className={styles.link}>
+        <Link to={prev.path} className={styles.link}>
           <span className={styles.dir}>← Previous</span>
           <span className={styles.name}>{prev.title}</span>
         </Link>
@@ -18,7 +18,7 @@ export function QuestionPager({ track, question }) {
         <span />
       )}
       {next && (
-        <Link to={`/system-design/${track.id}/${next.id}`} className={`${styles.link} ${styles.next}`}>
+        <Link to={next.path} className={`${styles.link} ${styles.next}`}>
           <span className={styles.dir}>Next →</span>
           <span className={styles.name}>{next.title}</span>
         </Link>

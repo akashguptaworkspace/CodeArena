@@ -1,6 +1,7 @@
 export { Badge } from "./Badge";
 export { Button } from "./Button";
 export { Card } from "./Card";
+export { CodeBlock } from "./CodeBlock";
 export { DifficultyBadge } from "./DifficultyBadge";
 export { EmptyState } from "./EmptyState";
 export { FilterBar } from "./FilterBar";

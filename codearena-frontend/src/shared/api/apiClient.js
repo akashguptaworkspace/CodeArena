@@ -46,8 +46,6 @@ async function send(path, { method = "GET", body, signal } = {}) {
   }
 }
 
-const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-
 async function postRefresh() {
   const res = await send("/api/auth/refresh", { method: "POST" });
   const data = await res.json().catch(() => null);
@@ -59,16 +57,9 @@ async function postRefresh() {
 // One refresh at a time: if several requests get 401 together, they all wait for the same refresh.
 let refreshing = null;
 export function refreshAccessToken() {
-  refreshing ??= postRefresh()
-    .catch(async (err) => {
-      // Another tab rotated the cookie a moment ago; the browser now has the new one, so retry once.
-      if (err.body?.code !== "stale_refresh") throw err;
-      await wait(400);
-      return postRefresh();
-    })
-    .finally(() => {
-      refreshing = null;
-    });
+  refreshing ??= postRefresh().finally(() => {
+    refreshing = null;
+  });
   return refreshing;
 }
 

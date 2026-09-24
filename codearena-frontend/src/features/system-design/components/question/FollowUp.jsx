@@ -3,7 +3,7 @@ import { Button, Card } from "@/shared/ui";
 import styles from "./FollowUp.module.css";
 
 // The interviewer's follow-up, plus actions to hide the answer or start over.
-export function FollowUp({ twist, onHide, onReset }) {
+export function FollowUp({ twist, onHide, onReset, hint = "Add your answer to your notes, then check it against the decisions above." }) {
   const [confirmReset, setConfirmReset] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ export function FollowUp({ twist, onHide, onReset }) {
       <h2 id="followup-heading" className={styles.twist}>
         {twist}
       </h2>
-      <p className={styles.hint}>Add your answer to your notes, then check it against the decisions above.</p>
+      <p className={styles.hint}>{hint}</p>
 
       <div className={styles.actions}>
         <Button variant="ghost" size="sm" onClick={onHide}>

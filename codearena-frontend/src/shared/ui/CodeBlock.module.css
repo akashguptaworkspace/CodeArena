@@ -1,0 +1,17 @@
+.block {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: var(--card-pad-sm);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--sunk);
+  font: var(--weight-regular) var(--text-sm) / var(--leading-normal) var(--font-mono);
+  color: var(--ink);
+  tab-size: 2;
+  white-space: pre;
+}
+.block:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}

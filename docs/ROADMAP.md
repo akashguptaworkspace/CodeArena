@@ -14,8 +14,8 @@ The 100 most-asked Node.js interview questions, in two formats:
 - Browser JS isn't Node, so pick tasks that don't need `fs`/`net`, or provide small in-browser stand-ins (e.g. a fake `EventEmitter` base, a mocked `setTimeout`).
 - Later, for tasks that need real Node APIs, move execution to a server-side runner in a locked-down container (no network, CPU/memory/time limits). See the "Online Judge" HLD question for the design.
 
-### MySQL 100
-100 SQL questions solved against a real database in the browser.
+### SQL: run queries in the browser
+The SQL module is live with write-then-reveal practice (60 query questions, 72 concepts). Next step: run the student's query against real data in the browser.
 
 - Use **sql.js** (SQLite compiled to WebAssembly) to run queries client-side. Each question seeds a small schema (employees, orders, customers, …).
 - **Checking answers:** run the user's query and the reference query on the same data, then compare result sets (ignore row order unless the question asks for `ORDER BY`).

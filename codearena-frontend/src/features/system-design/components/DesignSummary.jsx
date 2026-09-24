@@ -29,7 +29,7 @@ export function DesignSummary({ trackShort, stats }) {
         </ul>
         {nextUp && (
           <p className={styles.next}>
-            Next up: <Link to={`/system-design/${nextUp.track}/${nextUp.id}`}>{nextUp.title}</Link>
+            Next up: <Link to={nextUp.path}>{nextUp.title}</Link>
           </p>
         )}
       </div>

@@ -11,7 +11,7 @@ function verdict(percent) {
 }
 
 // Student ticks which key points their own design covered; the score shows how close they were.
-export function SelfCheck({ question, attempt, status, onToggle, onMarkPractised }) {
+export function SelfCheck({ question, attempt, status, onToggle, onMarkPractised, noun = "design" }) {
   const covered = new Set(attempt?.covered ?? []);
   const score = attemptScore(question, attempt);
   const canSuggestPractised = score.percent >= 50 && (!status || status === "studied");
@@ -23,7 +23,7 @@ export function SelfCheck({ question, attempt, status, onToggle, onMarkPractised
           <h2 id="check-heading" className={styles.heading}>
             How close were you?
           </h2>
-          <p className={styles.sub}>Tick each key point your own design covered.</p>
+          <p className={styles.sub}>Tick each key point your own {noun} covered.</p>
         </div>
         <p className={styles.score} style={{ "--c": TONE_COLORS[score.tone] }}>
           <span className={styles.percent}>{score.percent}%</span>

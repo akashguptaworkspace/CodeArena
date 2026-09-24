@@ -22,7 +22,11 @@ export { DESIGN_STATUSES, LEVELS };
 
 const CONTENT = { ...hldCore, ...hldCommerce, ...hldPlatform, ...lldClassicGames, ...lldInfraSocial, ...lldCommerce };
 
-const withContent = (question) => ({ ...question, ...CONTENT[question.id] });
+const withContent = (question) => ({
+  ...question,
+  ...CONTENT[question.id],
+  path: `/system-design/${question.track}/${question.id}`,
+});
 
 export const HLD_QUESTIONS = HLD_BASE.map(withContent);
 export const LLD_QUESTIONS = LLD_BASE.map(withContent);
@@ -30,6 +34,6 @@ export const ALL_DESIGN_QUESTIONS = [...HLD_QUESTIONS, ...LLD_QUESTIONS];
 export const getDesignQuestion = (id) => ALL_DESIGN_QUESTIONS.find((q) => q.id === id) || null;
 
 export const DESIGN_TRACKS = {
-  hld: { ...TRACK_META.hld, questions: HLD_QUESTIONS },
-  lld: { ...TRACK_META.lld, questions: LLD_QUESTIONS },
+  hld: { ...TRACK_META.hld, path: "/system-design/hld", questions: HLD_QUESTIONS },
+  lld: { ...TRACK_META.lld, path: "/system-design/lld", questions: LLD_QUESTIONS },
 };

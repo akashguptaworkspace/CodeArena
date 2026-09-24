@@ -10,6 +10,10 @@ const page = (load, name) => lazy(() => load().then((m) => ({ default: m[name] }
 const DsaPage = page(() => import("@/features/dsa/DsaPage"), "DsaPage");
 const SystemDesignPage = page(() => import("@/features/system-design/SystemDesignPage"), "SystemDesignPage");
 const QuestionPage = page(() => import("@/features/system-design/QuestionPage"), "QuestionPage");
+const NodeJsPage = page(() => import("@/features/nodejs/NodeJsPage"), "NodeJsPage");
+const NodeQuestionPage = page(() => import("@/features/nodejs/NodeQuestionPage"), "NodeQuestionPage");
+const SqlPage = page(() => import("@/features/sql/SqlPage"), "SqlPage");
+const SqlQuestionPage = page(() => import("@/features/sql/SqlQuestionPage"), "SqlQuestionPage");
 
 // One route per module, each wrapped in ModuleGate (Coming soon / paywall / page).
 // To add a module: register it in config/modules.js, then add its route here.
@@ -48,8 +52,40 @@ export function AppRoutes() {
           }
         />
 
-        <Route path="nodejs" element={<ModuleGate moduleId="nodejs" />} />
-        <Route path="mysql" element={<ModuleGate moduleId="mysql" />} />
+        <Route
+          path="nodejs"
+          element={
+            <ModuleGate moduleId="nodejs">
+              <NodeJsPage />
+            </ModuleGate>
+          }
+        />
+        <Route
+          path="nodejs/:questionId"
+          element={
+            <ModuleGate moduleId="nodejs">
+              <NodeQuestionPage />
+            </ModuleGate>
+          }
+        />
+        <Route path="sql" element={<Navigate to="/sql/queries" replace />} />
+        <Route path="mysql/*" element={<Navigate to="/sql/queries" replace />} />
+        <Route
+          path="sql/:section"
+          element={
+            <ModuleGate moduleId="sql">
+              <SqlPage />
+            </ModuleGate>
+          }
+        />
+        <Route
+          path="sql/:section/:questionId"
+          element={
+            <ModuleGate moduleId="sql">
+              <SqlQuestionPage />
+            </ModuleGate>
+          }
+        />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>

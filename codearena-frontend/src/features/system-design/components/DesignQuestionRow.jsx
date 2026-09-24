@@ -14,7 +14,7 @@ export const DesignQuestionRow = memo(function DesignQuestionRow({ question, sta
 
   return (
     <li className={`${styles.row} ${status === "ready" ? styles.ready : ""}`}>
-      <Link to={`/system-design/${question.track}/${question.id}`} className={styles.link}>
+      <Link to={question.path} className={styles.link}>
         <span className={styles.title}>{question.title}</span>
         <span className={styles.meta}>
           <DifficultyBadge difficulty={question.level} />

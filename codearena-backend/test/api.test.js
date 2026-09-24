@@ -78,15 +78,36 @@ describe("auth", () => {
     assert.notEqual(refreshCookie(refreshed).split(";")[0], oldCookie, "cookie rotated");
   });
 
-  test("two tabs refreshing at once: the late one gets 'stale_refresh', nobody is signed out", async () => {
+  test("two tabs refreshing at once: both succeed and both stay signed in", async () => {
     const { agent, res } = await signIn();
     const oldCookie = refreshCookie(res).split(";")[0];
     assert.equal((await agent.post("/api/auth/refresh").set("Origin", ORIGIN)).status, 200);
 
     const lateTab = await request(app).post("/api/auth/refresh").set("Origin", ORIGIN).set("Cookie", oldCookie);
-    assert.equal(lateTab.status, 401);
-    assert.equal(lateTab.body.code, "stale_refresh");
-    assert.equal((await agent.post("/api/auth/refresh").set("Origin", ORIGIN)).status, 200, "still signed in");
+    assert.equal(lateTab.status, 200, "a just-rotated token is exchanged again within the grace window");
+    assert.ok(lateTab.body.accessToken);
+    assert.notEqual(refreshCookie(lateTab).split(";")[0], oldCookie, "late tab gets its own new cookie");
+    assert.equal((await agent.post("/api/auth/refresh").set("Origin", ORIGIN)).status, 200, "first tab still signed in");
+  });
+
+  test("a refresh response that never reached the browser doesn't sign the user out", async () => {
+    const { res } = await signIn();
+    const cookie = refreshCookie(res).split(";")[0];
+    // First reload: the server rotates, but the response is lost (page reloaded again mid-request).
+    assert.equal((await request(app).post("/api/auth/refresh").set("Origin", ORIGIN).set("Cookie", cookie)).status, 200);
+    // Next reload still sends the old cookie.
+    const retry = await request(app).post("/api/auth/refresh").set("Origin", ORIGIN).set("Cookie", cookie);
+    assert.equal(retry.status, 200);
+    const next = refreshCookie(retry).split(";")[0];
+    assert.equal((await request(app).post("/api/auth/refresh").set("Origin", ORIGIN).set("Cookie", next)).status, 200);
+  });
+
+  test("a logged-out refresh token can't be used, even straight away", async () => {
+    const { agent, res } = await signIn();
+    const cookie = refreshCookie(res).split(";")[0];
+    assert.equal((await agent.post("/api/auth/logout").set("Origin", ORIGIN)).status, 204);
+    const replay = await request(app).post("/api/auth/refresh").set("Origin", ORIGIN).set("Cookie", cookie);
+    assert.equal(replay.status, 401);
   });
 
   test("replaying an old refresh token later ends every session (theft detection)", async () => {
@@ -99,7 +120,6 @@ describe("auth", () => {
 
     const replay = await request(app).post("/api/auth/refresh").set("Origin", ORIGIN).set("Cookie", oldCookie);
     assert.equal(replay.status, 401);
-    assert.notEqual(replay.body.code, "stale_refresh");
     assert.equal((await agent.post("/api/auth/refresh").set("Origin", ORIGIN)).status, 401, "legit session revoked too");
   });
 

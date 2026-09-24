@@ -25,7 +25,7 @@ Errors: `400` missing credential, `401` invalid Google token or unverified email
 
 ### `POST /api/auth/refresh`
 Uses the `pg_refresh` cookie. Response `200`: same shape as sign-in, with a new (rotated) cookie.
-Errors: `401` signed out / expired / revoked. `401` with `"code": "stale_refresh"` means another tab refreshed a moment ago: retry once after ~0.5 s.
+Errors: `401` signed out / expired / revoked. A token rotated less than 60 s ago (another tab, or a response the browser never received) is exchanged again rather than rejected; replaying it later revokes every session.
 
 ### `POST /api/auth/logout`
 Revokes this device's session and clears the cookie. Response `204`.

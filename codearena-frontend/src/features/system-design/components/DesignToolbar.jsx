@@ -1,7 +1,7 @@
 import { DESIGN_VIEW_OPTIONS, LEVEL_OPTIONS } from "@/features/system-design/utils/designFilters";
 import { FilterBar, SegmentedControl, TextField } from "@/shared/ui";
 
-export function DesignToolbar({ filters, onChange }) {
+export function DesignToolbar({ filters, onChange, placeholder = "Search questions (e.g. payments, booking)" }) {
   const update = (patch) => onChange({ ...filters, ...patch });
 
   return (
@@ -13,7 +13,7 @@ export function DesignToolbar({ filters, onChange }) {
         label="Search questions"
         hideLabel
         type="search"
-        placeholder="Search questions (e.g. payments, booking)"
+        placeholder={placeholder}
         value={filters.query}
         onChange={(e) => update({ query: e.target.value })}
       />

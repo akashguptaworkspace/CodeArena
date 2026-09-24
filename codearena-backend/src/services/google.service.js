@@ -13,7 +13,9 @@ async function verifyWithGoogle(idToken) {
   try {
     const ticket = await client.verifyIdToken({ idToken, audience: config.google.clientId });
     payload = ticket.getPayload();
-  } catch {
+  } catch (err) {
+    // e.g. "Wrong recipient" = GOOGLE_CLIENT_ID differs from the frontend's; "used too early" = server clock skew.
+    if (!config.isTest) console.warn(`Google token rejected: ${err.message}`);
     throw HttpError.unauthorized("Google sign-in failed. Please try again.");
   }
   if (!payload?.sub || !payload.email) throw HttpError.unauthorized("Google didn't share your email address.");
