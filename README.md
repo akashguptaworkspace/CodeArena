@@ -1,6 +1,6 @@
 # CodeArena
 
-One place for developers to prepare for Tier 2 product-company interviews: DSA 200, System Design (HLD + LLD), and upcoming Node.js and MySQL modules.
+One place for developers to prepare for Tier 2 product-company interviews: DSA 200, System Design (HLD + LLD), Node.js 100, SQL, and the GenAI 20-Day Sprint (MERN → GenAI developer plan).
 
 ```
 CodeArena/

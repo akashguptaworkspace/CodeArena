@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { ALL_PROBLEMS } from "@/features/dsa/data/problems";
+import { GENAI_TASKS } from "@/features/genai/data/plan";
 import { NODE_BASE } from "@/features/nodejs/data/catalog";
 import { useProgressState } from "@/features/progress/ProgressContext";
 import { SQL_CONCEPT_BASE, SQL_QUERY_BASE } from "@/features/sql/data/catalog";
@@ -33,6 +34,11 @@ export function useModuleProgress() {
         done: SQL_QUESTIONS.filter((q) => progress.design[q.id] === "ready").length,
         total: SQL_QUESTIONS.length,
         label: "interview-ready",
+      },
+      genai: {
+        done: GENAI_TASKS.filter((t) => progress.design[t.id] === "ready").length,
+        total: GENAI_TASKS.length,
+        label: "tasks done",
       },
     }),
     [progress],

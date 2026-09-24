@@ -55,6 +55,18 @@ export const MODULES = [
     summary: "Write-the-query questions like tier 2 coding rounds, plus the MySQL concepts backend interviewers ask.",
     highlights: ["60 query questions, from GROUP BY to window functions", "72 concepts: transactions, indexing, scaling, Sequelize", "Model queries with edge cases and LeetCode practice links"],
   },
+  {
+    id: "genai",
+    shortLabel: "GenAI",
+    icon: "sparkles",
+    title: "GenAI 20-Day Sprint",
+    path: "/genai",
+    status: "live",
+    access: "paid",
+    priceInr: 200,
+    summary: "A 20-day plan from MERN developer to GenAI developer: Python, LLMs, RAG, agents, MCP and deployment, with interview drills.",
+    highlights: ["Daily learn, build and interview-drill tasks", "3 portfolio projects and a deployed capstone", "GenAI question bank and system design practice"],
+  },
 ];
 
 export const getModule = (id) => MODULES.find((m) => m.id === id) || null;

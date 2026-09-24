@@ -82,6 +82,15 @@ export function DatabaseIcon() {
   );
 }
 
+export function SparklesIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroke}>
+      <path d="M10 3.5 11.6 8a2 2 0 0 0 1.2 1.2l4.5 1.6-4.5 1.6a2 2 0 0 0-1.2 1.2L10 18.1l-1.6-4.5a2 2 0 0 0-1.2-1.2L2.7 10.8l4.5-1.6A2 2 0 0 0 8.4 8z" />
+      <path d="M18 3v4M16 5h4M19 16v3M17.5 17.5h3" />
+    </svg>
+  );
+}
+
 // ---- Share icons ----
 export function LinkedInIcon() {
   return (

@@ -14,6 +14,7 @@ const NodeJsPage = page(() => import("@/features/nodejs/NodeJsPage"), "NodeJsPag
 const NodeQuestionPage = page(() => import("@/features/nodejs/NodeQuestionPage"), "NodeQuestionPage");
 const SqlPage = page(() => import("@/features/sql/SqlPage"), "SqlPage");
 const SqlQuestionPage = page(() => import("@/features/sql/SqlQuestionPage"), "SqlQuestionPage");
+const GenAiPage = page(() => import("@/features/genai/GenAiPage"), "GenAiPage");
 
 // One route per module, each wrapped in ModuleGate (Coming soon / paywall / page).
 // To add a module: register it in config/modules.js, then add its route here.
@@ -83,6 +84,15 @@ export function AppRoutes() {
           element={
             <ModuleGate moduleId="sql">
               <SqlQuestionPage />
+            </ModuleGate>
+          }
+        />
+
+        <Route
+          path="genai"
+          element={
+            <ModuleGate moduleId="genai">
+              <GenAiPage />
             </ModuleGate>
           }
         />
