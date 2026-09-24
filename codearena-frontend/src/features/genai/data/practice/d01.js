@@ -1,21 +1,60 @@
 // Day 1 practice: Python basics for JS developers. Shape: see ./index.js
 export default {
   intro:
-    "Seventeen small Python exercises, from printing a receipt to reading JSON files. Each one takes 5–20 minutes. Do them in order: later ones reuse earlier ideas.",
+    "Twenty-one exercises: check your setup, then small Python exercises from printing a receipt to reading JSON files, and finally three features added to your Shop API. Each takes 5–30 minutes. Do them in order: later ones reuse earlier ideas.",
   setup: [
-    "Make one folder for all of today's exercises and run each file with Python 3.12 (or newer).",
+    "Finish the **Setup** lesson first (Python 3.12+, uv and VS Code). Then make one uv project for all of today's exercises and run each file with `uv run`.",
     {
       lang: "bash",
-      code: `mkdir -p ~/genai-practice/day01 && cd ~/genai-practice/day01
-python3 --version          # should print 3.12 or newer
-# create ex01.py in VS Code, then run:
-python3 ex01.py`,
+      code: `# macOS / Linux
+mkdir -p ~/genai-practice/day01 && cd ~/genai-practice/day01
+uv init --python 3.12 --no-readme
+uv run ex01.py             # after creating ex01.py in VS Code`,
     },
+    {
+      lang: "powershell",
+      code: `# Windows PowerShell
+mkdir $HOME\genai-practice\day01; cd $HOME\genai-practice\day01
+uv init --python 3.12 --no-readme
+uv run ex01.py`,
+    },
+    "The last group extends the **Shop API** from today's build guide, so do that guide before those three exercises.",
     {
       tip: "Install the **Python** extension in VS Code. It gives you autocomplete, error underlines and a Run button (▶) at the top right of every `.py` file.",
     },
   ],
   groups: [
+    {
+      title: "Check your setup",
+      exercises: [
+        {
+          id: "env-check",
+          title: "Prove your Python setup works (Mac or Windows)",
+          level: "Easy",
+          task: [
+            "Inside a uv project, write `check.py` that prints the Python version, the path of the interpreter running it, your operating system, and whether it's running inside a virtual environment. Run it twice: with `uv run check.py`, and with plain `python3 check.py` (Windows: `python check.py`). Compare the outputs.",
+            { lang: "text", code: `Python 3.12.7 on Darwin (arm64)\nInterpreter: /Users/you/day01/.venv/bin/python\nInside a virtual environment: True` },
+          ],
+          hint: "Use the `sys` and `platform` modules. Inside a venv, `sys.prefix` differs from `sys.base_prefix`.",
+          solution: `import platform
+import sys
+
+print(f"Python {platform.python_version()} on {platform.system()} ({platform.machine()})")
+print(f"Interpreter: {sys.executable}")
+print(f"Inside a virtual environment: {sys.prefix != sys.base_prefix}")`,
+          explanation: [
+            "`sys.executable` shows **which** Python is running your code. With `uv run` it's the one inside your project's `.venv`; with plain `python3` it may be a system Python that doesn't have your packages.",
+            "`platform.system()` returns `Darwin` on macOS, `Windows` on Windows and `Linux` on Linux.",
+            "This tiny script is the fastest way to debug \"it works in the terminal but not in VS Code\" problems: run it in both places and compare the interpreter paths.",
+          ],
+          concepts: [
+            ["`sys` module", "Information about the running Python: version, executable path, command-line arguments."],
+            ["`platform` module", "Information about the operating system and machine."],
+            ["Virtual environment", "A project-specific folder (`.venv`) with its own Python link and packages."],
+          ],
+        },
+      ],
+    },
     {
       title: "Variables, strings and f-strings",
       exercises: [
@@ -597,6 +636,132 @@ print(f"You are {age} years old.")`,
             ["`try` / `except`", "Run code that might fail and handle specific errors, like `try` / `catch` in JS."],
             ["`ValueError`", "The error raised when a value has the right type but a bad content, e.g. `int(\"abc\")`."],
             ["`while True:` + `continue` / `return`", "Loop forever until you explicitly leave; `continue` restarts the loop."],
+          ],
+        },
+      ],
+    },
+    {
+      title: "Extend your Shop API",
+      exercises: [
+        {
+          id: "api-search",
+          title: "Add a search endpoint through all the layers",
+          level: "Medium",
+          task: [
+            "In the Shop API from today's build guide, add `GET /api/v1/products/search?q=chai` that returns products whose name contains `q` (case-insensitive). Add it in the right layer each time: repository method → service method → route. Add one test.",
+          ],
+          hint: "Declare `/search` **before** `/{product_id}` in the router, otherwise FastAPI tries to read \"search\" as a product id and returns 422.",
+          solution: `# app/repositories/product_repository.py  (add method)
+    def search(self, text: str) -> list[Product]:
+        text = text.lower()
+        return [p for p in self._items.values() if text in p.name.lower()]
+
+# app/services/product_service.py  (add method)
+    def search_products(self, q: str) -> list[Product]:
+        return self.repo.search(q.strip())
+
+# app/api/routes/products.py  (add ABOVE the "/{product_id}" route)
+@router.get("/search", response_model=list[ProductOut])
+def search_products(service: ProductServiceDep, q: str = Query(min_length=2)):
+    return [ProductOut.model_validate(p) for p in service.search_products(q)]
+
+# tests/test_products.py
+def test_search(client):
+    client.post("/api/v1/products", json=CHAI)
+    client.post("/api/v1/products", json={**CHAI, "name": "Green Tea"})
+    names = [p["name"] for p in client.get("/api/v1/products/search", params={"q": "chai"}).json()]
+    assert names == ["Masala Chai 250g"]`,
+          explanation: [
+            "Each layer does only its job: the repository knows how to search storage, the service could add rules (like trimming or minimum length), and the route handles HTTP.",
+            "Route order matters: FastAPI matches routes top to bottom, and `/{product_id}` would also match `/search`. Express has the same rule.",
+            "`Query(min_length=2)` validates the query parameter, returning 422 for `q=a`.",
+          ],
+          concepts: [
+            ["Route order", "Routes are matched in the order they're declared; put fixed paths before parameterised ones."],
+            ["`Query()`", "Adds validation and documentation to a query parameter."],
+          ],
+        },
+        {
+          id: "api-low-stock",
+          title: "A low-stock report with a business rule",
+          level: "Medium",
+          task: [
+            "Add `GET /api/v1/products/low-stock?threshold=5` returning products with stock below the threshold, sorted by stock ascending. Business rule in the service: the threshold can't be more than 100 (raise a 400 `AppError` otherwise). Write tests for the normal case and the rule.",
+          ],
+          solution: `# app/services/product_service.py
+from app.core.errors import AppError
+
+    def low_stock(self, threshold: int) -> list[Product]:
+        if threshold > 100:
+            raise AppError("threshold can't be more than 100")
+        items, _ = self.repo.list(category=None, offset=0, limit=10_000)
+        return sorted((p for p in items if p.stock < threshold), key=lambda p: p.stock)
+
+# app/api/routes/products.py  (above "/{product_id}")
+@router.get("/low-stock", response_model=list[ProductOut])
+def low_stock(service: ProductServiceDep, threshold: int = Query(5, ge=0)):
+    return [ProductOut.model_validate(p) for p in service.low_stock(threshold)]
+
+# tests
+def test_low_stock(client):
+    client.post("/api/v1/products", json={**CHAI, "stock": 2})
+    client.post("/api/v1/products", json={**CHAI, "name": "Green Tea", "stock": 50})
+    body = client.get("/api/v1/products/low-stock").json()
+    assert [p["stock"] for p in body] == [2]
+
+def test_low_stock_threshold_rule(client):
+    r = client.get("/api/v1/products/low-stock", params={"threshold": 500})
+    assert r.status_code == 400 and "100" in r.json()["error"]`,
+          explanation: [
+            "The limit of 100 is a **business rule**, so it lives in the service and raises your own `AppError`. The existing exception handler turns it into a 400 response; no HTTP code in the service.",
+            "Simple input rules (not negative) can stay in `Query(ge=0)`; rules about what the business allows belong in the service.",
+            "`sorted(..., key=lambda p: p.stock)` sorts objects by an attribute.",
+          ],
+          concepts: [
+            ["Business rule", "A rule about what the product allows, independent of HTTP or storage."],
+            ["Validation vs business logic", "Shape and type checks at the edge (schemas); decisions in services."],
+          ],
+        },
+        {
+          id: "api-key-writes",
+          title: "Protect write endpoints with an API key dependency",
+          level: "Medium",
+          task: [
+            "Add `API_KEY` to settings and a dependency `require_api_key` that checks the `X-API-Key` header (401 if missing or wrong). Apply it to POST, PATCH and DELETE only; GET routes stay public. Update the tests to send the header.",
+          ],
+          solution: `# app/core/config.py  (add field)
+    api_key: str = "dev-secret"          # set a real value in .env
+
+# app/api/deps.py
+from fastapi import Header, HTTPException
+from app.core.config import get_settings
+
+def require_api_key(x_api_key: Annotated[str | None, Header()] = None) -> None:
+    if x_api_key != get_settings().api_key:
+        raise HTTPException(status_code=401, detail="Invalid or missing API key")
+
+# app/api/routes/products.py
+from fastapi import Depends
+from app.api.deps import require_api_key
+
+@router.post("", response_model=ProductOut, status_code=201, dependencies=[Depends(require_api_key)])
+def create_product(body: ProductCreate, service: ProductServiceDep): ...
+
+# (same dependencies=[...] on patch and delete)
+
+# tests
+HEADERS = {"X-API-Key": "dev-secret"}
+def test_write_needs_key(client):
+    assert client.post("/api/v1/products", json=CHAI).status_code == 401
+    assert client.post("/api/v1/products", json=CHAI, headers=HEADERS).status_code == 201`,
+          explanation: [
+            "`dependencies=[Depends(...)]` on a route runs the check without passing a value into your function, like adding an auth middleware to specific Express routes.",
+            "`HTTPException` is fine here because this dependency **is** HTTP-layer code (it reads a header). Services still raise your own errors.",
+            "Real apps use JWT or OAuth instead of a shared key (Day 2), but the dependency pattern is identical.",
+          ],
+          concepts: [
+            ["Route-level dependency", "A check that runs before a route without providing a value to it."],
+            ["`Header()`", "Reads a request header; `x_api_key` maps to `X-API-Key`."],
           ],
         },
       ],

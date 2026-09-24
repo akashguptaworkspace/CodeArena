@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router";
-import { Banner } from "@/shared/feedback/Banner";
 import { usePersistentState } from "@/shared/hooks/usePersistentState";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { PageIntro } from "@/shared/layout/PageIntro";
@@ -71,14 +70,7 @@ export function GenAiPage() {
         </div>
       </Card>
 
-      <Banner tone="info">
-        Twenty days gets you interview-ready for junior to mid-level GenAI developer roles, not expert level. What gets
-        you hired is shipped projects with a live demo, and being able to explain <em>why</em> you made each design
-        choice.
-      </Banner>
-
-      <section className={styles.section} aria-labelledby="genai-plan">
-        <SectionHeader id="genai-plan" title="The 20-day plan" meta={`${stats.daysComplete} of 20 days done`} />
+      <section className={styles.section} aria-label="The 20-day plan">
         <div className={styles.filter}>
           <SegmentedControl
             label="Show phase"

@@ -1,14 +1,17 @@
-// Day 3 practice: tokens, embeddings, sampling, cost. Shape: see ./index.js
+// Day 3 practice: history in code, ML maths, tokens, embeddings, transformer internals, sampling, inference, limits, cost. Shape: see ./index.js
+import { decodingGroup, historyGroup, limitsGroup, mlGroup, tokenGroup, transformerGroup } from "./d03-more.js";
+
 export default {
   intro:
-    "Nine exercises that make LLM concepts concrete: count tokens, compute similarity by hand, simulate temperature and top-p without any API, then confirm with real calls. You'll also create `llm.py`, a tiny helper you'll reuse for the rest of the plan.",
+    "Twenty-seven exercises that make LLM internals concrete: rebuild a 1990s word-count model, run gradient descent, count a transformer's parameters, check GPU memory maths, inspect tokens and chat templates, implement stable softmax, positions and a KV cache, write the generation loop, and probe real models for hallucination, sycophancy and letter-counting failures. You'll also create `llm.py`, a tiny helper you'll reuse for the rest of the plan. Spread them over several days if you need to.",
   setup: [
     "Create today's project and choose **one** LLM provider. Ollama is free and runs on your laptop; the others need an API key.",
     {
       lang: "bash",
       code: `mkdir -p ~/genai-practice/day03 && cd ~/genai-practice/day03
 uv init --no-readme .
-uv add openai python-dotenv tiktoken numpy`,
+uv add openai python-dotenv tiktoken numpy
+uv run python ex01.py          # run any exercise file`,
     },
     {
       table: {
@@ -46,6 +49,8 @@ def embed(texts: list[str]) -> list[list[float]]:
     { warn: "Add `.env` to `.gitignore`. Never commit API keys." },
   ],
   groups: [
+    historyGroup,
+    mlGroup,
     {
       title: "Tokens and the context window",
       exercises: [
@@ -161,6 +166,7 @@ print([m["content"][:10] for m in trimmed])`,
         },
       ],
     },
+    tokenGroup,
     {
       title: "Embeddings and similarity",
       exercises: [
@@ -257,6 +263,7 @@ for q, qv in zip(queries, query_vecs):
         },
       ],
     },
+    transformerGroup,
     {
       title: "Sampling: temperature and top-p",
       exercises: [
@@ -358,6 +365,8 @@ for t in [0, 1.2]:
         },
       ],
     },
+    decodingGroup,
+    limitsGroup,
     {
       title: "Cost",
       exercises: [

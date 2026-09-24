@@ -22,6 +22,13 @@ for (const day of GENAI_DAYS) {
   for (const group of practice.groups) for (const ex of group.exercises) genaiPractice.push(practiceId(day.id, ex.id));
 }
 
+// GenAI interview question ids ("ready" state).
+const { INTERVIEW_DAYS, interviewId } = await import("../../codearena-frontend/src/features/genai/data/interview/index.js");
+for (const dayId of INTERVIEW_DAYS) {
+  const bank = (await import(`../../codearena-frontend/src/features/genai/data/interview/${dayId}.js`)).default;
+  for (const group of bank.groups) for (const q of group.questions) genaiPractice.push(interviewId(dayId, q.id));
+}
+
 const catalog = {
   generatedAt: new Date().toISOString(),
   problems: ALL_PROBLEMS.map((p) => p.id),

@@ -1,6 +1,7 @@
 import { memo } from "react";
 import { Link } from "react-router";
 import { Badge, Card } from "@/shared/ui";
+import { INTERVIEW_DAYS } from "../data/interview";
 import styles from "./DayCard.module.css";
 
 function TaskList({ tasks, progress, onToggle }) {
@@ -84,9 +85,16 @@ export const DayCard = memo(function DayCard({ day, dayStats, progress, onToggle
               {practiceSolved > 0 && <b> {practiceSolved} solved.</b>}
             </p>
           </div>
-          <Link to={`/genai/${day.id}/practice`} className={styles.practiceLink}>
-            Practice questions <span aria-hidden="true">→</span>
-          </Link>
+          <div className={styles.practiceLinks}>
+            <Link to={`/genai/${day.id}/practice`} className={styles.practiceLink}>
+              Practice questions <span aria-hidden="true">→</span>
+            </Link>
+            {INTERVIEW_DAYS.has(day.id) && (
+              <Link to={`/genai/${day.id}/interview`} className={`${styles.practiceLink} ${styles.interviewLink}`}>
+                Interview questions <span aria-hidden="true">→</span>
+              </Link>
+            )}
+          </div>
         </div>
 
         <div className={styles.resources}>

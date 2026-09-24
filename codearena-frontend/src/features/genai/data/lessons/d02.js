@@ -1,5 +1,10 @@
-// Day 2: Python backend (async, httpx, Pydantic, FastAPI, databases). Shape: see ./index.js
-export default {
+// Day 2: Python backend (async, httpx, Pydantic, FastAPI, databases, auth, testing). Shape: see ./index.js
+import apiDesign from "./d02-api-design.js";
+import { alembic, sqlalchemy } from "./d02-sql.js";
+import { auth, mongodb, testing } from "./d02-more.js";
+import { crudApi, mongoApi } from "./d02-builds.js";
+
+const base = {
   asyncio: {
     minutes: 60,
     level: "Intermediate",
@@ -1035,190 +1040,6 @@ except Exception:
     ],
   },
 
-  "crud-api": {
-    minutes: 180,
-    level: "Intermediate",
-    intro:
-      "Build a complete, production-shaped API: a **notes service** with users, JWT authentication and CRUD for documents. This becomes the skeleton you'll reuse for DocChat on Day 6, so structure it well.",
-    sections: [
-      {
-        h: "Project setup",
-        blocks: [
-          {
-            lang: "bash",
-            code: `uv init notes-api && cd notes-api
-uv add "fastapi[standard]" "sqlalchemy[asyncio]" asyncpg pydantic-settings "pyjwt" "pwdlib[argon2]"
-uv add --dev pytest httpx ruff
-docker run -d --name pg -e POSTGRES_PASSWORD=postgres -p 5432:5432 pgvector/pgvector:pg16`,
-          },
-          {
-            code: `app/
-  main.py        config.py      db.py        security.py     deps.py
-  models.py      # SQLAlchemy tables
-  schemas.py     # Pydantic in/out models
-  routers/auth.py
-  routers/documents.py
-tests/`,
-            lang: "text",
-          },
-        ],
-      },
-      {
-        h: "Security: hashing and JWT",
-        blocks: [
-          {
-            lang: "python",
-            code: `# app/security.py
-from datetime import datetime, timedelta, timezone
-import jwt
-from pwdlib import PasswordHash
-from app.config import settings
-
-password_hash = PasswordHash.recommended()        # argon2
-
-def hash_password(p: str) -> str:
-    return password_hash.hash(p)
-
-def verify_password(p: str, hashed: str) -> bool:
-    return password_hash.verify(p, hashed)
-
-def create_access_token(user_id: int, minutes: int = 60) -> str:
-    payload = {"sub": str(user_id), "exp": datetime.now(timezone.utc) + timedelta(minutes=minutes)}
-    return jwt.encode(payload, settings.jwt_secret.get_secret_value(), algorithm="HS256")
-
-def decode_token(token: str) -> int:
-    data = jwt.decode(token, settings.jwt_secret.get_secret_value(), algorithms=["HS256"])
-    return int(data["sub"])`,
-          },
-          {
-            lang: "python",
-            code: `# app/deps.py
-from typing import Annotated
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-import jwt
-from sqlalchemy.ext.asyncio import AsyncSession
-from app.db import get_db
-from app.models import User
-from app.security import decode_token
-
-oauth2 = OAuth2PasswordBearer(tokenUrl="/auth/login")    # adds the Authorize button in /docs
-
-async def get_current_user(token: Annotated[str, Depends(oauth2)],
-                           db: Annotated[AsyncSession, Depends(get_db)]) -> User:
-    try:
-        user_id = decode_token(token)
-    except jwt.PyJWTError:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid or expired token")
-    user = await db.get(User, user_id)
-    if not user:
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "User not found")
-    return user
-
-CurrentUser = Annotated[User, Depends(get_current_user)]
-DB = Annotated[AsyncSession, Depends(get_db)]`,
-          },
-        ],
-      },
-      {
-        h: "Schemas and routes",
-        blocks: [
-          {
-            lang: "python",
-            code: `# app/schemas.py
-from datetime import datetime
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
-
-class UserCreate(BaseModel):
-    email: EmailStr
-    password: str = Field(min_length=8)
-
-class DocumentIn(BaseModel):
-    title: str = Field(min_length=1, max_length=300)
-    content: str
-
-class DocumentOut(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-    id: int
-    title: str
-    content: str
-    created_at: datetime`,
-          },
-          {
-            lang: "python",
-            code: `# app/routers/documents.py
-from fastapi import APIRouter, HTTPException
-from sqlalchemy import select
-from app.deps import CurrentUser, DB
-from app.models import Document
-from app.schemas import DocumentIn, DocumentOut
-
-router = APIRouter(prefix="/documents", tags=["documents"])
-
-async def owned(db, doc_id: int, user) -> Document:
-    doc = await db.get(Document, doc_id)
-    if not doc or doc.owner_id != user.id:          # 404, not 403: don't reveal it exists
-        raise HTTPException(404, "Document not found")
-    return doc
-
-@router.post("", response_model=DocumentOut, status_code=201)
-async def create(body: DocumentIn, user: CurrentUser, db: DB):
-    doc = Document(**body.model_dump(), owner_id=user.id)
-    db.add(doc); await db.commit(); await db.refresh(doc)
-    return doc
-
-@router.get("", response_model=list[DocumentOut])
-async def list_(user: CurrentUser, db: DB, limit: int = 20, offset: int = 0):
-    rows = await db.execute(select(Document).where(Document.owner_id == user.id)
-                            .order_by(Document.id.desc()).limit(min(limit, 100)).offset(offset))
-    return rows.scalars().all()
-
-@router.put("/{doc_id}", response_model=DocumentOut)
-async def update(doc_id: int, body: DocumentIn, user: CurrentUser, db: DB):
-    doc = await owned(db, doc_id, user)
-    doc.title, doc.content = body.title, body.content
-    await db.commit(); await db.refresh(doc)
-    return doc
-
-@router.delete("/{doc_id}", status_code=204)
-async def delete(doc_id: int, user: CurrentUser, db: DB):
-    await db.delete(await owned(db, doc_id, user)); await db.commit()`,
-          },
-          "The auth router has `/auth/register` (hash the password, save the user) and `/auth/login`, which accepts `OAuth2PasswordRequestForm` and returns `{\"access_token\": ..., \"token_type\": \"bearer\"}`. Write it yourself using the security functions above; it's good practice.",
-        ],
-      },
-      {
-        h: "Checklist before you call it done",
-        blocks: [
-          {
-            list: [
-              "`/docs` shows every route; the Authorize button works with your login endpoint.",
-              "A user can't read, update or delete another user's document (test it).",
-              "Invalid bodies return 422; missing or invalid tokens return 401.",
-              "Passwords are hashed with argon2 or bcrypt; the JWT secret comes from settings, not code.",
-              "Tests cover register → login → create → list → delete.",
-              "`ruff check` passes; the README shows how to run it.",
-            ],
-          },
-          {
-            tip: "Compare it with how you'd write this in Express + Mongoose. Put the comparison in the README; it's a great talking point for \"Why did you move to Python?\"",
-          },
-        ],
-      },
-    ],
-    revise: [
-      "Hash passwords (argon2/bcrypt), never store them in plain text; JWT with `sub` + `exp`.",
-      "`OAuth2PasswordBearer` wires auth into Swagger's Authorize button.",
-      "Ownership checks on every read/update/delete; return 404 for other users' resources.",
-      "Separate `In` and `Out` schemas; `from_attributes=True` to return ORM objects.",
-      "Cap pagination limits on the server.",
-    ],
-    practice: [
-      "Add a `tags` field and a `?tag=` filter.",
-      "Add refresh tokens, or rate-limit login attempts.",
-    ],
-  },
-
   docker: {
     minutes: 60,
     level: "Intermediate",
@@ -1301,7 +1122,7 @@ tests
     ports: ["8000:8000"]
     env_file: .env
     environment:
-      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/notes
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/shop
     depends_on:
       db:
         condition: service_healthy
@@ -1309,7 +1130,7 @@ tests
     image: pgvector/pgvector:pg16
     environment:
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: notes
+      POSTGRES_DB: shop
     volumes: [pgdata:/var/lib/postgresql/data]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
@@ -1321,8 +1142,8 @@ volumes:
           {
             lang: "bash",
             code: `docker compose up --build
-docker compose exec api alembic upgrade head   # run migrations inside the container
-docker image ls | grep notes                   # check the image size (aim for < 300 MB)`,
+docker compose exec api alembic upgrade head   # run migrations inside the container (copy alembic.ini + migrations/ into the image)
+docker image ls | grep shop                    # check the image size (aim for < 300 MB)`,
           },
           {
             note: "Inside Compose, the database host is the service name (`db`), not `localhost`. This is the most common \"connection refused\" cause.",
@@ -1342,4 +1163,16 @@ docker image ls | grep notes                   # check the image size (aim for <
       "Add a `/health` endpoint that also checks the database connection, and use it as a Docker healthcheck.",
     ],
   },
+};
+
+export default {
+  ...base,
+  "api-design": apiDesign,
+  sqlalchemy,
+  alembic,
+  mongodb,
+  auth,
+  testing,
+  "crud-api": crudApi,
+  "mongo-api": mongoApi,
 };

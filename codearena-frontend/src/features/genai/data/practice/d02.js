@@ -1,7 +1,9 @@
-// Day 2 practice: async, httpx, Pydantic, FastAPI. Shape: see ./index.js
+// Day 2 practice: async, httpx, Pydantic, FastAPI, REST design, SQL, auth, MongoDB, testing. Shape: see ./index.js
+import { moreGroups } from "./d02-more.js";
+
 export default {
   intro:
-    "Fourteen exercises that build backend muscle in Python: async code, calling APIs, validating data with Pydantic, and building a small FastAPI service step by step. No LLM key needed today.",
+    "Twenty-five exercises that build backend muscle step by step: async code, calling APIs, Pydantic, FastAPI basics, then REST design, PostgreSQL with SQLAlchemy (including N+1 and race conditions), Alembic, authentication, MongoDB with Beanie and async tests. Spread them over several days if you need to.",
   setup: [
     "Use a uv project for today so packages stay isolated.",
     {
@@ -11,6 +13,9 @@ uv init --no-readme .
 uv add httpx "pydantic[email]" pydantic-settings "fastapi[standard]" pytest
 uv run python ex01.py          # run any exercise file
 uv run fastapi dev api.py      # run a FastAPI app, then open http://127.0.0.1:8000/docs`,
+    },
+    {
+      note: "The database groups need **Docker Desktop** running (for Postgres and MongoDB) plus extra packages: `uv add \"sqlalchemy[asyncio]\" asyncpg alembic \"pwdlib[argon2]\" pyjwt beanie pytest-asyncio aiosqlite`. Each exercise shows its own `docker run` command.",
     },
     {
       note: "Don't have uv yet? `curl -LsSf https://astral.sh/uv/install.sh | sh` (macOS/Linux). Or use `python3 -m venv .venv && source .venv/bin/activate && pip install ...` instead.",
@@ -608,5 +613,6 @@ def test_empty_title_422():
         },
       ],
     },
+      ...moreGroups,
   ],
 };

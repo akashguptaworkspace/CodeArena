@@ -1,5 +1,11 @@
 // Day 1: Python for JS developers. Shape: see ./index.js
+import setup from "./d01-setup.js";
+import { backendStructure, firstApi } from "./d01-backend.js";
+
 export default {
+  setup,
+  "backend-structure": backendStructure,
+  "first-api": firstApi,
   types: {
     minutes: 60,
     level: "Beginner",
