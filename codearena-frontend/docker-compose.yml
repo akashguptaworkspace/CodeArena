@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        - VITE_APP_URL=${VITE_APP_URL:-http://localhost:80}
+        - VITE_API_URL=${VITE_API_URL}
+        - VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}
+        - VITE_ENABLE_PAYWALL=${VITE_ENABLE_PAYWALL:-false}
+        - VITE_PRESENCE_URL=${VITE_PRESENCE_URL}
+    container_name: codearena-frontend
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    networks:
+      - codearena-network
+
+networks:
+  codearena-network:
+    driver: bridge
