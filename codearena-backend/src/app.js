@@ -29,6 +29,9 @@ export function createApp({ getPresenceStats = () => null } = {}) {
   app.use(express.json({ limit: "100kb" }));
   app.use(cookieParser());
 
+  app.get("/", (req, res) => {
+    res.send("welcome to codearena");
+  });
   app.get("/health", health(getPresenceStats));
   app.use("/api", apiRoutes);
 
