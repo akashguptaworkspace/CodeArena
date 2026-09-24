@@ -16,11 +16,19 @@ export const onUnauthorized = (handler) => {
   unauthorizedHandler = handler;
 };
 
+// A hung request (bad network, dropped connection) would otherwise leave callers waiting
+// forever — e.g. the session check on load, stuck on "Checking your session…".
+const REQUEST_TIMEOUT_MS = 10_000;
+
 async function send(path, { method = "GET", body, signal } = {}) {
   const headers = { Accept: "application/json" };
   if (body !== undefined) headers["Content-Type"] = "application/json";
   const token = tokenStorage.get();
   if (token) headers.Authorization = `Bearer ${token}`;
+
+  const timeoutController = new AbortController();
+  const timeoutId = setTimeout(() => timeoutController.abort(), REQUEST_TIMEOUT_MS);
+  if (signal) signal.addEventListener("abort", () => timeoutController.abort(), { once: true });
 
   try {
     return await fetch(`${API_URL}${path}`, {
@@ -28,11 +36,13 @@ async function send(path, { method = "GET", body, signal } = {}) {
       headers,
       body: body === undefined ? undefined : JSON.stringify(body),
       credentials: "include", // sends the refresh-token cookie to /api/auth/*
-      signal,
+      signal: timeoutController.signal,
     });
   } catch (err) {
-    if (err.name === "AbortError") throw err;
+    if (signal?.aborted) throw err; // caller cancelled it themselves
     throw new ApiError("Can't reach the server. Check your connection.", 0, null);
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
