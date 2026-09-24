@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { Link } from "react-router";
 import { Badge, Card } from "@/shared/ui";
 import styles from "./DayCard.module.css";
 
@@ -8,11 +9,15 @@ function TaskList({ tasks, progress, onToggle }) {
       {tasks.map((task) => {
         const done = progress.design[task.id] === "ready";
         return (
-          <li key={task.id}>
+          <li key={task.id} className={styles.taskRow}>
             <label className={`${styles.task} ${done ? styles.done : ""}`}>
               <input type="checkbox" className={styles.checkbox} checked={done} onChange={() => onToggle(task.id)} />
               <span>{task.text}</span>
             </label>
+            <Link to={task.path} className={styles.read} aria-label={`${task.kind === "learn" ? "Read lesson" : "Open guide"}: ${task.text}`}>
+              {task.kind === "learn" ? "Read" : "Guide"}
+              <span aria-hidden="true"> →</span>
+            </Link>
           </li>
         );
       })}
@@ -23,6 +28,10 @@ function TaskList({ tasks, progress, onToggle }) {
 // One day of the plan: what to learn, what to build, and the interview questions to drill.
 export const DayCard = memo(function DayCard({ day, dayStats, progress, onToggle, isNext }) {
   const headingId = `genai-${day.id}-title`;
+  const practicePrefix = `genai-${day.id}-px-`;
+  const practiceSolved = Object.entries(progress.design).filter(
+    ([id, status]) => status === "ready" && id.startsWith(practicePrefix) && !id.endsWith("-px-notes"),
+  ).length;
 
   return (
     <Card as="article" id={`day-${day.number}`} aria-labelledby={headingId} className={`${styles.card} ${dayStats.complete ? styles.complete : ""}`}>
@@ -64,6 +73,20 @@ export const DayCard = memo(function DayCard({ day, dayStats, progress, onToggle
               ))}
             </ol>
           </section>
+        </div>
+
+        <div className={styles.practice}>
+          <div className={styles.practiceText}>
+            <span className={`${styles.kind} ${styles.practiceTag}`}>Practice</span>
+            <p>
+              Small hands-on exercises to solve on your laptop. Try first, then reveal the solution and the concepts it
+              uses.
+              {practiceSolved > 0 && <b> {practiceSolved} solved.</b>}
+            </p>
+          </div>
+          <Link to={`/genai/${day.id}/practice`} className={styles.practiceLink}>
+            Practice questions <span aria-hidden="true">→</span>
+          </Link>
         </div>
 
         <div className={styles.resources}>

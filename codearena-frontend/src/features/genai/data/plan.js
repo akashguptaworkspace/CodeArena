@@ -507,7 +507,8 @@ const DAYS = [
 ];
 
 const pad = (n) => String(n).padStart(2, "0");
-const toTasks = (dayId, kind, items) => items.map(([slug, text]) => ({ id: `genai-${dayId}-${slug}`, kind, text }));
+const toTasks = (dayId, kind, items) =>
+  items.map(([slug, text]) => ({ id: `genai-${dayId}-${slug}`, dayId, slug, kind, text, path: `/genai/${dayId}/${slug}` }));
 
 export const GENAI_DAYS = DAYS.map((day, i) => {
   const number = i + 1;
@@ -521,18 +522,13 @@ export const GENAI_DAYS = DAYS.map((day, i) => {
   };
 });
 
-// Every tickable task, in plan order.
+// Every tickable task, in plan order. Each one has a lesson page at task.path (content in lessons/dNN.js).
 export const GENAI_TASKS = GENAI_DAYS.flatMap((d) => [...d.learn, ...d.build]);
 
-export const GENAI_TOTAL_HOURS = GENAI_DAYS.reduce((sum, d) => sum + d.hours, 0);
+export const getGenAiDay = (dayId) => GENAI_DAYS.find((d) => d.id === dayId) || null;
+export const getGenAiTask = (dayId, slug) => GENAI_TASKS.find((t) => t.dayId === dayId && t.slug === slug) || null;
 
-export const DAILY_SCHEDULE = [
-  { time: "07:00–09:30", title: "Concepts", detail: "Watch or read the Learn list. Write notes in your own words." },
-  { time: "10:00–13:30", title: "Build I", detail: "Code the day's build task. No copy-paste from tutorials." },
-  { time: "14:30–17:30", title: "Build II", detail: "Finish, break it, fix it, push to GitHub with a README." },
-  { time: "18:00–19:30", title: "Interview drill", detail: "Answer the day's questions aloud, 2 minutes each." },
-  { time: "20:30–21:30", title: "Revise + post", detail: "Revise yesterday. Post a short LinkedIn update on what you built." },
-];
+export const GENAI_TOTAL_HOURS = GENAI_DAYS.reduce((sum, d) => sum + d.hours, 0);
 
 export const PORTFOLIO = [
   {

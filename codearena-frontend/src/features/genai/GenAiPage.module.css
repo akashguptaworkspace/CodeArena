@@ -41,35 +41,6 @@
   gap: var(--stack-gap);
 }
 
-.schedule {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--card-radius);
-  overflow: hidden;
-}
-.slot {
-  display: grid;
-  align-content: start;
-  gap: var(--space-1);
-  padding: var(--space-3) var(--space-4);
-  /* Hairlines between cells that still look right when the last row isn't full. */
-  box-shadow: 1px 0 0 var(--line), 0 1px 0 var(--line);
-}
-.slot span:last-child {
-  font-size: var(--text-sm);
-  color: var(--muted);
-}
-.time {
-  font: var(--weight-medium) var(--text-xs) / 1.3 var(--font-mono);
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
-
 .filter {
   overflow-x: auto;
   padding-bottom: var(--space-1);

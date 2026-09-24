@@ -1,0 +1,223 @@
+.page {
+  font-variant-ligatures: none; /* `==` vs `===` must look different in lessons */
+  max-width: 820px;
+}
+.header {
+  display: grid;
+  gap: var(--space-3);
+}
+.back {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+}
+.back:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.back:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+.backBottom {
+  max-width: 100%;
+}
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.crumbs a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.crumbs a:hover {
+  text-decoration: underline;
+}
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+.meta {
+  font: var(--weight-medium) var(--text-xs) / 1 var(--font-mono);
+  color: var(--muted);
+}
+.title {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-heavy);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+.intro {
+  max-width: var(--prose-max);
+  font-size: var(--text-md);
+  line-height: 1.7;
+  color: var(--muted);
+}
+.intro code {
+  font: 0.88em var(--font-mono);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
+}
+.jump {
+  font-size: var(--text-sm);
+  color: var(--accent);
+  text-decoration: none;
+}
+.muted {
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.toc {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+}
+.tocLabel {
+  font: var(--weight-semibold) var(--text-2xs) / 1 var(--font-mono);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.toc ol {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding-left: var(--space-5);
+  font-size: var(--text-sm);
+}
+.toc a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.toc a:hover {
+  color: var(--accent);
+}
+.toc code {
+  font: 0.9em var(--font-mono);
+}
+
+.revise {
+  display: grid;
+  gap: var(--space-3);
+  border-top: 3px solid var(--easy);
+  scroll-margin-top: calc(var(--topbar-height) + var(--space-4));
+}
+.boxTitle {
+  font: var(--weight-bold) var(--text-lg) / var(--leading-snug) var(--font-display);
+}
+.reviseList,
+.plainList {
+  display: grid;
+  gap: var(--space-2);
+  max-width: var(--prose-max);
+  margin: 0;
+  padding-left: var(--space-5);
+  line-height: var(--leading-normal);
+  color: var(--ink-soft);
+}
+.reviseList li::marker {
+  color: var(--easy);
+}
+.mistakes li::marker {
+  color: var(--hard);
+}
+.reviseList code,
+.plainList code,
+.qa code {
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  background: var(--sunk);
+  font: 0.88em var(--font-mono);
+  color: var(--ink);
+}
+.box {
+  display: grid;
+  gap: var(--space-3);
+}
+.qa {
+  display: grid;
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  background: var(--surface);
+}
+.qaItem + .qaItem {
+  border-top: 1px solid var(--line);
+}
+.qaItem summary {
+  padding: var(--space-3) var(--space-4);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+}
+.qaItem summary:hover {
+  color: var(--accent);
+}
+.qaItem p {
+  max-width: var(--prose-max);
+  padding: 0 var(--space-4) var(--space-4) var(--space-8);
+  color: var(--ink-soft);
+  line-height: var(--leading-normal);
+}
+.notes {
+  scroll-margin-top: calc(var(--topbar-height) + var(--space-4));
+}
+
+.pager {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+.pagerLink {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--card-pad-sm);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  text-decoration: none;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+.pagerLink:hover {
+  border-color: var(--accent);
+}
+.nextLink {
+  text-align: right;
+}
+.dir {
+  font: var(--weight-semibold) var(--text-xs) / 1 var(--font-mono);
+  color: var(--muted);
+}
+.pagerName {
+  font-weight: var(--weight-semibold);
+  color: var(--accent);
+}
+@media (max-width: 520px) {
+  .pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .nextLink {
+    text-align: left;
+  }
+}

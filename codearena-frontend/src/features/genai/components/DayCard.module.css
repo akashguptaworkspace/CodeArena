@@ -99,6 +99,27 @@
   padding: 0;
   list-style: none;
 }
+.taskRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--space-2);
+}
+.read {
+  margin-top: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font: var(--weight-semibold) var(--text-xs) / 1.2 var(--font-body);
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out);
+}
+.read:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
 .task {
   display: grid;
   grid-template-columns: 18px minmax(0, 1fr);
@@ -138,6 +159,55 @@
 .questions li::marker {
   color: var(--medium);
   font-family: var(--font-mono);
+}
+.practice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line-strong);
+}
+.practiceText {
+  display: grid;
+  gap: var(--space-2);
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.practiceText p {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  max-width: 60ch;
+}
+.practiceText b {
+  color: var(--easy);
+}
+.practiceTag {
+  background: var(--hard-bg);
+  color: var(--hard);
+}
+.practiceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--control-height);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+.practiceLink:hover {
+  background: var(--accent-hover);
+}
+.practiceLink:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 .resources {
   display: flex;

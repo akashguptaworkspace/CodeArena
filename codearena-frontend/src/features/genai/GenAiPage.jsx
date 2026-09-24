@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router";
 import { Banner } from "@/shared/feedback/Banner";
 import { usePersistentState } from "@/shared/hooks/usePersistentState";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
@@ -6,7 +8,6 @@ import { Stack } from "@/shared/layout/Stack";
 import { Card, ProgressBar, SectionHeader, SegmentedControl, StatNumber } from "@/shared/ui";
 import { DayCard } from "./components/DayCard";
 import {
-  DAILY_SCHEDULE,
   GENAI_DAYS,
   GENAI_PHASES,
   GENAI_TOTAL_HOURS,
@@ -23,6 +24,14 @@ export function GenAiPage() {
   const { progress, stats, toggleTask } = useGenAiPlan();
   const [view, setView] = usePersistentState("practice-ground:genai-view", { phase: "all" });
   const phases = view.phase === "all" ? GENAI_PHASES : GENAI_PHASES.filter((p) => p.id === view.phase);
+
+  // Coming back from a lesson (/genai#day-3): show every phase and scroll to that day.
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (!hash.startsWith("#day-")) return;
+    if (view.phase !== "all") setView({ phase: "all" });
+    requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView());
+  }, [hash]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Stack gap="section">
@@ -67,19 +76,6 @@ export function GenAiPage() {
         you hired is shipped projects with a live demo, and being able to explain <em>why</em> you made each design
         choice.
       </Banner>
-
-      <section className={styles.section} aria-labelledby="genai-schedule">
-        <SectionHeader id="genai-schedule" title="How each day runs" description="About 9 focused hours with breaks. Adjust the times, keep the order." />
-        <ol className={styles.schedule}>
-          {DAILY_SCHEDULE.map((slot) => (
-            <li key={slot.time} className={styles.slot}>
-              <span className={styles.time}>{slot.time}</span>
-              <b>{slot.title}</b>
-              <span>{slot.detail}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
 
       <section className={styles.section} aria-labelledby="genai-plan">
         <SectionHeader id="genai-plan" title="The 20-day plan" meta={`${stats.daysComplete} of 20 days done`} />

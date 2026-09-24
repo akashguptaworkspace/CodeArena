@@ -65,7 +65,7 @@ export const MODULES = [
     access: "paid",
     priceInr: 200,
     summary: "A 20-day plan from MERN developer to GenAI developer: Python, LLMs, RAG, agents, MCP and deployment, with interview drills.",
-    highlights: ["Daily learn, build and interview-drill tasks", "3 portfolio projects and a deployed capstone", "GenAI question bank and system design practice"],
+    highlights: ["124 in-depth lessons and build guides, beginner to advanced", "170 hands-on practice exercises with solutions and concept notes", "Your own revision notes, 3 portfolio projects and a deployed capstone"],
   },
 ];
 
