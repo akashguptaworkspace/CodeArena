@@ -1,0 +1,37 @@
+/* Scrolls sideways instead of wrapping, so it stays one tidy row on phones. */
+.group {
+  display: flex;
+  gap: 2px;
+  max-width: 100%;
+  padding: 3px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--sunk);
+  border-radius: var(--radius-md);
+}
+.group::-webkit-scrollbar {
+  display: none;
+}
+.option {
+  flex: none;
+  min-height: 30px;
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.option:hover {
+  color: var(--ink);
+}
+.option[aria-pressed="true"] {
+  background: var(--surface-raised);
+  color: var(--ink);
+  font-weight: var(--weight-semibold);
+  box-shadow: var(--shadow-sm);
+}

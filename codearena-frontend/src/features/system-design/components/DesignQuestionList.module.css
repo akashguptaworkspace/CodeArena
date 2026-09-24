@@ -1,0 +1,3 @@
+.group {
+  scroll-margin-top: calc(var(--topbar-height) + var(--space-16));
+}

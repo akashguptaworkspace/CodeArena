@@ -1,0 +1,3 @@
+# Each app has its own .gitignore; this covers the top level.
+.DS_Store
+node_modules

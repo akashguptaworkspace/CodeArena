@@ -1,0 +1,64 @@
+.flow {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+}
+.step:last-child {
+  padding-bottom: 0;
+}
+/* Connector line between step numbers */
+.step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  bottom: 2px;
+  left: 13px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--line);
+}
+.index {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: var(--weight-bold) var(--text-xs) / 1 var(--font-mono);
+}
+.body {
+  display: grid;
+  gap: var(--space-1);
+  padding-top: 3px;
+  min-width: 0;
+}
+.actors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+}
+.actor {
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--sunk);
+  font: var(--weight-semibold) var(--text-xs) / 1.4 var(--font-mono);
+  overflow-wrap: anywhere;
+}
+.arrow {
+  color: var(--muted);
+  font-weight: var(--weight-bold);
+}
+.description {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}

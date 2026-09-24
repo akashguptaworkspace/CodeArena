@@ -1,0 +1,7 @@
+.intro {
+  max-width: var(--prose-max);
+  color: var(--muted);
+}
+.list {
+  margin-top: var(--space-6);
+}

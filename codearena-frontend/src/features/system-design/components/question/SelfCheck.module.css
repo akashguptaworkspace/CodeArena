@@ -1,0 +1,84 @@
+.card {
+  display: grid;
+  gap: var(--space-4);
+}
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.heading {
+  font-size: var(--text-lg);
+}
+.sub {
+  margin-top: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.score {
+  display: grid;
+  justify-items: end;
+  gap: var(--space-1);
+}
+.percent {
+  font: var(--weight-heavy) var(--text-2xl) / 1 var(--font-display);
+  color: var(--c);
+  font-variant-numeric: tabular-nums;
+}
+.fraction {
+  font: var(--weight-medium) var(--text-xs) / 1 var(--font-mono);
+  color: var(--muted);
+}
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.item {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.item:hover {
+  border-color: var(--line-strong);
+}
+.item input {
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  accent-color: var(--easy);
+}
+.checked {
+  background: color-mix(in srgb, var(--easy-bg) 55%, var(--surface));
+  border-color: color-mix(in srgb, var(--easy) 35%, var(--line));
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--line);
+}
+.verdict {
+  max-width: 56ch;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}
+@media (max-width: 520px) {
+  .score {
+    justify-items: start;
+  }
+}

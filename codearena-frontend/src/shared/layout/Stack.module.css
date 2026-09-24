@@ -1,0 +1,14 @@
+.root {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+}
+.section {
+  gap: var(--section-gap);
+}
+.stack {
+  gap: var(--stack-gap);
+}
+.tight {
+  gap: var(--space-2);
+}

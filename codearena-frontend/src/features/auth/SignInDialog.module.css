@@ -1,0 +1,75 @@
+.dialog {
+  width: min(420px, calc(100vw - 2 * var(--space-4)));
+  max-height: calc(100dvh - 2 * var(--space-4));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--surface-raised);
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  overflow: auto;
+}
+.dialog::backdrop {
+  background: color-mix(in srgb, var(--ink) 40%, transparent);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.dialog[open] {
+  animation: pop var(--duration) var(--ease-out);
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dialog[open] {
+    animation: none;
+  }
+}
+
+.card {
+  display: grid;
+  /* minmax(0, …): Google's fixed-width button must not stretch the card on small phones. */
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  text-align: center;
+}
+.google {
+  justify-self: stretch;
+  overflow: hidden;
+}
+.logo {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--on-accent);
+  font: var(--weight-heavy) var(--text-sm) / 1 var(--font-display);
+}
+.title {
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+}
+.sub {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.card > [role="alert"] {
+  justify-self: stretch;
+  text-align: left;
+}
+.status {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.privacy {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}

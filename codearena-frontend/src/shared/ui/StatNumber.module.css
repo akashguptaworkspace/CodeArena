@@ -1,0 +1,26 @@
+.stat {
+  display: grid;
+  gap: var(--space-1);
+}
+.value {
+  font-family: var(--font-display);
+  font-weight: var(--weight-heavy);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  font-variant-numeric: tabular-nums;
+}
+.lg .value {
+  font-size: var(--text-2xl);
+}
+.md .value {
+  font-size: var(--text-xl);
+}
+.of {
+  font: var(--weight-medium) var(--text-base) / 1 var(--font-mono);
+  color: var(--muted);
+  letter-spacing: 0;
+}
+.caption {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}

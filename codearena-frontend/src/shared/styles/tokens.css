@@ -1,0 +1,194 @@
+/*
+ * CodeArena design tokens.
+ * Every size, space, colour and radius in the app comes from here. Components never hard-code values.
+ *
+ * Breakpoints (media queries can't read variables, so use these numbers):
+ *   sm  ≤ 520px   phones
+ *   md  ≤ 767px   large phones / small tablets
+ *   lg  ≥ 1024px  desktop: sidebar layout
+ */
+
+:root {
+  /* ---------- Typography ---------- */
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Type scale (1.2 ratio); the largest steps grow with the viewport */
+  --text-2xs: 0.6875rem; /* 11 — caps labels */
+  --text-xs: 0.75rem; /* 12 — meta, badges */
+  --text-sm: 0.8125rem; /* 13 — secondary text */
+  --text-base: 0.9375rem; /* 15 — body */
+  --text-md: 1.0625rem; /* 17 — card titles */
+  --text-lg: 1.25rem; /* 20 — section headings */
+  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.625rem); /* 22–26 — stat numbers */
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.25rem); /* 28–36 — big stats */
+  --text-3xl: clamp(2rem, 1.5rem + 2.4vw, 2.875rem); /* 32–46 — page titles */
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-normal: 1.55;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-heavy: 800;
+
+  --tracking-tight: -0.025em;
+  --tracking-snug: -0.01em;
+  --tracking-caps: 0.08em;
+
+  /* ---------- Spacing (4px grid) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---------- Radius ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* ---------- Layout ---------- */
+  --page-max: 1040px; /* content column */
+  --prose-max: 68ch; /* comfortable reading width */
+  --gutter: clamp(16px, 4vw, 40px); /* page side padding */
+  --sidebar-width: 248px;
+  --topbar-height: 56px;
+  --tabbar-height: 64px;
+  --section-gap: var(--space-8); /* between page sections */
+  --stack-gap: var(--space-4); /* between items in a section */
+
+  /* ---------- Cards ---------- */
+  --card-pad-sm: var(--space-3) var(--space-4);
+  --card-pad-md: var(--space-5);
+  --card-pad-lg: var(--space-8);
+  --card-radius: var(--radius-lg);
+  --card-min-width: 260px; /* module / feature cards in a grid */
+  --tile-min-width: 160px; /* small progress tiles */
+  --row-min-height: 52px; /* list rows: comfortable touch target */
+  --control-height: 36px; /* buttons, inputs, selects */
+  --touch-target: 40px;
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration: 220ms;
+
+  /* ---------- Layers ---------- */
+  --z-sticky: 10;
+  --z-nav: 20;
+  --z-overlay: 30;
+
+  /* ---------- Colour: light ---------- */
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --sunk: #eaedf2;
+  --ink: #131a24;
+  --ink-soft: #3a4553;
+  --muted: #5d6877;
+  --line: #dde2e9;
+  --line-strong: #c9d0da;
+
+  --accent: #3552e8;
+  --accent-hover: #2a44cf;
+  --accent-soft: #e6eafd;
+  --on-accent: #ffffff;
+
+  --easy: #13875a;
+  --easy-bg: #e0f3e9;
+  --medium: #a8680c;
+  --medium-bg: #fbeed6;
+  --hard: #c03232;
+  --hard-bg: #fbe2e2;
+  --flag: #c2410c;
+
+  --shadow-sm: 0 1px 2px rgb(19 26 36 / 0.06);
+  --shadow-md: 0 2px 4px rgb(19 26 36 / 0.04), 0 6px 16px rgb(19 26 36 / 0.06);
+  --shadow-lg: 0 12px 32px rgb(19 26 36 / 0.12);
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* ---------- Colour: dark (system preference) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0d1117;
+    --surface: #141b24;
+    --surface-raised: #19212c;
+    --sunk: #1c2530;
+    --ink: #e7ecf2;
+    --ink-soft: #c3ccd6;
+    --muted: #93a0ae;
+    --line: #243040;
+    --line-strong: #324154;
+
+    --accent: #8098ff;
+    --accent-hover: #9aadff;
+    --accent-soft: #1d2748;
+    --on-accent: #0d1117;
+
+    --easy: #4cc38a;
+    --easy-bg: #13301f;
+    --medium: #e5aa4c;
+    --medium-bg: #33260e;
+    --hard: #f07373;
+    --hard-bg: #3a1919;
+    --flag: #fb8c4c;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 2px 4px rgb(0 0 0 / 0.3), 0 8px 20px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
+  }
+}
+
+/* ---------- Colour: dark (explicit choice) ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d1117;
+  --surface: #141b24;
+  --surface-raised: #19212c;
+  --sunk: #1c2530;
+  --ink: #e7ecf2;
+  --ink-soft: #c3ccd6;
+  --muted: #93a0ae;
+  --line: #243040;
+  --line-strong: #324154;
+
+  --accent: #8098ff;
+  --accent-hover: #9aadff;
+  --accent-soft: #1d2748;
+  --on-accent: #0d1117;
+
+  --easy: #4cc38a;
+  --easy-bg: #13301f;
+  --medium: #e5aa4c;
+  --medium-bg: #33260e;
+  --hard: #f07373;
+  --hard-bg: #3a1919;
+  --flag: #fb8c4c;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 2px 4px rgb(0 0 0 / 0.3), 0 8px 20px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.5);
+}
+
+/* Tighter card padding on phones so content gets the width. */
+@media (max-width: 520px) {
+  :root {
+    --card-pad-md: var(--space-4);
+    --card-pad-lg: var(--space-5);
+    --section-gap: var(--space-6);
+  }
+}

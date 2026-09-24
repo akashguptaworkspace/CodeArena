@@ -1,0 +1,111 @@
+.guide {
+  display: grid;
+  gap: var(--space-12);
+  max-width: 860px;
+}
+.section {
+  display: grid;
+  gap: var(--space-3);
+}
+.section h2 {
+  font-size: var(--text-xl);
+}
+.section p {
+  max-width: var(--prose-max);
+  color: var(--ink-soft);
+}
+.sub {
+  margin-top: var(--space-3);
+  font-size: var(--text-md);
+}
+.stages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.stage {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  border-top: 3px solid var(--c);
+}
+.stage h3 {
+  font-size: var(--text-md);
+}
+.stage p {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.stageStep {
+  font: var(--weight-semibold) var(--text-2xs) / 1 var(--font-mono);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--c);
+}
+.steps,
+.bullets {
+  display: grid;
+  gap: var(--space-2);
+  max-width: var(--prose-max);
+  margin: 0;
+  padding-left: var(--space-6);
+  color: var(--ink-soft);
+}
+.steps li::marker {
+  font: var(--weight-bold) var(--text-sm) var(--font-mono);
+  color: var(--accent);
+}
+.steps strong,
+.bullets strong {
+  color: var(--ink);
+}
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+.table th,
+.table td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  vertical-align: top;
+  border-top: 1px solid var(--line);
+}
+.table thead th {
+  border-top: 0;
+  background: var(--sunk);
+  font: var(--weight-semibold) var(--text-2xs) / 1.2 var(--font-mono);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.table td:first-child {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.nowrap {
+  white-space: nowrap;
+}
+.guide code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--sunk);
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+}
+@media (max-width: 767px) {
+  .stages {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

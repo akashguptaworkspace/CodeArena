@@ -1,0 +1,40 @@
+{
+  "name": "codearena-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "CodeArena backend: Express + MySQL (Sequelize) REST API with Google sign-in, plus live presence over WebSockets.",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "db:create": "node src/db/createDatabase.js",
+    "db:migrate": "node src/db/migrate.js up",
+    "db:rollback": "node src/db/migrate.js down",
+    "db:status": "node src/db/migrate.js status",
+    "sync:catalog": "node scripts/sync-catalog.js",
+    "test": "NODE_ENV=test node --test --test-concurrency=1 test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "google-auth-library": "^11.1.0",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.24.4",
+    "sequelize": "^6.37.8",
+    "umzug": "^3.8.3",
+    "ws": "^8.21.3",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "sqlite3": "^6.0.1",
+    "supertest": "^7.3.0"
+  }
+}

@@ -1,0 +1,39 @@
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  height: calc(var(--topbar-height) + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) var(--gutter) 0;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(12px);
+  -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: var(--weight-heavy) var(--text-md) / 1 var(--font-display);
+  letter-spacing: var(--tracking-snug);
+  text-decoration: none;
+}
+.logo {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--on-accent);
+  font: var(--weight-heavy) var(--text-xs) / 1 var(--font-display);
+  letter-spacing: 0;
+}
+.end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}

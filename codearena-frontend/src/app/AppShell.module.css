@@ -1,0 +1,64 @@
+.shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.main {
+  min-width: 0;
+}
+.saveError {
+  position: sticky;
+  top: var(--space-3);
+  z-index: var(--z-overlay);
+  margin-bottom: var(--space-4);
+}
+
+/* Phone + tablet: top bar and bottom tab bar.
+   The top bar wrapper uses display: contents so its sticky header sticks to the page, not the wrapper. */
+.sidebar {
+  display: none;
+}
+.topbar {
+  display: contents;
+}
+.main {
+  padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
+}
+@media (max-width: 1023px) {
+  .saveError {
+    top: calc(var(--topbar-height) + var(--space-3));
+  }
+}
+
+/* Desktop: sidebar layout */
+@media (min-width: 1024px) {
+  .shell {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  }
+  .sidebar {
+    display: block;
+  }
+  .topbar,
+  .tabbar {
+    display: none;
+  }
+  .main {
+    padding-bottom: 0;
+  }
+}
+
+/* Desktop-only row above the page for live info (online count). On phones it lives in the top bar. */
+.utilityBar {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .utilityBar {
+    display: flex;
+    justify-content: flex-end;
+    margin: calc(-1 * var(--space-4)) 0 var(--space-2);
+    min-height: 0;
+  }
+  .utilityBar:empty {
+    display: none;
+  }
+}

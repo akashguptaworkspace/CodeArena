@@ -1,0 +1,35 @@
+.card {
+  display: grid;
+  gap: var(--space-2);
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 25%, var(--line));
+  box-shadow: none;
+}
+.eyebrow {
+  font: var(--weight-semibold) var(--text-2xs) / 1 var(--font-mono);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.twist {
+  font-size: var(--text-md);
+  line-height: var(--leading-snug);
+}
+.hint {
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.confirm {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}

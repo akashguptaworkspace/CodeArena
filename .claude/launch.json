@@ -1,0 +1,7 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "codearena-frontend", "runtimeExecutable": "npm", "runtimeArgs": ["--prefix", "codearena-frontend", "run", "dev", "--", "--port", "5180", "--strictPort"], "port": 5180 },
+    { "name": "codearena-backend", "runtimeExecutable": "npm", "runtimeArgs": ["--prefix", "codearena-backend", "run", "dev"], "port": 4000 }
+  ]
+}

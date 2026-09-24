@@ -1,0 +1,13 @@
+.panel {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-sm);
+}
+.panel > li + li {
+  border-top: 1px solid var(--line);
+}

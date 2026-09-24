@@ -1,0 +1,40 @@
+.group {
+  display: flex;
+  gap: var(--space-2);
+}
+.button {
+  display: grid;
+  place-items: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink-soft);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out), background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+.button svg {
+  width: 18px;
+  height: 18px;
+}
+.button:hover {
+  transform: translateY(-1px);
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+/* LinkedIn blue on hover so the icon reads as LinkedIn without shouting in the resting state. */
+.linkedin:hover {
+  background: #0a66c2;
+  border-color: #0a66c2;
+  color: #ffffff;
+}
+.done,
+.done:hover {
+  background: var(--easy-bg);
+  border-color: color-mix(in srgb, var(--easy) 40%, var(--line));
+  color: var(--easy);
+}

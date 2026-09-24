@@ -1,0 +1,24 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font: var(--weight-semibold) var(--text-xs) / 1 var(--font-mono);
+  padding: 5px var(--space-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+.easy {
+  color: var(--easy);
+  background: var(--easy-bg);
+}
+.medium {
+  color: var(--medium);
+  background: var(--medium-bg);
+}
+.hard {
+  color: var(--hard);
+  background: var(--hard-bg);
+}
+.neutral {
+  color: var(--muted);
+  background: var(--sunk);
+}

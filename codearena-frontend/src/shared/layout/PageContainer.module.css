@@ -1,0 +1,16 @@
+.container {
+  width: 100%;
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+  padding-block: var(--space-8) var(--space-16);
+}
+.narrow {
+  max-width: calc(420px + 2 * var(--gutter));
+  padding-block: 12vh var(--space-16);
+}
+@media (max-width: 520px) {
+  .container {
+    padding-block: var(--space-5) var(--space-12);
+  }
+}
