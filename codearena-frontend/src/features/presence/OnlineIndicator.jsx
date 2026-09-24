@@ -1,12 +1,12 @@
-import { usePageOnlineCount } from "./PresenceContext";
+import { useOnlineCount } from "./PresenceContext";
 import styles from "./OnlineIndicator.module.css";
 
-// "● 12 online": real-time count of people viewing this page. Hidden when presence is unavailable.
+// "● 12 online": real-time sitewide count of people on CodeArena. Hidden when presence is unavailable.
 export function OnlineIndicator() {
-  const count = usePageOnlineCount();
+  const count = useOnlineCount();
   if (!count) return null;
 
-  const label = count === 1 ? "You're the only one on this page right now" : `${count} people on this page right now`;
+  const label = count === 1 ? "You're the only one on CodeArena right now" : `${count} people on CodeArena right now`;
   return (
     <span className={styles.pill} title={label} aria-label={label}>
       <span className={styles.dot} aria-hidden="true" />

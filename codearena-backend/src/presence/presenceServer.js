@@ -2,7 +2,7 @@ import { WebSocketServer } from "ws";
 import { PresenceStore } from "./presenceStore.js";
 
 const HEARTBEAT_MS = 30_000; // drop connections that stop answering pings
-const BROADCAST_MS = 500; // group count changes so a burst of joins sends one update per page
+const BROADCAST_MS = 500; // group total changes so a burst of joins/leaves sends one update
 const MAX_PAGE_LENGTH = 200;
 const CLIENT_ID = /^[A-Za-z0-9-]{8,64}$/;
 
@@ -18,16 +18,19 @@ const normalizePage = (page) => {
  *
  * Client → server   { type: "join", page: "/dsa", clientId: "<uuid>" }
  *                   { type: "leave" }                 (tab hidden)
- * Server → client   { type: "count", page: "/dsa", count: 12 }
+ * Server → client   { type: "total", count: 142 }     (sitewide distinct-client count, same for every page)
+ *
+ * Per-page membership is still tracked (for /health monitoring), it's just no longer sent to clients.
  *
  * Runs on one process. To run several instances behind a load balancer, move PresenceStore
  * into Redis (a hash per page with expiring members) and fan out updates with Redis pub/sub.
  */
 export function attachPresence(httpServer, { path = "/presence", allowedOrigins = [] } = {}) {
   const store = new PresenceStore();
-  /** @type {Map<string, Set<import("ws").WebSocket>>} page -> sockets currently on it */
+  /** @type {Map<string, Set<import("ws").WebSocket>>} page -> sockets currently on it (monitoring only) */
   const sockets = new Map();
-  const dirtyPages = new Set();
+  let totalDirty = false;
+  let lastTotal = 0;
 
   const wss = new WebSocketServer({
     server: httpServer,
@@ -45,7 +48,8 @@ export function attachPresence(httpServer, { path = "/presence", allowedOrigins 
     if (!page) return;
     sockets.get(page)?.delete(ws);
     if (sockets.get(page)?.size === 0) sockets.delete(page);
-    if (store.leave(page, clientId)) dirtyPages.add(page);
+    store.leave(page, clientId);
+    totalDirty = true;
     ws.presence.page = null;
   };
 
@@ -54,9 +58,10 @@ export function attachPresence(httpServer, { path = "/presence", allowedOrigins 
     ws.presence.page = page;
     if (!sockets.has(page)) sockets.set(page, new Set());
     sockets.get(page).add(ws);
-    if (store.join(page, ws.presence.clientId)) dirtyPages.add(page);
-    // The newcomer always needs the current number, even if it didn't change.
-    send(ws, { type: "count", page, count: store.count(page) });
+    store.join(page, ws.presence.clientId);
+    totalDirty = true;
+    // The newcomer always needs the current total, even if it didn't change.
+    send(ws, { type: "total", count: store.totalClients() });
   };
 
   wss.on("connection", (ws) => {
@@ -100,11 +105,12 @@ export function attachPresence(httpServer, { path = "/presence", allowedOrigins 
   heartbeat.unref(); // timers alone shouldn't keep the process alive
 
   const broadcaster = setInterval(() => {
-    for (const page of dirtyPages) {
-      const count = store.count(page);
-      for (const ws of sockets.get(page) ?? []) send(ws, { type: "count", page, count });
-    }
-    dirtyPages.clear();
+    if (!totalDirty) return;
+    totalDirty = false;
+    const total = store.totalClients();
+    if (total === lastTotal) return;
+    lastTotal = total;
+    for (const ws of wss.clients) send(ws, { type: "total", count: total });
   }, BROADCAST_MS);
   broadcaster.unref();
 

@@ -3,20 +3,20 @@ import { useLocation } from "react-router";
 import { PRESENCE_URL } from "@/config/env";
 import { getClientId } from "./clientId";
 
-const PresenceContext = createContext({ live: false, counts: {} });
+const PresenceContext = createContext({ live: false, total: null });
 
 const pageKey = (pathname) => (pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname);
 
 /**
  * One WebSocket for the whole app. Tells the presence server which page this tab is on
- * (and when the tab is hidden), and keeps the latest per-page counts it sends back.
+ * (and when the tab is hidden), and keeps the latest sitewide online total it sends back.
  * Reconnects with exponential backoff; while disconnected, `live` is false and nothing is shown.
  */
 export function PresenceProvider({ children }) {
   const { pathname } = useLocation();
   const page = pageKey(pathname);
   const [live, setLive] = useState(false);
-  const [counts, setCounts] = useState({});
+  const [total, setTotal] = useState(null);
   const socketRef = useRef(null);
   const pageRef = useRef(page);
   pageRef.current = page;
@@ -47,14 +47,14 @@ export function PresenceProvider({ children }) {
       ws.onmessage = (event) => {
         try {
           const message = JSON.parse(event.data);
-          if (message.type === "count") setCounts((c) => ({ ...c, [message.page]: message.count }));
+          if (message.type === "total") setTotal(message.count);
         } catch {
           /* ignore malformed messages */
         }
       };
       ws.onclose = () => {
         setLive(false);
-        setCounts({});
+        setTotal(null);
         if (stopped) return;
         const delay = Math.min(30_000, 1000 * 2 ** retry) * (0.75 + Math.random() * 0.5);
         retry += 1;
@@ -76,13 +76,11 @@ export function PresenceProvider({ children }) {
   // Page changed: move this tab to the new page.
   useEffect(announce, [page]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <PresenceContext.Provider value={{ live, counts }}>{children}</PresenceContext.Provider>;
+  return <PresenceContext.Provider value={{ live, total }}>{children}</PresenceContext.Provider>;
 }
 
-/** Live number of people on the current page, or null when presence isn't available. */
-export function usePageOnlineCount() {
-  const { live, counts } = useContext(PresenceContext);
-  const { pathname } = useLocation();
-  if (!live) return null;
-  return counts[pageKey(pathname)] ?? null;
+/** Live sitewide count of people on CodeArena right now, or null when presence isn't available. */
+export function useOnlineCount() {
+  const { live, total } = useContext(PresenceContext);
+  return live ? total : null;
 }
