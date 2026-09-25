@@ -316,7 +316,7 @@ export const embeddings = {
   minutes: 75,
   level: "Beginner",
   intro:
-    "An **embedding** turns text (or an image, or code) into a list of numbers, a vector, such that things with similar meaning get similar vectors. Embeddings power semantic search, RAG, recommendations, deduplication, clustering and classification. This lesson traces the idea from one-hot vectors and word2vec to modern embedding models, and gives you the maths and the engineering numbers you'll need on Day 5.",
+    "An **embedding** turns text (or an image, or code) into a list of numbers, a vector, such that things with similar meaning get similar vectors. Embeddings power semantic search, RAG, recommendations, deduplication, clustering and classification. This lesson traces the idea from one-hot vectors and word2vec to modern embedding models, and gives you the maths and the engineering numbers you'll need on Day 8.",
   sections: [
     {
       h: "Meaning as coordinates",
@@ -351,7 +351,7 @@ print(len(vectors[0]))      # 1536 numbers per text`,
             ],
           },
         },
-        "Sparse vectors (mostly zeros, one dimension per word) still matter: BM25 keyword search is a sparse method, and **hybrid search** combines sparse and dense (Day 8).",
+        "Sparse vectors (mostly zeros, one dimension per word) still matter: BM25 keyword search is a sparse method, and **hybrid search** combines sparse and dense (Day 10).",
       ],
     },
     {
@@ -452,7 +452,7 @@ print(cosine(vectors[0], vectors[2]))   # low: refund vs biryani`,
           list: [
             "More dimensions can capture more nuance but cost more storage, memory and search time.",
             "**Matryoshka embeddings:** some models (including OpenAI's text-embedding-3 via the `dimensions` parameter) are trained so the first N numbers are a usable smaller embedding, letting you trade quality for size.",
-            "**Quantisation** (storing int8 or binary vectors) cuts storage 4–32× with a small quality loss; vector databases support it (Day 5).",
+            "**Quantisation** (storing int8 or binary vectors) cuts storage 4–32× with a small quality loss; vector databases support it (Day 8).",
             "Embedding models have a **max input length** (often 512–8,192 tokens). Longer text is truncated silently, which is one reason we **chunk** documents.",
           ],
         },

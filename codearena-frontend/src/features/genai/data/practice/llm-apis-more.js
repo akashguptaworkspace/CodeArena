@@ -449,7 +449,7 @@ for t in ["Money got debited twice for one order", "My login code never arrives"
     print(t, "→", classify(t))`,
       explanation: [
         "Static few-shot uses the same examples for every input; dynamic few-shot picks the most relevant ones, which helps most on varied inputs.",
-        "It's retrieval (Days 5–8) applied to examples instead of documents.",
+        "It's retrieval (Days 7–10) applied to examples instead of documents.",
         "At scale, the examples and vectors live in a vector database and you only embed the incoming ticket.",
       ],
       concepts: [

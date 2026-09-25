@@ -21,19 +21,12 @@
  *
  * Run `npm run sync:catalog` in the backend after adding or renaming questions.
  */
-export const INTERVIEW_DAYS = new Set(["d01", "d02", "d03", "d04", "d05", "d06", "d07"]);
+// Days that have an interview bank. Day files pick questions from topic banks (llm-apis.js, vectors.js, …).
+export const INTERVIEW_DAYS = new Set(["d01", "d02", "d03", "d04", "d05", "d06", "d07", "d08", "d09", "d10", "d12", "d13", "d14", "d17"]);
 
 export const interviewId = (dayId, questionId) => `genai-${dayId}-iq-${questionId}`;
 
-const LOADERS = {
-  d01: () => import("./d01.js").then((m) => m.default),
-  d02: () => import("./d02.js").then((m) => m.default),
-  d03: () => import("./d03.js").then((m) => m.default),
-  d04: () => import("./d04.js").then((m) => m.default),
-  d05: () => import("./d05.js").then((m) => m.default),
-  d06: () => import("./d06.js").then((m) => m.default),
-  d07: () => import("./d07.js").then((m) => m.default),
-};
+const LOADERS = Object.fromEntries([...INTERVIEW_DAYS].map((id) => [id, () => import(`./${id}.js`).then((m) => m.default)]));
 
 export function loadInterview(dayId) {
   const load = LOADERS[dayId];

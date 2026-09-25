@@ -81,7 +81,7 @@ def build_agent(llm, checkpointer=None):
         },
         {
           list: [
-            "Every dependency (model, embeddings) is passed in, so production uses `ChatOpenAI`/`OpenAIEmbeddings` and tests use fakes, the same injection idea as Day 6's test build.",
+            "Every dependency (model, embeddings) is passed in, so production uses `ChatOpenAI`/`OpenAIEmbeddings` and tests use fakes, the same injection idea as Day 9's RAG test build.",
             "The retriever's `filter` enforces the owner inside retrieval (InMemoryVectorStore accepts a function; real stores take their own filter syntax).",
             "`RunnableParallel(docs=..., question=...).assign(answer=...)` keeps the retrieved documents in the output, so you can show citations.",
             "`build_agent` uses `create_agent` with an optional checkpointer for memory.",

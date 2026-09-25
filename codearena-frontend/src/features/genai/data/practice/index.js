@@ -1,7 +1,8 @@
 /**
- * Hands-on practice exercises, one file per day, loaded only when the practice page opens.
- *
- * Each file default-exports:
+ * Hands-on practice exercises, loaded only when the practice page opens. Each day file (d04.js, …)
+ * picks exercise groups from topic files (llm-apis.js, langchain-basics.js, …; see ../pick.js) and adds
+ * that day's intro and folder setup. Topic files export { groups } and, when exercises need shared
+ * files or notes, SETUP_EXTRAS. A day file default-exports:
  * {
  *   intro: string,                              // what this set practises
  *   setup?: Block[],                            // one-time setup on your laptop (see lessons/index.js for Block)

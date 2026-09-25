@@ -15,7 +15,7 @@ export const deepLoading = {
               ["Two-column research papers", "Columns interleaved line by line", "Layout-aware parsers (PyMuPDF blocks, Docling, Unstructured)"],
               ["Tables (rate cards, fee structures)", "Cells flattened into a stream of numbers", "pdfplumber `extract_tables()`, Docling, or a vision model"],
               ["Scanned documents, photos", "No text layer at all", "OCR (Tesseract, cloud OCR) or a multimodal model"],
-              ["Forms and invoices", "Key–value pairs lose their pairing", "Document AI services or vision models with a schema (Day 4)"],
+              ["Forms and invoices", "Key–value pairs lose their pairing", "Document AI services or vision models with a schema (Days 4–5)"],
               ["Indian-language PDFs", "Broken glyph mapping for Devanagari and other scripts in some PDFs", "Check extracted text; OCR with Indic language packs or a vision model if garbled"],
             ],
           },
@@ -148,7 +148,7 @@ def semantic_chunks(text: str, embed, threshold: float = 0.25, max_sentences: in
             ],
           },
         },
-        "Anthropic reported that adding LLM-written context to chunks (\"Contextual Retrieval\"), especially combined with BM25 and reranking, substantially reduced retrieval failures. You'll try it on Day 8.",
+        "Anthropic reported that adding LLM-written context to chunks (\"Contextual Retrieval\"), especially combined with BM25 and reranking, substantially reduced retrieval failures. You'll try it on Day 10.",
       ],
     },
     {
@@ -226,7 +226,7 @@ async def answer(question: str, user, history: list[dict]) -> dict:
     query = await condense(history, question)                       # small, fast model
     vec_hits, kw_hits = await asyncio.gather(                        # independent: run together
         vector_search(query, owner_id=user.id, k=20),
-        keyword_search(query, owner_id=user.id, k=20),               # Day 8: hybrid search
+        keyword_search(query, owner_id=user.id, k=20),               # Day 10: hybrid search
     )
     chunks = select_for_prompt(merge(vec_hits, kw_hits), token_budget=3000)
     if not chunks:

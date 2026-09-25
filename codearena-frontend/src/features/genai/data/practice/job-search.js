@@ -1,17 +1,10 @@
-// Day 14 practice: resume, keywords, job search tools. Shape: see ./index.js
+// Practice exercises: resume, keywords, job search tools. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  "Copy the text of 10 real GenAI job descriptions (from LinkedIn, Naukri, Instahyre…) into `jds/1.txt` … `jds/10.txt`, and your resume's text into `resume.txt`.",
+];
+
 export default {
-  intro:
-    "Six practical exercises that build small Python tools for your own job search: analyse job descriptions, score your resume against a JD, sharpen resume bullets with an LLM, track applications in SQLite, generate a README skeleton, and draft personalised follow-up messages.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day14/jds && cd ~/genai-practice/day14
-uv init --no-readme .
-uv add openai python-dotenv pydantic
-cp ../day03/llm.py ../day03/.env .`,
-    },
-    "Copy the text of 10 real GenAI job descriptions (from LinkedIn, Naukri, Instahyre…) into `jds/1.txt` … `jds/10.txt`, and your resume's text into `resume.txt`.",
-  ],
   groups: [
     {
       title: "Understand the market",

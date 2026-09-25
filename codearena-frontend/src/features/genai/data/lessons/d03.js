@@ -3,6 +3,7 @@ import { history, mlBasics } from "./d03-history.js";
 import { attention, embeddings, tokens } from "./d03-core.js";
 import { inference, landscape, limits, sampling, training } from "./d03-models.js";
 import { glossary } from "./d03-glossary.js";
+import { genaiMap } from "./genai-map.js";
 import { attentionNumpy, bigramLm, tokenizerBpe } from "./d03-builds.js";
 
 const builds = {
@@ -138,7 +139,7 @@ uv add --dev ipykernel
 # create experiments/temperature.ipynb in VS Code and select the .venv kernel`,
           },
           {
-            tip: "No paid key yet? Gemini's API has a free tier for learning, and it offers an OpenAI-compatible endpoint, so this code works by changing `base_url` and the model name. You can also use a local model with Ollama (Day 15).",
+            tip: "No paid key yet? Gemini's API has a free tier for learning, and it offers an OpenAI-compatible endpoint, so this code works by changing `base_url` and the model name. You can also use a local model with Ollama (Days 4 and 17).",
           },
         ],
       },
@@ -211,6 +212,7 @@ summary      # how many distinct answers out of 5, per prompt and temperature`,
 };
 
 export default {
+  "genai-map": genaiMap,
   history,
   "ml-basics": mlBasics,
   tokens,

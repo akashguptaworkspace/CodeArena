@@ -17,7 +17,7 @@ import {
 import { useGenAiPlan } from "./hooks/useGenAiPlan";
 import styles from "./GenAiPage.module.css";
 
-const PHASE_OPTIONS = [{ value: "all", label: "All days" }, ...GENAI_PHASES.map((p) => ({ value: p.id, label: p.title }))];
+const PHASE_OPTIONS = [{ value: "all", label: "All days" }, ...GENAI_PHASES.map((p) => ({ value: p.id, label: p.short }))];
 
 export function GenAiPage() {
   useDocumentTitle("GenAI 20-Day Sprint");
@@ -42,7 +42,8 @@ export function GenAiPage() {
       >
         <p>
           A beginner-to-advanced plan for full-stack developers moving into GenAI roles: {GENAI_TOTAL_HOURS} hours over
-          20 days, no deep ML maths. Each day has concepts to learn, something to build and interview questions to
+          20 days, no deep ML maths. Start with the big picture, build LLM apps with LangChain one component at a time,
+          then RAG, agents and deployment. Each day has concepts to learn, something to build and interview questions to
           answer out loud. By Day 20 you have three portfolio projects and a deployed capstone.
         </p>
       </PageIntro>
@@ -64,7 +65,7 @@ export function GenAiPage() {
               Projects <b>{PORTFOLIO.length}</b>
             </li>
             <li>
-              Start applying <b>Day 14</b>
+              Start applying <b>Day 16</b>
             </li>
           </ul>
           {stats.nextDay && (
@@ -128,7 +129,7 @@ export function GenAiPage() {
         <SectionHeader
           id="genai-questions"
           title="Question bank"
-          description="Common questions in GenAI developer interviews at Indian product startups, service companies and GCCs. Practise them aloud on Days 18–20."
+          description="Common questions in GenAI developer interviews at Indian product startups, service companies and GCCs. Practise them aloud on Days 19–20."
         />
         <div className={styles.grid}>
           {QUESTION_BANK.map((group) => (

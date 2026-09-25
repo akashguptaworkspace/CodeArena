@@ -1,19 +1,12 @@
-// Day 9 practice: RAG evaluation. Shape: see ./index.js
+// Practice exercises: RAG evaluation. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  {
+    note: "`rag.py` has `answer()` and `retrieve()` from Day 9, and `safe.py` has `safe_answer()`. Today's exercises evaluate that pipeline. Move the demo code at the bottom of those files under `if __name__ == \"__main__\":` so importing them doesn't run the demos.",
+  },
+];
+
 export default {
-  intro:
-    "Eight exercises on measuring quality: a golden dataset, LLM judges for faithfulness and correctness, judge-vs-human agreement, refusal accuracy, latency and cost stats, RAGAS, and a feedback endpoint. After today, every change you make can be measured.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day09 && cd ~/genai-practice/day09
-uv init --no-readme .
-uv add openai python-dotenv numpy tiktoken pydantic "fastapi[standard]"
-cp ../day03/llm.py ../day03/.env . && cp -r ../day06/docs ../day06/chunks.py ../day06/rag.py ../day06/safe.py .`,
-    },
-    {
-      note: "`rag.py` has `answer()` and `retrieve()` from Day 6, and `safe.py` has `safe_answer()`. Today's exercises evaluate that pipeline. Move the demo code at the bottom of those files under `if __name__ == \"__main__\":` so importing them doesn't run the demos.",
-    },
-  ],
   groups: [
     {
       title: "Golden dataset",
@@ -279,7 +272,7 @@ for name, values in [("retrieve", retrieve_ms), ("generate", generate_ms)]:
 from ragas.embeddings import LangchainEmbeddingsWrapper
 from ragas.llms import LangchainLLMWrapper
 from ragas.metrics import Faithfulness, ResponseRelevancy
-from lc import llm, embeddings            # copy lc.py from Day 7
+from lc import llm, embeddings            # copy lc.py from Day 4
 from golden import load_golden
 from rag import retrieve, answer
 

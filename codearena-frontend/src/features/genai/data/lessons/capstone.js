@@ -161,7 +161,7 @@ def check(results: dict) -> None:
     minutes: 360,
     level: "Advanced",
     intro:
-      "Build the core of the **AI Support Copilot** on top of yesterday's deployed skeleton. It brings together RAG over help docs, order tools, a refund approval flow, auth and a streaming UI. Reuse your earlier code rather than rewriting it: that's how real engineering works, and it's the fastest way to finish.",
+      "Build the core of the **AI Support Copilot** on top of the skeleton you deployed in the previous build task. It brings together RAG over help docs, order tools, a refund approval flow, auth and a streaming UI. Reuse your earlier code rather than rewriting it: that's how real engineering works, and it's the fastest way to finish.",
     sections: [
       {
         h: "Features",
@@ -171,11 +171,11 @@ def check(results: dict) -> None:
               head: ["Feature", "Built from"],
               rows: [
                 ["Help-centre RAG with citations (returns, shipping, payments policies)", "DocChat pipeline: hybrid search + reranking"],
-                ["`get_order(order_id)` and `list_my_orders()` tools, scoped to the logged-in customer", "Day 4 tool calling + Day 10 guardrails"],
-                ["`request_refund(order_id, reason)` → pending approval → support agent approves in an admin view", "Day 11 LangGraph interrupts"],
-                ["Streaming chat UI with citations and an approval status card", "Days 4 and 9 frontend"],
+                ["`get_order(order_id)` and `list_my_orders()` tools, scoped to the logged-in customer", "Day 12 tool calling + Day 13 agent guardrails"],
+                ["`request_refund(order_id, reason)` → pending approval → support agent approves in an admin view", "Day 14 LangGraph interrupts"],
+                ["Streaming chat UI with citations and an approval status card", "Days 4 and 11 frontend"],
                 ["Auth: customers and support agents (roles)", "Day 2 JWT"],
-                ["Tracing, guardrails, caching, budgets", "Day 13"],
+                ["Tracing, guardrails, caching, budgets", "Day 16"],
                 ["Optional: photo upload for damage claims", "Today's vision lesson"],
               ],
             },
@@ -223,7 +223,7 @@ def check(results: dict) -> None:
       },
     ],
     revise: [
-      "Reuse: DocChat retrieval, Day 4 tools, Day 11 interrupts, Day 13 guardrails, Day 16 deployment.",
+      "Reuse: DocChat retrieval, Day 12 tools, Day 14 interrupts, Day 16 guardrails, today's AWS deployment.",
       "Identity injected by code into tools; business rules validated in code before approval.",
       "Build in thin, deployed increments.",
     ],

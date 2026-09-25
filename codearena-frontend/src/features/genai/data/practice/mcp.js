@@ -1,19 +1,12 @@
-// Day 12 practice: MCP & multi-agent. Shape: see ./index.js
+// Practice exercises: MCP & multi-agent. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  {
+    note: "In the copied `agent_graph.py`, move the demo question at the bottom under `if __name__ == \"__main__\":` so importing it doesn't run it. The MCP Inspector (`uv run mcp dev server.py`) opens in your browser and needs Node.js, which you already have from MERN work.",
+  },
+];
+
 export default {
-  intro:
-    "Seven exercises: build an MCP server with tools, a resource and a prompt; talk to it from your own Python client; put a real (read-only) database behind it; serve it over HTTP; plug it into a LangGraph agent; build a supervisor over two specialist agents; and describe your agent with an A2A Agent Card.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day12 && cd ~/genai-practice/day12
-uv init --no-readme .
-uv add "mcp[cli]" langgraph langchain-openai langchain-core langchain-mcp-adapters python-dotenv
-cp ../day07/lc.py ../day03/.env . && cp ../day10/sales.db ../day10/sql_tool.py ../day11/agent_graph.py .`,
-    },
-    {
-      note: "In the copied `agent_graph.py`, move the demo question at the bottom under `if __name__ == \"__main__\":` so importing it doesn't run it. The MCP Inspector (`uv run mcp dev server.py`) opens in your browser and needs Node.js, which you already have from MERN work.",
-    },
-  ],
   groups: [
     {
       title: "Your first MCP server and client",
@@ -113,7 +106,7 @@ asyncio.run(main())`,
           title: "An MCP server over a read-only database",
           level: "Medium",
           task: [
-            "Create `shop_data.py`: an MCP server exposing `list_tables()`, `describe_table(name)` (only allow-listed tables) and `run_select(sql)` using the read-only `sql_query` from Day 10. Try to break it in the Inspector with `DELETE`, an unknown table, and a huge query.",
+            "Create `shop_data.py`: an MCP server exposing `list_tables()`, `describe_table(name)` (only allow-listed tables) and `run_select(sql)` using the read-only `sql_query` from Day 13. Try to break it in the Inspector with `DELETE`, an unknown table, and a huge query.",
           ],
           solution: `# shop_data.py
 import sqlite3
@@ -198,7 +191,7 @@ asyncio.run(main())`,
           title: "Give a LangGraph agent your MCP tools",
           level: "Hard",
           task: [
-            "Load the tools from `shop_data.py` with `MultiServerMCPClient` and build a LangGraph agent with them (reuse the agent graph pattern from Day 11). Ask \"Which segment spent more in August 2026, retail or business?\" and print the tool calls.",
+            "Load the tools from `shop_data.py` with `MultiServerMCPClient` and build a LangGraph agent with them (reuse the agent graph pattern from Day 14). Ask \"Which segment spent more in August 2026, retail or business?\" and print the tool calls.",
           ],
           solution: `import asyncio
 from typing import Annotated, TypedDict
@@ -264,7 +257,7 @@ asyncio.run(main())`,
           ],
           solution: `from langchain_core.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
-from agent_graph import builder as analyst_builder    # the Day 11 SQL agent graph (copy agent_graph.py)
+from agent_graph import builder as analyst_builder    # the Day 14 SQL agent graph (copy agent_graph.py)
 from lc import llm
 
 analyst = analyst_builder.compile()

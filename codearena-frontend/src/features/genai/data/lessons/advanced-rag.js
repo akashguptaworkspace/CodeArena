@@ -104,7 +104,7 @@ fused = rrf([vector_ids, bm25_ids])`,
       },
     ],
     practice: [
-      "Add BM25 to your semantic search from Day 5 and fuse with RRF; re-run the 3 queries that failed there.",
+      "Add BM25 to your semantic search from Day 8 and fuse with RRF; re-run the 3 queries that failed there.",
     ],
   },
 
@@ -203,7 +203,7 @@ reranked = [chunks[r.index] for r in resp.results]`,
       {
         h: "Query rewriting",
         blocks: [
-          "Clean up the question: expand abbreviations, fix typos, add the domain, remove chit-chat. Condensing follow-ups (Day 6) is a special case.",
+          "Clean up the question: expand abbreviations, fix typos, add the domain, remove chit-chat. Condensing follow-ups (Day 9) is a special case.",
           {
             lang: "text",
             code: `"wfh rules for new joinees??"  →  "work from home policy for new employees during probation"`,
@@ -347,7 +347,7 @@ def contextualize(document: str, chunk: str) -> str:
             list: [
               "It sends the whole document once per chunk, so use a cheap model and **prompt caching** (the document part is identical across that document's chunks), or it gets expensive.",
               "Combined with hybrid search and reranking, it substantially reduces retrieval failures in Anthropic's published experiments.",
-              "Cheaper cousin: prepend the document title and heading path (Day 6). Always do that; add LLM context if evals justify the cost.",
+              "Cheaper cousin: prepend the document title and heading path (Day 7). Always do that; add LLM context if evals justify the cost.",
             ],
           },
         ],

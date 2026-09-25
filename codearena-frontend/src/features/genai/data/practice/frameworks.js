@@ -1,21 +1,12 @@
-// Day 7 practice: LangChain & LlamaIndex. Shape: see ./index.js
-import { agentGroup, essentialsGroup, liGroup2, retrievalExtraGroup, testObsGroup } from "./d07-more.js";
+// Practice exercises: LangChain & LlamaIndex. Picked into day files (d04.js, …); shape: see ./index.js
+import { agentGroup, essentialsGroup, liGroup2, retrievalExtraGroup, testObsGroup } from "./frameworks-more.js";
 
-export default {
-  intro:
-    "Twenty exercises that rebuild what you wrote by hand, now with LangChain 1.x and LlamaIndex: translate old imports, LCEL chains, routing, structured output, parallel steps, streaming intermediate events, loaders and splitters, retrievers (custom and hybrid), a RAG chain with sources, chat history, tools, create_agent with memory and middleware, callback logging, offline tests with fake models, and a LlamaIndex ingestion pipeline. Spread them over several days if you need to.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day07 && cd ~/genai-practice/day07
-uv init --no-readme .
-uv add langchain langchain-core langchain-openai langchain-text-splitters langchain-community langchain-classic langgraph rank_bm25 llama-index-core python-dotenv
-cp ../day03/.env . && cp -r ../day06/docs .`,
-    },
-    "Create `lc.py` so every exercise gets the same model and embeddings, whichever provider your `.env` points at:",
-    {
-      lang: "python",
-      code: `# lc.py
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  "Create `lc.py` so every exercise gets the same model and embeddings, whichever provider your `.env` points at:",
+  {
+    lang: "python",
+    code: `# lc.py
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -29,9 +20,11 @@ embeddings = OpenAIEmbeddings(
     model=os.getenv("EMBED_MODEL", "text-embedding-3-small"), base_url=BASE, api_key=KEY,
     check_embedding_ctx_length=False,     # needed for non-OpenAI providers such as Ollama
 )`,
-    },
-    { note: "LangChain changes quickly. If an import fails, check the current docs for that class; the ideas stay the same." },
-  ],
+  },
+  { note: "LangChain changes quickly. If an import fails, check the current docs for that class; the ideas stay the same." },
+];
+
+export default {
   groups: [
     essentialsGroup,
     {
@@ -231,7 +224,7 @@ for doc in mmr.invoke(query):
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from lc import llm
-from retriever_setup import store        # save the store creation from the previous exercise as retriever_setup.py
+from retriever_setup import store        # Day 8's retriever exercise, up to `store = ...`, saved as retriever_setup.py
 
 retriever = store.as_retriever(search_kwargs={"k": 3})
 prompt = ChatPromptTemplate.from_messages([
@@ -256,7 +249,7 @@ for q in ["How many casual leaves do interns get?", "How long must passwords be?
           explanation: [
             "`RunnableParallel(docs=retriever, question=RunnablePassthrough())` runs retrieval and passes the question through, producing `{\"docs\": [...], \"question\": \"...\"}`.",
             "`.assign(answer=answer_chain)` adds the answer while **keeping the docs** in the output. Chains that drop the docs make citations impossible.",
-            "Compare with your Day 6 version: same steps, less plumbing.",
+            "Compare with the from-scratch pipeline later today: same steps, less plumbing.",
           ],
           concepts: [
             ["`RunnablePassthrough()`", "Passes its input through unchanged."],

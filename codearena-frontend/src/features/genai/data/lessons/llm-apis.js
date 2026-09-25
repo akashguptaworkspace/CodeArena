@@ -1,8 +1,8 @@
 // Day 4: LLM APIs & prompt engineering. Shape: see ./index.js
-import { apiBasics, costControl, multimodal } from "./d04-apis.js";
-import { injection, promptCraft } from "./d04-prompts.js";
-import { deepPrompting, deepReliability, deepRoles, deepStreaming, deepStructured, deepTools } from "./d04-deep.js";
-import { promptLab, visionExtract } from "./d04-builds.js";
+import { apiBasics, costControl, multimodal } from "./llm-apis-core.js";
+import { injection, promptCraft } from "./llm-apis-prompts.js";
+import { deepPrompting, deepReliability, deepRoles, deepStreaming, deepStructured, deepTools } from "./llm-apis-deep.js";
+import { promptLab, visionExtract } from "./llm-apis-builds.js";
 
 const base = {
   roles: {
@@ -24,7 +24,7 @@ const base = {
               ],
             },
           },
-          "A fourth kind appears with tool use: **tool results** (Day 4, lesson 5). OpenAI uses a `tool` role; Anthropic puts `tool_result` blocks inside a user message.",
+          "A fourth kind appears with tool use: **tool results** (Day 12). OpenAI uses a `tool` role; Anthropic puts `tool_result` blocks inside a user message.",
         ],
       },
       {
@@ -229,7 +229,7 @@ def classify(ticket: str) -> str:
             list: [
               "Use **3–5 diverse** examples that cover edge cases, not five near-identical ones.",
               "Balance the labels, or the model will lean toward the most common one.",
-              "Examples cost tokens on every call; use prompt caching or fine-tuning (Day 15) at high volume.",
+              "Examples cost tokens on every call; use prompt caching or fine-tuning (Day 17) at high volume.",
             ],
           },
         ],
@@ -269,7 +269,7 @@ Cite document ids like [1]. If the documents don't contain the answer, say "I do
 </documents>
 
 <question>{question}</question>"""`,
-            caption: "The prompt shape you'll use for RAG on Day 6.",
+            caption: "The prompt shape you'll use for RAG on Day 9.",
           },
           {
             tip: "For long documents, put the documents first and the question and instructions at the end. Models tend to answer more accurately when the question comes after the material.",
@@ -305,7 +305,7 @@ Cite document ids like [1]. If the documents don't contain the answer, say "I do
               "Log which prompt version produced each response.",
             ],
           },
-          "This is the start of **evals**, which you'll formalise on Day 9. Teams that test prompts ship faster, because they aren't afraid to change them.",
+          "This is the start of **evals**, which you'll formalise on Day 11. Teams that test prompts ship faster, because they aren't afraid to change them.",
         ],
       },
     ],
@@ -671,7 +671,7 @@ async def chat_stream(body: ChatIn):
     minutes: 60,
     level: "Intermediate",
     intro:
-      "**Tool calling** (function calling) lets a model ask your code to do something: look up an order, query a database, search the web. The model doesn't run anything itself. It returns a structured request, you run the function, and you send the result back. This is the foundation of agents (Days 10–12).",
+      "**Tool calling** (function calling) lets a model ask your code to do something: look up an order, query a database, search the web. The model doesn't run anything itself. It returns a structured request, you run the function, and you send the result back. This is the foundation of agents (Days 13–15).",
     sections: [
       {
         h: "How it works",
@@ -792,7 +792,7 @@ print("".join(b.text for b in r.content if b.type == "text"))`,
             ],
           },
           {
-            warn: "Tools that **change** things (refunds, emails, deleting data) need guardrails: permission checks in your code, limits, and often human confirmation. Never let the model's choice alone authorise an action (Days 11 and 13).",
+            warn: "Tools that **change** things (refunds, emails, deleting data) need guardrails: permission checks in your code, limits, and often human confirmation. Never let the model's choice alone authorise an action (Days 14 and 16).",
           },
         ],
       },

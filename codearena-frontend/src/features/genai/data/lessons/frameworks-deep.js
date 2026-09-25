@@ -101,7 +101,7 @@ dense = store.as_retriever(search_kwargs={"k": 5})                 # vectors
 hybrid = EnsembleRetriever(retrievers=[bm25, dense], weights=[0.4, 0.6])   # fused with Reciprocal Rank Fusion
 hybrid.invoke("Error E-4012")`,
         },
-        "You'll build hybrid search and reranking properly on Day 8; this is the LangChain wiring.",
+        "You'll build hybrid search and reranking properly on Day 10; this is the LangChain wiring.",
       ],
     },
     {
@@ -219,7 +219,7 @@ from llama_index.core.llms import MockLLM
 Settings.llm = MockLLM(max_tokens=30)
 Settings.embed_model = MockEmbedding(embed_dim=32)`,
         },
-        "`condense_plus_context` is the same query-condensation idea you built by hand on Day 6, packaged.",
+        "`condense_plus_context` is the same query-condensation idea you build by hand on Day 9, packaged.",
       ],
     },
   ],

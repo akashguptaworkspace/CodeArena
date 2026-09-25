@@ -1,14 +1,14 @@
 // Day 7: LangChain & LlamaIndex. Shape: see ./index.js
-import { frameworksCompare, lcObservability, lcOverview, lcTools } from "./d07-new.js";
-import { deepLcel, deepLlamaindex, deepMemory, deepRetrievers } from "./d07-deep.js";
-import { lcOfflineLab } from "./d07-builds.js";
+import { frameworksCompare, lcObservability, lcOverview, lcTools } from "./frameworks-new.js";
+import { deepLcel, deepLlamaindex, deepMemory, deepRetrievers } from "./frameworks-deep.js";
+import { lcOfflineLab } from "./frameworks-builds.js";
 
 const base = {
   lcel: {
     minutes: 70,
     level: "Intermediate",
     intro:
-      "LangChain is the framework most GenAI job descriptions in India mention. It gives you standard interfaces for models, prompts, retrievers and tools, and a way to compose them. Since you built RAG by hand yesterday, you'll see exactly what each piece replaces.",
+      "LangChain is the framework most GenAI job descriptions in India mention. It gives you standard interfaces for models, prompts, retrievers and tools, and a way to compose them. You've just seen chains, runnables and the primitives; this lesson goes deeper into the Runnable interface every piece shares.",
     sections: [
       {
         h: "The package layout",
@@ -24,7 +24,7 @@ const base = {
                 ["`langchain-community`", "Many third-party loaders and integrations"],
                 ["`langchain-qdrant`, `langchain-postgres`, `langchain-chroma`", "Vector store integrations"],
                 ["`langchain`", "Higher-level pieces such as agent helpers"],
-                ["`langgraph`", "Stateful agent workflows as graphs (Day 11)"],
+                ["`langgraph`", "Stateful agent workflows as graphs (Day 14)"],
               ],
             },
           },
@@ -99,7 +99,7 @@ class Ticket(BaseModel):
 extractor = llm.with_structured_output(Ticket)
 ticket = extractor.invoke("I was charged twice, please fix ASAP")   # Ticket instance`,
           },
-          "`with_structured_output` uses the provider's native structured output or tool calling underneath, so it's the same technique as Day 4 behind a common interface.",
+          "`with_structured_output` uses the provider's native structured output or tool calling underneath, so it's the same technique as the Day 5 structured output lesson behind a common interface.",
         ],
       },
       {
@@ -208,7 +208,7 @@ splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(chunk_size=400, 
           {
             note: "PyPDFLoader's `page` metadata is 0-based. Add 1 before showing it to users.",
           },
-          "There are loaders for almost everything (Notion, Confluence, Google Drive, S3, YouTube transcripts, CSV, SQL). They're convenient, but check what text they actually produce, exactly as on Day 6.",
+          "There are loaders for almost everything (Notion, Confluence, Google Drive, S3, YouTube transcripts, CSV, SQL). They're convenient, but check what text they actually produce, exactly as on Day 7.",
         ],
       },
       {
@@ -241,7 +241,7 @@ retriever.invoke("How many casual leaves?")          # list[Document]; a Runnabl
               ],
             },
           },
-          "Other retrievers you'll meet on Day 8: `BM25Retriever` (keyword), `EnsembleRetriever` (hybrid), `MultiQueryRetriever`, `ParentDocumentRetriever`, and contextual compression with rerankers.",
+          "Other retrievers you'll meet on Day 10: `BM25Retriever` (keyword), `EnsembleRetriever` (hybrid), `MultiQueryRetriever`, `ParentDocumentRetriever`, and contextual compression with rerankers.",
         ],
       },
     ],
@@ -268,7 +268,7 @@ retriever.invoke("How many casual leaves?")          # list[Document]; a Runnabl
     minutes: 40,
     level: "Intermediate",
     intro:
-      "Chat history in LangChain is just a list of messages you pass into the prompt. The framework adds helpers for storing and injecting it. You already know the concepts from Day 6; this lesson shows the LangChain way, and when to keep it in your own database instead.",
+      "Chat history in LangChain is just a list of messages you pass into the prompt. The framework adds helpers for storing and injecting it. You already know the concept from Day 4 (the model is stateless, so you resend the history) and the Day 5 chatbot; this lesson shows the LangChain way, and when to keep it in your own database instead.",
     sections: [
       {
         h: "Messages and placeholders",
@@ -314,7 +314,7 @@ chat = RunnableWithMessageHistory(
 )
 chat.invoke({"question": "How many casual leaves?"}, config={"configurable": {"session_id": "u1-c9"}})`,
           },
-          "In today's LangChain, conversation state is persisted with LangGraph **checkpointers** (Days 7 and 11), or you keep history in your own tables and pass it in as shown above.",
+          "In today's LangChain, conversation state is persisted with LangGraph **checkpointers** (Days 13 and 14), or you keep history in your own tables and pass it in as shown above.",
         ],
       },
       {

@@ -1,17 +1,10 @@
-// Day 11 practice: LangGraph. Shape: see ./index.js
+// Practice exercises: LangGraph. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  { note: "For tool calling with Ollama, set `LLM_MODEL=qwen2.5` (or `llama3.1`) in `.env`." },
+];
+
 export default {
-  intro:
-    "Seven exercises that take you from a tiny graph with no LLM to a persistent agent with human approval: state and reducers, conditional edges, a tool-calling agent, threads with checkpointers, interrupts, streaming, persistence across restarts, and subgraphs.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day11 && cd ~/genai-practice/day11
-uv init --no-readme .
-uv add langgraph langchain-openai langchain-core langgraph-checkpoint-sqlite python-dotenv
-cp ../day07/lc.py ../day03/.env . && cp ../day10/sales.db ../day10/sql_tool.py .`,
-    },
-    { note: "For tool calling with Ollama, set `LLM_MODEL=qwen2.5` (or `llama3.1`) in `.env`." },
-  ],
   groups: [
     {
       title: "Graph basics",
@@ -73,7 +66,7 @@ print(graph.get_graph().draw_mermaid())`,
           title: "A tool-calling agent as a graph",
           level: "Medium",
           task: [
-            "Wrap `sql_query` from Day 10 as a LangChain `@tool`, bind it to the model, and build the classic agent graph: `agent` node → `tools_condition` → `ToolNode` → back to `agent`. Ask \"How many orders came from Pune customers in August 2026?\" with `recursion_limit=10`, then print every message type in the result.",
+            "Wrap `sql_query` from Day 13 as a LangChain `@tool`, bind it to the model, and build the classic agent graph: `agent` node → `tools_condition` → `ToolNode` → back to `agent`. Ask \"How many orders came from Pune customers in August 2026?\" with `recursion_limit=10`, then print every message type in the result.",
           ],
           solution: `from typing import Annotated, TypedDict
 from langchain_core.messages import SystemMessage
@@ -326,7 +319,7 @@ print(parent.compile().invoke({"topic": "vector databases", "facts": []}))`,
           explanation: [
             "A compiled graph can be a node in another graph. Large systems are built from small graphs you can test separately.",
             "Here both graphs share the same state keys. If a subgraph uses different keys, call it from inside a normal node and map the state in and out.",
-            "This is the building block of multi-agent systems (Day 12): each specialist is its own subgraph.",
+            "This is the building block of multi-agent systems (Day 15): each specialist is its own subgraph.",
           ],
           concepts: [
             ["Subgraph", "A compiled graph used as a node inside another graph."],

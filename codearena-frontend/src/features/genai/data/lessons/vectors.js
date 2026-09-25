@@ -1,8 +1,8 @@
 // Day 5: Embeddings & vector databases. Shape: see ./index.js
-import { embedModels, searchHistory } from "./d05-search.js";
-import { retrievalMetrics, vectorOps } from "./d05-ops.js";
-import { deepHnsw, deepSimilarity, deepTradeoffs, deepVectorDbs } from "./d05-deep.js";
-import { miniVectorDb } from "./d05-builds.js";
+import { embedModels, searchHistory } from "./vectors-search.js";
+import { retrievalMetrics, vectorOps } from "./vectors-ops.js";
+import { deepHnsw, deepSimilarity, deepTradeoffs, deepVectorDbs } from "./vectors-deep.js";
+import { miniVectorDb } from "./vectors-builds.js";
 
 const base = {
   similarity: {
@@ -76,7 +76,7 @@ search("I forgot my login")                # password reset comes first`,
           {
             list: [
               "**Batch:** embedding APIs accept many inputs per request (hundreds). One request for 100 texts is far faster than 100 requests.",
-              "**Respect limits:** each input has a maximum token length (often 8K tokens); chunk long documents first (Day 6).",
+              "**Respect limits:** each input has a maximum token length (often 8K tokens); chunk long documents first (Day 7).",
               "**Concurrency with a cap:** run batches concurrently with a semaphore (Day 2).",
               "**Cache by content hash:** store `sha256(text + model)` → vector, so re-indexing unchanged text costs nothing.",
               "**Store the model name** with every vector. Changing models means re-embedding everything.",
@@ -188,7 +188,7 @@ vecs = model.encode(["How do I reset my password?"], normalize_embeddings=True)`
             },
           },
           {
-            tip: "For your portfolio: Chroma or Qdrant to learn, pgvector for the deployed project. \"Postgres + pgvector\" appears in many Indian GenAI job descriptions, and it fits AWS RDS for Day 16.",
+            tip: "For your portfolio: Chroma or Qdrant to learn, pgvector for the deployed project. \"Postgres + pgvector\" appears in many Indian GenAI job descriptions, and it fits AWS RDS for Day 18.",
           },
         ],
       },
@@ -619,7 +619,7 @@ async def search(q: str = Query(min_length=2), category: str | None = None, k: i
         hits += any(r in case["relevant"] for r in results)
     return hits / len(cases)`,
           },
-          "Record the number in your README (\"hit rate@5 = 0.85 on 20 queries\"). You'll improve on it on Day 8.",
+          "Record the number in your README (\"hit rate@5 = 0.85 on 20 queries\"). You'll improve on it on Day 10.",
         ],
       },
     ],
@@ -629,7 +629,7 @@ async def search(q: str = Query(min_length=2), category: str | None = None, k: i
       "Evaluate with labelled queries and hit rate@k before and after changes.",
     ],
     practice: [
-      "Find 3 queries where semantic search fails (exact model numbers, for example) and note them for hybrid search on Day 8.",
+      "Find 3 queries where semantic search fails (exact model numbers, for example) and note them for hybrid search on Day 10.",
     ],
   },
 

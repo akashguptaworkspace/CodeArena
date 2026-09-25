@@ -1,23 +1,11 @@
-// Day 5 practice: embeddings & vector databases. Shape: see ./index.js
-import { keywordGroup, metricGroup, modelGroup, qdrantGroup, quantGroup } from "./d05-more.js";
+// Practice exercises: embeddings & vector databases. Picked into day files (d04.js, …); shape: see ./index.js
+import { keywordGroup, metricGroup, modelGroup, qdrantGroup, quantGroup } from "./vectors-more.js";
 
-export default {
-  intro:
-    "Twenty-one exercises from keyword search to production vector databases: build an inverted index and BM25 baseline, compare BM25 with embeddings, check score distributions, Matryoshka truncation and Hindi/Hinglish retrieval, implement and apply retrieval metrics, use Chroma, Qdrant (with tenant-isolation tests and blue-green re-indexing) and pgvector, benchmark HNSW, and compress vectors with int8 and binary quantisation. Spread them over several days if you need to.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day05 && cd ~/genai-practice/day05
-uv init --no-readme .
-uv add openai python-dotenv numpy chromadb qdrant-client rank_bm25 "psycopg[binary]" pgvector hnswlib
-cp ../day03/llm.py ../day03/.env .
-
-# Postgres with pgvector (needs Docker Desktop running)
-docker run -d --name pgv -e POSTGRES_PASSWORD=postgres -p 5433:5432 pgvector/pgvector:pg16`,
-    },
-    {
-      lang: "python",
-      code: `# faqs.py: shared sample data for today's exercises
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  {
+    lang: "python",
+    code: `# faqs.py: shared sample data for today's exercises
 FAQS = [
     {"id": "f1", "text": "How do I reset my password?", "category": "account"},
     {"id": "f2", "text": "How do I change my registered email?", "category": "account"},
@@ -28,8 +16,10 @@ FAQS = [
     {"id": "f7", "text": "Delivery to Pune takes 2-4 days.", "category": "delivery"},
     {"id": "f8", "text": "How do I track my order?", "category": "delivery"},
 ]`,
-    },
-  ],
+  },
+];
+
+export default {
   groups: [
     keywordGroup,
     {

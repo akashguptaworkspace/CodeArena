@@ -155,7 +155,7 @@ def chunk(text: str, size: int, overlap: int) -> list[str]:
 
 chunk("abcdefghij", size=4, overlap=1)
 # ['abcd', 'defg', 'ghij', 'j']`,
-            caption: "A character chunker with overlap: the same idea you'll use for RAG on Day 6.",
+            caption: "A character chunker with overlap: the same idea you'll use for RAG on Day 7.",
           },
           {
             note: "Slicing never raises an IndexError: `tokens[10:20]` just returns `[]`. Indexing a single item does: `tokens[10]` raises.",

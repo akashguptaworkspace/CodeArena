@@ -62,7 +62,7 @@ result = graph.invoke({"messages": [("user", "What was revenue last month?")]})`
       {
         h: "A tool-calling agent as a graph",
         blocks: [
-          "The agent loop from Day 10 becomes two nodes and a conditional edge:",
+          "The agent loop from Day 13 becomes two nodes and a conditional edge:",
           {
             lang: "python",
             code: `from langchain_core.tools import tool
@@ -344,7 +344,7 @@ parent.add_edge(START, "research")
 parent.add_edge("research", "write")
 parent.add_edge("write", END)`,
           },
-          "If the subgraph uses a different state shape, call it from inside a normal node function and map the state in and out. This pattern is the basis of multi-agent systems (Day 12).",
+          "If the subgraph uses a different state shape, call it from inside a normal node function and map the state in and out. This pattern is the basis of multi-agent systems (Day 15).",
         ],
       },
     ],

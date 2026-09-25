@@ -202,7 +202,7 @@ print(ask("What is the refund window?"))`,
       {
         h: "Tool-calling loop skeleton",
         blocks: [
-          "Write the Day 4 / Day 10 loop from memory: tool specs → call → if `tool_calls`, run each and append `role: tool` messages → repeat with a max-steps cap → return the final text. Practise until you can type it in 10 minutes.",
+          "Write the Day 12 / Day 13 loop from memory: tool specs → call → if `tool_calls`, run each and append `role: tool` messages → repeat with a max-steps cap → return the final text. Practise until you can type it in 10 minutes.",
         ],
       },
       {

@@ -4,7 +4,7 @@ export default {
     minutes: 60,
     level: "Intermediate",
     intro:
-      "An **agent** is an LLM that decides, step by step, which tools to call to achieve a goal, observing each result before deciding the next step. Under the hood it's the tool-calling loop from Day 4 with the model in charge of how many steps to take. The classic pattern behind it is called **ReAct**.",
+      "An **agent** is an LLM that decides, step by step, which tools to call to achieve a goal, observing each result before deciding the next step. Under the hood it's the tool-calling loop from Day 12 with the model in charge of how many steps to take. The classic pattern behind it is called **ReAct**.",
     sections: [
       {
         h: "ReAct: reason + act",
@@ -276,8 +276,8 @@ final = llm.complete(system="Write the final answer from these step results.", m
                 ["**Hallucinated results**", "Answers with numbers no tool returned", "Instructions + a final check that figures come from observations"],
                 ["**Cost blow-ups**", "One request makes 40 LLM calls with growing context", "Per-request token/cost budgets; truncate tool outputs; summarise history"],
                 ["**Context overflow**", "Huge tool outputs fill the context", "Truncate, paginate, or summarise tool results; return IDs not full documents"],
-                ["**Unsafe actions**", "Deletes or sends something it shouldn't", "Read-only by default, permission checks, human approval (Day 11)"],
-                ["**Prompt injection via tools**", "A web page or email tells the agent to do something else", "Treat tool outputs as data, limit tool powers, approval for side effects (Day 13)"],
+                ["**Unsafe actions**", "Deletes or sends something it shouldn't", "Read-only by default, permission checks, human approval (Day 14)"],
+                ["**Prompt injection via tools**", "A web page or email tells the agent to do something else", "Treat tool outputs as data, limit tool powers, approval for side effects (Day 16)"],
                 ["**Giving up or over-asking**", "Stops early or asks unnecessary questions", "Clear instructions on when to ask vs proceed; examples"],
               ],
             },

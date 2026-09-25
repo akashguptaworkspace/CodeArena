@@ -251,7 +251,7 @@ R: Hit rate@5 went from 0.72 to 0.90, exact-identifier questions from 3/8 to 8/8
             list: [
               "20 more tailored applications (now with the capstone on your resume).",
               "10 direct messages to hiring managers or engineers at target companies, each with one line about a relevant project and a demo link.",
-              "Follow up on Day 14 applications that haven't responded (a short, polite note).",
+              "Follow up on Day 16 applications that haven't responded (a short, polite note).",
               "Update your tracker.",
             ],
           },

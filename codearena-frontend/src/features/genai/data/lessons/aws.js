@@ -430,7 +430,7 @@ r = client.chat.completions.create(
       {
         h: "The capstone in one paragraph",
         blocks: [
-          "A support copilot for an e-commerce company. Customers (or support agents) chat with it. It answers from help-centre documents with citations (RAG), looks up orders through tools, and can create refund requests that a human approves. It streams responses, has auth, is evaluated and monitored, and runs on AWS. It combines everything from Days 1–15.",
+          "A support copilot for an e-commerce company. Customers (or support agents) chat with it. It answers from help-centre documents with citations (RAG), looks up orders through tools, and can create refund requests that a human approves. It streams responses, has auth, is evaluated and monitored, and runs on AWS. It combines everything from Days 1–17.",
         ],
       },
       {
@@ -473,7 +473,7 @@ r = client.chat.completions.create(
       "Track and clean up AWS resources; prefer infrastructure as code.",
     ],
     practice: [
-      "Write the capstone's feature list and a 3-day plan in its README before coding tomorrow.",
+      "Write the capstone's feature list and a 3-day plan in its README before you start building it.",
     ],
   },
 };

@@ -104,7 +104,7 @@ for i, (a, b) in enumerate(pairs):
       explanation: [
         "Bag-of-words treats each word as an independent dimension, so synonyms (\"money back\" vs \"refund\") share nothing and score 0.",
         "It also throws away word order, so \"Dog bites man\" and \"Man bites dog\" look identical (1.00).",
-        "Embeddings capture meaning, so paraphrases score high. Look at your real numbers: embeddings usually still rate the two \"bank\" sentences as fairly similar and the dog/man pair as very similar. They aren't perfect either, which is why production search often combines both (hybrid search, Day 8).",
+        "Embeddings capture meaning, so paraphrases score high. Look at your real numbers: embeddings usually still rate the two \"bank\" sentences as fairly similar and the dog/man pair as very similar. They aren't perfect either, which is why production search often combines both (hybrid search, Day 10).",
       ],
       concepts: [
         ["Bag of words", "Represents text as word counts, ignoring order."],
@@ -234,7 +234,7 @@ fits("70B, 4-bit, 4 users × 16K   ", 70, 4, 80, 8, 128, 16_384, 4, 80)`,
         "One user fits an 8B model in 16-bit on 24 GB, but eight concurrent 8K conversations don't: the **KV cache** grows with users × tokens and becomes the limit.",
         "4-bit quantisation frees enough memory for the same eight users.",
         "A 70B model in 16-bit needs about 157 GB (two 80 GB GPUs at least); in 4-bit it fits on one.",
-        "This is exactly the back-of-envelope maths asked in self-hosting and system design interviews (Day 15).",
+        "This is exactly the back-of-envelope maths asked in self-hosting and system design interviews (Day 17).",
       ],
       concepts: [
         ["KV cache", "Stored keys and values for every token of every active sequence."],
@@ -790,7 +790,7 @@ for word, letter in zip(WORDS, LETTERS):
 print(f"model accuracy: {correct}/{len(WORDS)}  (Python: {len(WORDS)}/{len(WORDS)})")`,
       explanation: [
         "Models often get several wrong, because they see tokens like `st` + `raw` + `berry`, not letters. Reasoning models do better by spelling words out, but slowly and expensively.",
-        "`str.count` is exact and instant. This is the core argument for **tool use**: give the model a code or calculator tool for anything that needs exact computation (Day 10).",
+        "`str.count` is exact and instant. This is the core argument for **tool use**: give the model a code or calculator tool for anything that needs exact computation (Days 12–13).",
       ],
       concepts: [
         ["Tokenization blind spot", "Character-level facts are hidden inside multi-character tokens."],
@@ -887,7 +887,7 @@ for prompt in PROMPTS:
       explanation: [
         "This is a miniature version of the model-selection process from the landscape lesson: same prompts, same settings, compare quality, latency and tokens.",
         "Typical findings: small models are fast and fine at extraction; they may slip on arithmetic or Hindi. Your data, not a leaderboard, decides.",
-        "Keep this script. With a scoring function per prompt it becomes an eval harness (Day 9).",
+        "Keep this script. With a scoring function per prompt it becomes an eval harness (Day 11).",
       ],
       concepts: [
         ["Eval set", "A fixed set of prompts with expected qualities, used to compare models or prompts."],

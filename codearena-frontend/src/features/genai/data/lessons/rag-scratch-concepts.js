@@ -78,11 +78,11 @@ EVALUATION (continuous)
             rows: [
               ["Loader / parser", "Turn files into clean text with page and section metadata", "Today"],
               ["Chunker", "Split into retrievable pieces that make sense alone", "Today"],
-              ["Embedder + vector store", "Find chunks by meaning, filtered by permissions", "Day 5"],
-              ["Query rewriting, hybrid search, reranking", "Improve what gets retrieved", "Today (condensing), Day 8"],
+              ["Embedder + vector store", "Find chunks by meaning, filtered by permissions", "Day 8"],
+              ["Query rewriting, hybrid search, reranking", "Improve what gets retrieved", "Today (condensing), Day 10"],
               ["Prompt builder", "Grounded prompt with numbered sources and rules", "Today"],
               ["LLM + citations", "Answer only from sources, cite them, say \"I don't know\"", "Today"],
-              ["Evals and monitoring", "Prove it works and keeps working", "Day 9"],
+              ["Evals and monitoring", "Prove it works and keeps working", "Day 11"],
             ],
           },
         },
@@ -196,7 +196,7 @@ def user_prompt(chunks: list[dict], question: str) -> str:
           ],
         },
         {
-          warn: "Retrieved documents go in the **user** message, never the system prompt: they're data, possibly written by outsiders (uploaded files, web pages), and must not carry developer authority. Tell the model that instructions inside documents are not instructions (prompt injection, Day 4).",
+          warn: "Retrieved documents go in the **user** message, never the system prompt: they're data, possibly written by outsiders (uploaded files, web pages), and must not carry developer authority. Tell the model that instructions inside documents are not instructions (prompt injection, Day 5).",
         },
       ],
     },

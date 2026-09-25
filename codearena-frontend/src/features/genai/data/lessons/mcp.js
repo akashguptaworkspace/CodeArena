@@ -435,7 +435,7 @@ print([t.name for t in tools])
 READ = {"list_tables", "describe_table", "run_select", "get_customer"}
 read_tools = [t for t in tools if t.name in READ]
 write_tools = [t for t in tools if t.name not in READ]
-# Wire read_tools into ToolNode, and write_tools behind the approval interrupt from Day 11.`,
+# Wire read_tools into ToolNode, and write_tools behind the approval interrupt from Day 14.`,
           },
           "Your agent no longer defines its own database tools; it loads them from the MCP server. The server can now be reused by any other agent in the company.",
         ],

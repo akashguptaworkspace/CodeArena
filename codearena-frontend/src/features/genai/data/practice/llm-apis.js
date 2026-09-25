@@ -1,24 +1,17 @@
-// Day 4 practice: LLM APIs & prompt engineering. Shape: see ./index.js
-import { apiGroup, costGroup, memoryGroup, promptGroup, securityGroup, structGroup, toolGroup, visionGroup } from "./d04-more.js";
+// Practice exercises: LLM APIs & prompt engineering. Picked into day files (d04.js, …); shape: see ./index.js
+import { apiGroup, costGroup, memoryGroup, promptGroup, securityGroup, structGroup, toolGroup, visionGroup } from "./llm-apis-more.js";
+
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  {
+    note: "Everything here works with OpenAI, Gemini or Ollama through `llm.py`. With Ollama, use a model that supports tool calling (for example `qwen2.5` or `llama3.1`) for the tools exercises, and a vision model (for example `qwen2.5vl`) for the image exercise.",
+  },
+  {
+    note: "Exercises that use `client.chat.completions.parse(...)` need structured-output support. OpenAI and Gemini's OpenAI-compatible endpoint support it, and so do recent Ollama versions; if your provider rejects it, switch `.env` to one of those for these exercises.",
+  },
+];
 
 export default {
-  intro:
-    "Thirty exercises using a real LLM: raw HTTP calls and error handling, a chat loop with memory (rolling summaries, a safe SQLite store), prompt techniques you can measure, prompt chains, self-critique and dynamic few-shot, reliable JSON output, streaming, tool calling (including parallel calls), images, attacking your own app with prompt injection, and cost control in code. They all use the `llm.py` helper from Day 3. Spread them over several days if you need to.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day04 && cd ~/genai-practice/day04
-uv init --no-readme .
-uv add openai python-dotenv pydantic "fastapi[standard]" httpx tiktoken pillow
-cp ../day03/llm.py ../day03/.env .       # reuse yesterday's helper and settings`,
-    },
-    {
-      note: "Everything here works with OpenAI, Gemini or Ollama through `llm.py`. With Ollama, use a model that supports tool calling (for example `qwen2.5` or `llama3.1`) for the tools exercises, and a vision model (for example `qwen2.5vl`) for the image exercise.",
-    },
-    {
-      note: "Exercises that use `client.chat.completions.parse(...)` need structured-output support. OpenAI and Gemini's OpenAI-compatible endpoint support it, and so do recent Ollama versions; if your provider rejects it, switch `.env` to one of those for these exercises.",
-    },
-  ],
   groups: [
     apiGroup,
     {
@@ -206,7 +199,7 @@ print("NAIVE:\\n", naive)
 print("\\nWITH DELIMITERS:\\n", safer)`,
           explanation: [
             "Delimiters (XML-style tags work well) separate your instructions from untrusted content, and the system prompt says content inside them is data.",
-            "This **reduces** prompt injection but doesn't eliminate it. Real defences also limit what the model is allowed to do (Day 13).",
+            "This **reduces** prompt injection but doesn't eliminate it. Real defences also limit what the model is allowed to do (Day 16).",
             "Putting the long content first and the question last is also a good habit for long documents.",
           ],
           concepts: [

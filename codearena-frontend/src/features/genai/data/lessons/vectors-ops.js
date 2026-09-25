@@ -4,7 +4,7 @@ export const retrievalMetrics = {
   minutes: 75,
   level: "Intermediate",
   intro:
-    "If the right chunk never reaches the LLM, no prompt can save the answer. So you measure retrieval **on its own**, with a labelled set of queries and standard metrics: hit rate, recall@k, precision@k, MRR and nDCG. These numbers let you compare embedding models, chunking, hybrid search and rerankers with evidence, and they're the backbone of RAG evaluation (Day 9). Interviewers love candidates who say \"recall@5 went from 0.71 to 0.89\".",
+    "If the right chunk never reaches the LLM, no prompt can save the answer. So you measure retrieval **on its own**, with a labelled set of queries and standard metrics: hit rate, recall@k, precision@k, MRR and nDCG. These numbers let you compare embedding models, chunking, hybrid search and rerankers with evidence, and they're the backbone of RAG evaluation (Day 11). Interviewers love candidates who say \"recall@5 went from 0.71 to 0.89\".",
   sections: [
     {
       h: "Why evaluate retrieval separately",
@@ -12,7 +12,7 @@ export const retrievalMetrics = {
         {
           lang: "text",
           code: `question → [ RETRIEVE top-k chunks ] → [ LLM writes answer from them ] → answer
-                  ▲ measured with recall@k, MRR…     ▲ measured with faithfulness, correctness (Day 9)`,
+                  ▲ measured with recall@k, MRR…     ▲ measured with faithfulness, correctness (Day 11)`,
         },
         "When a RAG answer is wrong, the first question is: **was the right information retrieved?** If not, fix retrieval (chunking, embeddings, hybrid search, filters). If yes, fix generation (prompt, model). Separate metrics tell you which half to work on.",
       ],

@@ -72,6 +72,27 @@
 .intro code {
   font: 0.88em var(--font-mono);
 }
+.recap {
+  display: grid;
+  gap: var(--space-1);
+  max-width: var(--prose-max);
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.recapLabel {
+  font: var(--weight-semibold) var(--text-2xs) / 1.4 var(--font-mono);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.recap code {
+  font: 0.88em var(--font-mono);
+}
 .actions {
   display: flex;
   flex-wrap: wrap;

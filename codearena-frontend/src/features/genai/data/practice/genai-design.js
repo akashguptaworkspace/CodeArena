@@ -1,15 +1,5 @@
-// Day 18 practice: GenAI system design building blocks. Shape: see ./index.js
+// Practice exercises: GenAI system design building blocks. Picked into day files (d04.js, …); shape: see ./index.js
 export default {
-  intro:
-    "Six exercises that turn system-design talk into code: capacity and cost estimates, a latency budget with parallel stages, a tenant-safe data access layer, an ingestion queue with retries and a dead-letter list, a text-to-SQL safety validator, and architecture diagrams generated from code.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day18 && cd ~/genai-practice/day18
-uv init --no-readme .
-uv add sqlglot pytest`,
-    },
-  ],
   groups: [
     {
       title: "Numbers that drive the design",

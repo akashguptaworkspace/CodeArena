@@ -16,6 +16,35 @@ export function Rich({ text }) {
 
 const CALLOUTS = { note: "Note", tip: "Pro tip", warn: "Watch out" };
 
+// A flow diagram: steps left to right (top to bottom on phones). A step that is an array is a set of
+// branches that run side by side, e.g. a parallel chain or the two paths of an if/else.
+function Flow({ steps, caption, label }) {
+  return (
+    <figure className={styles.flowFigure}>
+      <ol className={styles.flow} aria-label={caption || `${label}: flow`}>
+        {steps.map((step, i) => (
+          <li key={i} className={styles.flowStep}>
+            {Array.isArray(step) ? (
+              <ul className={styles.branches}>
+                {step.map((branch) => (
+                  <li key={branch} className={styles.node}>
+                    <Rich text={branch} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <span className={styles.node}>
+                <Rich text={step} />
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+      {caption && <figcaption className={styles.caption}><Rich text={caption} /></figcaption>}
+    </figure>
+  );
+}
+
 export function Block({ block, label }) {
   if (typeof block === "string") return <p className={styles.p}><Rich text={block} /></p>;
 
@@ -28,6 +57,8 @@ export function Block({ block, label }) {
       </figure>
     );
   }
+
+  if (block.flow) return <Flow steps={block.flow} caption={block.caption} label={label} />;
 
   if (block.list) {
     const List = block.ordered ? "ol" : "ul";

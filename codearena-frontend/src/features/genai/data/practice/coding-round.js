@@ -1,15 +1,10 @@
-// Day 19 practice: coding round in Python. Shape: see ./index.js
+// Practice exercises: coding round in Python. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  "Write each solution with a few `assert` lines underneath (or pytest tests), the way you'd test in an interview.",
+];
+
 export default {
-  intro:
-    "Twelve interview-style problems in Python: nine classic DSA patterns (hashing, two pointers, sliding window, stack, heap, intervals) and three GenAI-flavoured live-coding tasks. Time yourself: 15 minutes for Easy, 25 for Medium. Say the complexity out loud before checking the solution.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day19 && cd ~/genai-practice/day19
-uv init --no-readme . && uv add pytest`,
-    },
-    "Write each solution with a few `assert` lines underneath (or pytest tests), the way you'd test in an interview.",
-  ],
   groups: [
     {
       title: "Hashing",

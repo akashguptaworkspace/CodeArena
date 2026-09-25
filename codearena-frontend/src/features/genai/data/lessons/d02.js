@@ -865,7 +865,7 @@ def test_ask_ok():
     minutes: 60,
     level: "Intermediate",
     intro:
-      "GenAI apps still need normal databases: users, chat history, documents, usage logs. Coming from MERN, you can pick MongoDB with Motor (the async driver) or go relational with SQLAlchemy and Postgres. Postgres is worth learning because pgvector lets it double as your vector database (Day 5). This lesson also covers logging, which you'll lean on heavily when debugging LLM apps.",
+      "GenAI apps still need normal databases: users, chat history, documents, usage logs. Coming from MERN, you can pick MongoDB with Motor (the async driver) or go relational with SQLAlchemy and Postgres. Postgres is worth learning because pgvector lets it double as your vector database (Day 8). This lesson also covers logging, which you'll lean on heavily when debugging LLM apps.",
     sections: [
       {
         h: "Option A: MongoDB with Motor (async)",

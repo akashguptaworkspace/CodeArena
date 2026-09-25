@@ -553,7 +553,7 @@ uv run pytest --cov=app --cov-report=term-missing   # which lines were never exe
         {
           list: [
             "Coverage shows untested lines, not correctness. Aim for high coverage of services and routes, and read the \"missing\" lines for untested error paths.",
-            "Run the same command in CI on every pull request (GitHub Actions; Day 16), with a real Postgres service for integration tests.",
+            "Run the same command in CI on every pull request (GitHub Actions; Day 18), with a real Postgres service for integration tests.",
           ],
         },
       ],

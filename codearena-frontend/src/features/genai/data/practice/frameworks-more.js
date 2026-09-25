@@ -221,7 +221,7 @@ for m in result["messages"]:
     print(f"{type(m).__name__:<12} {detail}")`,
       explanation: [
         "The message list shows the whole loop: the model requests tools (possibly both at once), LangChain runs them, and the model answers from the results.",
-        "Compare with your hand-written loop from Day 4: same steps, less code, plus streaming, persistence and middleware for free.",
+        "Compare with your hand-written loop from Day 12: same steps, less code, plus streaming, persistence and middleware for free.",
       ],
       concepts: [
         ["`create_agent`", "LangChain 1.x's standard tool-calling agent, built on LangGraph."],
@@ -492,7 +492,7 @@ for q in ["E-4012", "SK-X200 capacity", "when will I get my money back"]:
         print(f"   {name:<7}", [d.metadata["id"] for d in r.invoke(q)])`,
       explanation: [
         "BM25 nails exact codes; dense retrieval handles paraphrases; the ensemble fuses their rankings (weighted Reciprocal Rank Fusion) so both kinds of query work.",
-        "Day 8 goes deeper into hybrid search and adds reranking.",
+        "Day 10 goes deeper into hybrid search and adds reranking.",
       ],
       concepts: [
         ["`EnsembleRetriever`", "Combines several retrievers' rankings with weighted rank fusion."],

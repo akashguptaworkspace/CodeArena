@@ -1,23 +1,15 @@
-// Day 16 practice: AWS deployment. Shape: see ./index.js
+// Practice exercises: AWS deployment. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  {
+    warn: "Before anything else, create a **budget alert** in AWS Billing (e.g. $5/month) so a mistake can't cost you much. In the Bedrock console, check which models are available in your region and enable access to one text model.",
+  },
+  {
+    tip: "Use an IAM user or SSO profile with limited permissions for practice, never your root account. Put `export AWS_PROFILE=practice` in your shell if you use named profiles.",
+  },
+];
+
 export default {
-  intro:
-    "Seven exercises on AWS: check your credentials, call Bedrock (plain and streaming), wrap Bedrock in your provider interface, upload files to S3 with presigned URLs, containerise a FastAPI app, and write a CI workflow. Each step is small so you can see exactly what AWS is doing.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day16 && cd ~/genai-practice/day16
-uv init --no-readme .
-uv add boto3 httpx "fastapi[standard]" pytest
-# AWS CLI: https://aws.amazon.com/cli/ then
-aws configure            # access key, secret, default region (e.g. ap-south-1)`,
-    },
-    {
-      warn: "Before anything else, create a **budget alert** in AWS Billing (e.g. $5/month) so a mistake can't cost you much. In the Bedrock console, check which models are available in your region and enable access to one text model.",
-    },
-    {
-      tip: "Use an IAM user or SSO profile with limited permissions for practice, never your root account. Put `export AWS_PROFILE=practice` in your shell if you use named profiles.",
-    },
-  ],
   groups: [
     {
       title: "Bedrock",

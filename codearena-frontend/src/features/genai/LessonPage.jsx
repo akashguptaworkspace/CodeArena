@@ -9,6 +9,7 @@ import { Badge, Button, Card } from "@/shared/ui";
 import { LessonBody, Rich } from "./components/LessonBody";
 import { getGenAiDay, getGenAiTask, GENAI_TASKS } from "./data/plan";
 import { loadLessons } from "./data/lessons";
+import { MOVED_LESSONS } from "./data/movedLessons";
 import { isTaskDone, useGenAiPlan } from "./hooks/useGenAiPlan";
 import styles from "./LessonPage.module.css";
 
@@ -47,7 +48,10 @@ export function LessonPage() {
     window.scrollTo(0, 0);
   }, [dayId, slug]);
 
-  if (!day || !task) return <Navigate to="/genai" replace />;
+  if (!day || !task) {
+    const moved = MOVED_LESSONS[`${dayId}/${slug}`];
+    return <Navigate to={moved ? `/genai/${moved}` : "/genai"} replace />;
+  }
 
   const done = isTaskDone(progress, task.id);
   const i = GENAI_TASKS.findIndex((t) => t.id === task.id);
@@ -79,6 +83,12 @@ export function LessonPage() {
         {lesson?.intro && (
           <p className={styles.intro}>
             <Rich text={lesson.intro} />
+          </p>
+        )}
+        {lesson?.recap && (
+          <p className={styles.recap}>
+            <span className={styles.recapLabel}>Where we are</span>
+            <Rich text={lesson.recap} />
           </p>
         )}
         <div className={styles.actions}>
@@ -115,6 +125,11 @@ export function LessonPage() {
               <li>
                 <a href="#lesson-revise">Quick revision</a>
               </li>
+              {lesson.check?.length > 0 && (
+                <li>
+                  <a href="#lesson-check">Check your understanding</a>
+                </li>
+              )}
             </ol>
           </nav>
 
@@ -133,6 +148,22 @@ export function LessonPage() {
               ))}
             </ul>
           </Card>
+
+          {lesson.check?.length > 0 && (
+            <section className={styles.box} aria-labelledby="lesson-check">
+              <h2 id="lesson-check" className={styles.boxTitle}>
+                Check your understanding
+              </h2>
+              <p className={styles.muted}>Answer each one in your own words, without scrolling up. Any you can't answer, re-read that section.</p>
+              <ol className={styles.plainList}>
+                {lesson.check.map((c) => (
+                  <li key={c}>
+                    <Rich text={c} />
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
 
           {lesson.mistakes?.length > 0 && (
             <section className={styles.box} aria-labelledby="lesson-mistakes">

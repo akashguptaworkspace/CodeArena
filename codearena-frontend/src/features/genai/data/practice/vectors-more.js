@@ -149,7 +149,7 @@ for q, want in CASES:
 print({k: f"{v}/{len(CASES)}" for k, v in score.items()}, "hit@3")`,
       explanation: [
         "Typically BM25 wins on exact codes and model numbers, and embeddings win on paraphrases, synonyms and Hinglish.",
-        "Where both fail or disagree is where hybrid search and rerankers (Day 8) pay off.",
+        "Where both fail or disagree is where hybrid search and rerankers (Day 10) pay off.",
         "Write down your actual results. \"On our data BM25 got 5/8 and embeddings 6/8, with different misses\" is a great interview answer.",
       ],
       concepts: [

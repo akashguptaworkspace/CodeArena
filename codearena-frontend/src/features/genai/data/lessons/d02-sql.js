@@ -11,7 +11,7 @@ export const sqlalchemy = {
       blocks: [
         {
           lang: "bash",
-          code: `# Postgres 16 with the pgvector extension (you'll need vectors on Day 5)
+          code: `# Postgres 16 with the pgvector extension (you'll need vectors on Day 8)
 docker run -d --name shop-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=shop \\
   -p 5432:5432 -v shop-pgdata:/var/lib/postgresql/data pgvector/pgvector:pg16
 

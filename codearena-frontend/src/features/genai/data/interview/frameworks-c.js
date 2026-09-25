@@ -16,7 +16,7 @@ export const lcPromptQs = {
       q: "How do you add few-shot examples in LangChain?",
       level: "Intermediate",
       answer:
-        "Static examples as extra human/AI message pairs in the ChatPromptTemplate (or FewShotChatMessagePromptTemplate), or dynamic examples selected per input by an example selector backed by embeddings, which is the dynamic few-shot pattern from Day 4.",
+        "Static examples as extra human/AI message pairs in the ChatPromptTemplate (or FewShotChatMessagePromptTemplate), or dynamic examples selected per input by an example selector backed by embeddings, which is the dynamic few-shot pattern from Day 5.",
     },
     {
       id: "message-types",
@@ -80,7 +80,7 @@ export const langgraphPreviewQs = {
       q: "How does human-in-the-loop work in LangGraph?",
       level: "Advanced",
       answer:
-        "The graph interrupts before or during a node (for example before a risky tool runs), persisting its state with a checkpointer. The application shows the pending action to a person, then resumes the same thread with their approval, edits or rejection. You'll build this on Days 11–12.",
+        "The graph interrupts before or during a node (for example before a risky tool runs), persisting its state with a checkpointer. The application shows the pending action to a person, then resumes the same thread with their approval, edits or rejection. You'll build this on Day 14.",
     },
   ],
 };
@@ -108,7 +108,7 @@ export const lcProdRagQs = {
       q: "How do you avoid re-embedding unchanged documents with LangChain?",
       level: "Advanced",
       answer:
-        "Use stable, deterministic document ids with upserts and content hashes, re-embedding only changed chunks. LangChain has an indexing API with a record manager that tracks what was indexed and cleans up stale chunks, and LlamaIndex's IngestionPipeline has a docstore for deduplication; or implement the same logic yourself as on Day 5.",
+        "Use stable, deterministic document ids with upserts and content hashes, re-embedding only changed chunks. LangChain has an indexing API with a record manager that tracks what was indexed and cleans up stale chunks, and LlamaIndex's IngestionPipeline has a docstore for deduplication; or implement the same logic yourself as on Day 8.",
     },
     {
       id: "framework-security",
@@ -143,7 +143,7 @@ export const lcEvalQs = {
       q: "Which tools help evaluate LangChain or LlamaIndex apps?",
       level: "Basic",
       answer:
-        "LangSmith datasets and evaluators, RAGAS and DeepEval for RAG metrics, LlamaIndex's built-in evaluators (faithfulness, relevancy), Langfuse and Phoenix evaluations, and your own scripts with labelled data and LLM-as-judge. Day 9 covers these in depth.",
+        "LangSmith datasets and evaluators, RAGAS and DeepEval for RAG metrics, LlamaIndex's built-in evaluators (faithfulness, relevancy), Langfuse and Phoenix evaluations, and your own scripts with labelled data and LLM-as-judge. Day 11 covers these in depth.",
     },
     {
       id: "regression-lc",

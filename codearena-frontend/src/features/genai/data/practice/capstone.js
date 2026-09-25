@@ -1,19 +1,12 @@
-// Day 17 practice: multimodal, testing LLM apps, load testing. Shape: see ./index.js
+// Practice exercises: multimodal, testing LLM apps, load testing. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  {
+    note: "Vision needs a vision-capable model: most current API models are; with Ollama use a vision model such as `llama3.2-vision` or `qwen2.5vl` and set it as `VISION_MODEL` in `.env`.",
+  },
+];
+
 export default {
-  intro:
-    "Six exercises for your capstone: assess a product photo with a vision model, shrink images before sending them, transcribe speech locally, write behaviour tests for LLM features, record and replay LLM calls for fast deterministic tests, and load-test an API with Locust.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day17 && cd ~/genai-practice/day17
-uv init --no-readme .
-uv add openai python-dotenv pydantic pillow faster-whisper "fastapi[standard]" pytest locust
-cp ../day03/llm.py ../day03/.env .`,
-    },
-    {
-      note: "Vision needs a vision-capable model: most current API models are; with Ollama use a vision model such as `llama3.2-vision` or `qwen2.5vl` and set it as `VISION_MODEL` in `.env`.",
-    },
-  ],
   groups: [
     {
       title: "Images and audio",

@@ -1,16 +1,5 @@
-// Day 13 practice: guardrails, observability, cost, resilience. Shape: see ./index.js
+// Practice exercises: guardrails, observability, cost, resilience. Picked into day files (d04.js, …); shape: see ./index.js
 export default {
-  intro:
-    "Eight production-skills exercises: mask PII, red-team a bot with prompt injections and measure leaks, add a topic guard and an output check, build exact and semantic caches, make LLM calls survive outages with a circuit breaker, and trace everything in Langfuse.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day13 && cd ~/genai-practice/day13
-uv init --no-readme .
-uv add openai python-dotenv numpy pytest langfuse
-cp ../day03/llm.py ../day03/.env .`,
-    },
-  ],
   groups: [
     {
       title: "Guardrails",

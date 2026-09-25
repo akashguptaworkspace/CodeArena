@@ -1,21 +1,12 @@
-// Day 15 practice: open models, quantisation, fine-tuning. Shape: see ./index.js
+// Practice exercises: open models, quantisation, fine-tuning. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  {
+    note: "`torch` is a large download (1–2 GB). Small models (0.5–1.5B parameters) run fine on a laptop CPU or Apple Silicon; they're slow but good for learning.",
+  },
+];
+
 export default {
-  intro:
-    "Seven exercises with open models on your own laptop: Hugging Face pipelines, chatting with a small model through `transformers`, benchmarking Ollama, memory and LoRA parameter calculators, preparing a clean fine-tuning dataset, and evaluating a fine-tuned model against its base.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day15 && cd ~/genai-practice/day15
-uv init --no-readme .
-uv add transformers torch accelerate openai python-dotenv pydantic
-cp ../day03/llm.py ../day03/.env .
-# Ollama: install from ollama.com, then
-ollama pull qwen2.5:1.5b`,
-    },
-    {
-      note: "`torch` is a large download (1–2 GB). Small models (0.5–1.5B parameters) run fine on a laptop CPU or Apple Silicon; they're slow but good for learning.",
-    },
-  ],
   groups: [
     {
       title: "Hugging Face",

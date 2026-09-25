@@ -295,7 +295,7 @@ LangGraph agent with an MCP server and human approvals. Demo: <link>. I'd love t
       },
     ],
     revise: [
-      "Apply from Day 14; interviews take time to arrive.",
+      "Apply from Day 16; interviews take time to arrive.",
       "Mix platforms: LinkedIn, Naukri, Instahyre, Wellfound, Cutshort, Hirist, career pages.",
       "Target LLM-app + backend roles; apply at ~60–70% match; tailor briefly.",
       "Track every application; follow up with short, specific messages; ask for referrals.",

@@ -1,21 +1,12 @@
-// Day 6 practice: RAG from scratch. Shape: see ./index.js
-import { chunkGroup2, contextGroup, debugGroup, groundGroup, parseGroup } from "./d06-more.js";
+// Practice exercises: RAG from scratch. Picked into day files (d04.js, …); shape: see ./index.js
+import { chunkGroup2, contextGroup, debugGroup, groundGroup, parseGroup } from "./rag-scratch-more.js";
 
-export default {
-  intro:
-    "Twenty exercises that build a complete RAG pipeline piece by piece, with no framework: load and clean documents, detect scanned pages, turn tables into chunks, chunk by tokens, headings and topics, retrieve, remove duplicates with MMR, fit a token budget, answer with citations and verified quotes, handle outdated documents, refuse when unsure, handle follow-ups, diagnose failures, and serve it over an API. Spread them over several days if you need to.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day06/docs && cd ~/genai-practice/day06
-uv init --no-readme .
-uv add openai python-dotenv numpy tiktoken pypdf pydantic "fastapi[standard]"
-cp ../day03/llm.py ../day03/.env .`,
-    },
-    "Create these three small policy files in `docs/`. They're your test corpus (you can add real PDFs later).",
-    {
-      lang: "markdown",
-      code: `<!-- docs/leave_policy.md -->
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  "Create these three small policy files in `docs/`. They're your test corpus (you can add real PDFs later).",
+  {
+    lang: "markdown",
+    code: `<!-- docs/leave_policy.md -->
 # Leave Policy 2026
 ## Casual leave
 Full-time employees get 12 casual leaves per year. Interns get 6 casual leaves per year.
@@ -24,10 +15,10 @@ Casual leave must be applied at least 2 days in advance, except in emergencies.
 Employees get 10 paid sick leaves per year. A medical certificate is required for more than 2 consecutive days.
 ## Maternity leave
 Eligible employees get 26 weeks of paid maternity leave after 80 days of service.`,
-    },
-    {
-      lang: "markdown",
-      code: `<!-- docs/travel_policy.md -->
+  },
+  {
+    lang: "markdown",
+    code: `<!-- docs/travel_policy.md -->
 # Travel Policy 2026
 ## Domestic travel
 Economy class flights are allowed for trips over 500 km. Trains (3AC or above) for shorter trips.
@@ -35,10 +26,10 @@ Economy class flights are allowed for trips over 500 km. Trains (3AC or above) f
 Per diem for metro cities is ₹2,500 per day and ₹1,800 per day for other cities.
 ## Claims
 Submit travel claims within 15 days of return with original receipts.`,
-    },
-    {
-      lang: "markdown",
-      code: `<!-- docs/it_policy.md -->
+  },
+  {
+    lang: "markdown",
+    code: `<!-- docs/it_policy.md -->
 # IT Policy
 ## Laptops
 New joiners receive a laptop on day one. Lost laptops must be reported to IT within 24 hours.
@@ -46,8 +37,10 @@ New joiners receive a laptop on day one. Lost laptops must be reported to IT wit
 Passwords must be at least 12 characters and changed every 90 days. Use the company password manager.
 ## VPN
 VPN is mandatory when accessing internal systems from outside the office.`,
-    },
-  ],
+  },
+];
+
+export default {
   groups: [
     {
       title: "Loading and cleaning",
@@ -244,7 +237,7 @@ for c in ALL:
           title: "Answer questions with citations",
           level: "Medium",
           task: [
-            "Using the heading chunks from the previous exercise (save that code as `chunks.py`), embed all chunks, retrieve the top 3 for a question, and ask the LLM to answer only from them, citing like `[1]`. Print the answer and the sources. Try: \"How many casual leaves do interns get?\" and \"What is the per diem in Mumbai?\".",
+            "Using the heading chunks from Day 7 (`chunks.py`, copied into today's folder), embed all chunks, retrieve the top 3 for a question, and ask the LLM to answer only from them, citing like `[1]`. Print the answer and the sources. Try: \"How many casual leaves do interns get?\" and \"What is the per diem in Mumbai?\".",
           ],
           solution: `import numpy as np
 from chunks import ALL
@@ -438,7 +431,7 @@ def documents():
           explanation: [
             "Your RAG code stays in plain modules; the API layer only validates input and calls it. The same code can power a CLI, tests or a background job.",
             "The embeddings are computed once when the module is imported (at server start), not per request.",
-            "Next steps (Days 7–9): a real vector store, hybrid search, reranking, streaming and evaluation.",
+            "Next steps (Days 10–11): a real vector store, hybrid search, reranking, streaming and evaluation.",
           ],
           concepts: [
             ["Thin route", "An endpoint that validates and delegates to business logic in other modules."],

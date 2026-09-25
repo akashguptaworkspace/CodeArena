@@ -1,19 +1,10 @@
-// Day 10 practice: agent fundamentals. Shape: see ./index.js
-export default {
-  intro:
-    "Seven exercises that build agents and workflows in plain Python: a traced tool loop, a safe read-only SQL tool, a multi-step data agent, routing and prompt chaining workflows, plan-and-execute, guardrails that stop runaway loops, and simple long-term memory.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day10 && cd ~/genai-practice/day10
-uv init --no-readme .
-uv add openai python-dotenv pydantic
-cp ../day03/llm.py ../day03/.env .`,
-    },
-    "Create a small sales database with this script (`make_db.py`), then run it once:",
-    {
-      lang: "python",
-      code: `# make_db.py
+// Practice exercises: agent fundamentals. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  "Create a small sales database with this script (`make_db.py`), then run it once:",
+  {
+    lang: "python",
+    code: `# make_db.py
 import random, sqlite3
 from datetime import date, timedelta
 
@@ -34,9 +25,11 @@ for i in range(1, 301):
                (i, random.randint(1, 30), round(random.uniform(200, 20000), 2), day.isoformat()))
 db.commit()
 print("sales.db ready")`,
-    },
-    { note: "Tool calling needs a model that supports it. With Ollama, use `qwen2.5` or `llama3.1` (set `LLM_MODEL` in `.env`)." },
-  ],
+  },
+  { note: "Tool calling needs a model that supports it. With Ollama, use `qwen2.5` or `llama3.1` (set `LLM_MODEL` in `.env`)." },
+];
+
+export default {
   groups: [
     {
       title: "The agent loop",

@@ -5,7 +5,7 @@ export const promptLab = {
   minutes: 150,
   level: "Intermediate",
   intro:
-    "Stop judging prompts by trying two examples in a chat window. Build a **prompt lab**: a script that runs several prompt versions over a labelled dataset, scores them, shows a confusion matrix and the exact mistakes, and saves a report. It's a miniature eval harness (Day 9 goes further), and \"I improved ticket-routing accuracy from 81% to 94% and measured it\" is a much stronger interview story than \"I wrote a good prompt\".",
+    "Stop judging prompts by trying two examples in a chat window. Build a **prompt lab**: a script that runs several prompt versions over a labelled dataset, scores them, shows a confusion matrix and the exact mistakes, and saves a report. It's a miniature eval harness (Day 11 goes further), and \"I improved ticket-routing accuracy from 81% to 94% and measured it\" is a much stronger interview story than \"I wrote a good prompt\".",
   sections: [
     {
       h: "What you'll build",

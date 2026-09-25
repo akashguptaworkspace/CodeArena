@@ -522,7 +522,7 @@ def test_reindex_replaces_old_chunks_only_for_that_owner(rag):
       blocks: [
         {
           table: {
-            head: ["Covered here (deterministic, fast)", "Needs evals with real models (Day 9)"],
+            head: ["Covered here (deterministic, fast)", "Needs evals with real models (Day 11)"],
             rows: [
               ["Permission filtering and re-index behaviour", "Whether the embedding model retrieves the right chunk for real paraphrases"],
               ["Prompt structure and grounding rules present", "Whether the LLM actually follows them"],

@@ -1,19 +1,10 @@
-// Day 8 practice: advanced RAG. Shape: see ./index.js
-export default {
-  intro:
-    "Eight exercises that upgrade retrieval and let you **measure** each upgrade: BM25 keyword search, Reciprocal Rank Fusion, a cross-encoder reranker, multi-query and HyDE, parent-document retrieval, access-control filters, and a retrieval evaluation script.",
-  setup: [
-    {
-      lang: "bash",
-      code: `mkdir -p ~/genai-practice/day08 && cd ~/genai-practice/day08
-uv init --no-readme .
-uv add openai python-dotenv numpy tiktoken rank-bm25 sentence-transformers pydantic
-cp ../day03/llm.py ../day03/.env . && cp -r ../day06/docs . && cp ../day06/chunks.py .`,
-    },
-    "Add a fourth document that contains exact codes, where keyword search shines:",
-    {
-      lang: "markdown",
-      code: `<!-- docs/forms.md -->
+// Practice exercises: advanced RAG. Picked into day files (d04.js, …); shape: see ./index.js
+// Shared setup for these exercises (sample data, helper files, notes); each day's practice file adds it after its own folder setup.
+export const SETUP_EXTRAS = [
+  "Add a fourth document that contains exact codes, where keyword search shines:",
+  {
+    lang: "markdown",
+    code: `<!-- docs/forms.md -->
 # HR Forms
 ## Form F-12
 Form F-12 is used to claim reimbursement for internet bills when working from home.
@@ -21,11 +12,11 @@ Form F-12 is used to claim reimbursement for internet bills when working from ho
 Form F-27 is the request form for changing your bank account for salary credit.
 ## Form L-04
 Form L-04 is used to apply for leave without pay (LWP) beyond 5 days.`,
-    },
-    "And save this shared vector search helper as `vec.py`:",
-    {
-      lang: "python",
-      code: `# vec.py
+  },
+  "And save this shared vector search helper as `vec.py`:",
+  {
+    lang: "python",
+    code: `# vec.py
 import numpy as np
 from chunks import ALL
 from llm import embed
@@ -41,8 +32,10 @@ def vector_search(query: str, k: int = 10) -> list[str]:
     return [ALL[i]["id"] for i in np.argsort(-scores)[:k]]
 
 BY_ID = {c["id"]: c for c in ALL}`,
-    },
-  ],
+  },
+];
+
+export default {
   groups: [
     {
       title: "Hybrid search",

@@ -53,7 +53,7 @@ export const history = {
             "**n-gram language models** estimate the probability of the next word from the previous *n−1* words, by counting. A trigram model predicts \"India\" after \"the capital of\" if that sequence was frequent in its training text. This is the same *task* as an LLM (predict the next token), just with counting instead of a neural network.",
             "**Statistical machine translation** learned word and phrase alignments from parallel texts (for example, parliamentary proceedings in two languages). Google Translate launched in 2006 on this approach.",
             "**Classic machine learning for text**: spam filters with Naive Bayes, sentiment classifiers with logistic regression or SVMs on **bag-of-words** and **TF-IDF** features.",
-            "**Search engines** ranked pages with TF-IDF, BM25 and link analysis. BM25 is still used today in hybrid RAG search (Day 8).",
+            "**Search engines** ranked pages with TF-IDF, BM25 and link analysis. BM25 is still used today in hybrid RAG search (Day 10).",
           ],
         },
         {
@@ -167,7 +167,7 @@ Attention (2014) added: when writing each output word, look back at ALL of h1…
         },
         {
           list: [
-            "**2020:** the **RAG** paper (Lewis et al., Facebook AI) combines a retriever with a generator, grounding answers in documents. That's the pattern you'll build on Days 5–9.",
+            "**2020:** the **RAG** paper (Lewis et al., Facebook AI) combines a retriever with a generator, grounding answers in documents. That's the pattern you'll build on Days 7–11.",
             "**2021:** OpenAI's **Codex** powers **GitHub Copilot**: LLMs become daily developer tools. **CLIP** and **DALL·E** connect text and images. **LoRA** (Microsoft) makes fine-tuning cheap by training small adapter matrices. Anthropic is founded by former OpenAI researchers.",
             "**2022 (March):** DeepMind's **Chinchilla** paper corrects the scaling recipe: for a fixed compute budget, models had been too big and under-trained. The compute-optimal ratio is roughly **20 training tokens per parameter** (Chinchilla: 70B parameters, 1.4T tokens, beating the larger Gopher). Later models trained far past that ratio (Llama 3 used 15T+ tokens) because smaller, over-trained models are cheaper to *serve*.",
           ],
@@ -184,7 +184,7 @@ Attention (2014) added: when writing each output word, look back at ALL of h1…
         {
           list: [
             "**Chain-of-thought prompting** (Wei et al., Google, 2022): asking models to reason step by step improves maths and logic.",
-            "**ReAct** (Yao et al., 2022): interleave reasoning with tool actions, the blueprint for agents (Day 10).",
+            "**ReAct** (Yao et al., 2022): interleave reasoning with tool actions, the blueprint for agents (Day 13).",
             "**Stable Diffusion** (Aug 2022) releases a high-quality open image generator; **Whisper** (Sept 2022) brings robust open speech recognition.",
             "**Constitutional AI** (Anthropic, Dec 2022): align models using written principles and AI feedback, reducing reliance on human labels.",
           ],
@@ -209,7 +209,7 @@ Attention (2014) added: when writing each output word, look back at ALL of h1…
               ["Mar 2024", "**Claude 3** family (Haiku, Sonnet, Opus tiers); India approves the **IndiaAI Mission** to fund compute and domestic models"],
               ["Apr–Jul 2024", "**Llama 3** and **Llama 3.1 405B** (open frontier-class); **GPT-4o** (fast, natively multimodal: text, audio, image); **Claude 3.5 Sonnet** sets a new bar for coding"],
               ["Sep 2024", "OpenAI **o1**: the first widely used **reasoning model**, trained with reinforcement learning to think before answering"],
-              ["Nov 2024", "Anthropic releases the **Model Context Protocol (MCP)**, an open standard for connecting models to tools and data (Day 13)"],
+              ["Nov 2024", "Anthropic releases the **Model Context Protocol (MCP)**, an open standard for connecting models to tools and data (Day 15)"],
               ["Dec 2024", "**DeepSeek-V3**, an open MoE model trained at reportedly low cost; **Qwen** (Alibaba) models are among the strongest open options"],
             ],
           },
@@ -502,7 +502,7 @@ print(out)                                # 2 numbers; training would tune W1, b
           ],
         },
         {
-          tip: "You'll use the same discipline on Day 9 when you build **evals** for your RAG system: a fixed test set you never tune prompts against directly.",
+          tip: "You'll use the same discipline on Day 11 when you build **evals** for your RAG system: a fixed test set you never tune prompts against directly.",
         },
       ],
     },
@@ -529,7 +529,7 @@ print(out)                                # 2 numbers; training would tune W1, b
 print(weights_gb(8, 2))      # Llama-3-8B in BF16  → 16 GB (+ KV cache and overhead to run)
 print(weights_gb(8, 0.5))    # the same, 4-bit     → 4 GB: fits on a laptop with Ollama`,
         },
-        "This is why a 7–8B model runs on a laptop (quantised) and a 70B model needs one or more data-centre GPUs. You'll use these numbers on Day 15 (self-hosting) and in system design interviews.",
+        "This is why a 7–8B model runs on a laptop (quantised) and a 70B model needs one or more data-centre GPUs. You'll use these numbers on Day 17 (self-hosting) and in system design interviews.",
       ],
     },
     {

@@ -301,7 +301,7 @@ def main():
     args = p.parse_args()
 
     cases = [json.loads(l) for l in open("eval/questions.jsonl", encoding="utf-8")]
-    retrieval = evaluate_retrieval(cases, mode=args.mode)       # hit rate, MRR (Day 8)
+    retrieval = evaluate_retrieval(cases, mode=args.mode)       # hit rate, MRR (Day 10)
     rows = run_pipeline(cases, mode=args.mode)                  # answers + contexts
     gen = run_ragas(rows)                                       # faithfulness, relevancy, ...
     refusals = refusal_accuracy(cases, rows)                    # unanswerable handled correctly?
@@ -404,7 +404,7 @@ function renderWithCitations(text, sources, onOpen) {
     minutes: 150,
     level: "Intermediate",
     intro:
-      "Deploy DocChat so anyone can try it from a link, and record a 2-minute demo. A live link in your resume gets clicked; a GitHub repo alone often doesn't. On Day 16 you'll deploy to AWS properly; today, ship quickly on a simple platform.",
+      "Deploy DocChat so anyone can try it from a link, and record a 2-minute demo. A live link in your resume gets clicked; a GitHub repo alone often doesn't. On Day 18 you'll deploy to AWS properly; today, ship quickly on a simple platform.",
     sections: [
       {
         h: "A simple deployment",

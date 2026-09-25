@@ -5,7 +5,7 @@ export const lcOverview = {
   minutes: 70,
   level: "Beginner",
   intro:
-    "LangChain appears in most Indian GenAI job descriptions, and it has changed more than any other tool in this plan. Tutorials from 2023 use classes that no longer exist, and the 2025 1.0 release reorganised the library around agents. This lesson gives you the history (so old code makes sense), the current package map, what changed in 1.0, and a clear rule for when a framework helps and when the plain SDK you used on Days 4–6 is better.",
+    "LangChain appears in most Indian GenAI job descriptions, and it has changed more than any other tool in this plan. Tutorials from 2023 use classes that no longer exist, and the 2025 1.0 release reorganised the library around agents. This lesson gives you the history (so old code makes sense), the current package map, what changed in 1.0, and a clear rule for when a framework helps and when the plain SDK you used on Days 4–5 is better.",
   sections: [
     {
       h: "A short history of LangChain",
@@ -42,7 +42,7 @@ export const lcOverview = {
               ["`langchain-community`", "Hundreds of community loaders and integrations (PDF, web, BM25 retriever, ...)", "Loading data"],
               ["`langchain-chroma`, `langchain-qdrant`, `langchain-postgres`, ...", "Vector store integrations", "Retrieval"],
               ["`langchain-classic`", "Legacy chains and retrievers (`EnsembleRetriever`, `MultiQueryRetriever`, `create_retrieval_chain`, ...)", "Maintaining older code; some advanced retrievers"],
-              ["`langgraph`", "Stateful graphs, checkpointers (persistence), human-in-the-loop", "Agents and multi-step workflows (Days 10–12)"],
+              ["`langgraph`", "Stateful graphs, checkpointers (persistence), human-in-the-loop", "Agents and multi-step workflows (Days 13–15)"],
               ["LangSmith (service + SDK)", "Tracing, datasets, evals, prompt management", "Debugging and evaluation"],
             ],
           },
@@ -123,7 +123,7 @@ export const lcTools = {
   minutes: 75,
   level: "Intermediate",
   intro:
-    "LangChain 1.x is organised around tool-calling agents. You'll go deep on agents on Days 10–12; today you learn the LangChain way to define tools, bind them to models, run the standard agent with `create_agent`, give it memory with a checkpointer, get structured responses, and add middleware. You already built the loop by hand on Day 4, so you'll recognise every step.",
+    "LangChain 1.x is organised around tool-calling agents. LangGraph (Day 14) and MCP (Day 15) take agents further; this lesson is the LangChain way to define tools, bind them to models, run the standard agent with `create_agent`, give it memory with a checkpointer, get structured responses, and add middleware. You built the loop by hand on Day 12, so you'll recognise every step.",
   sections: [
     {
       h: "Defining tools with @tool",
@@ -162,7 +162,7 @@ for call in ai.tool_calls:                          # [{"name": ..., "args": {..
     result = get_order_status.invoke(call["args"])
     messages.append(ToolMessage(result, tool_call_id=call["id"]))
 print(llm_with_tools.invoke(messages).content)`,
-          caption: "The same loop as Day 4, with provider differences hidden behind `tool_calls` and `ToolMessage`.",
+          caption: "The same loop as Day 12, with provider differences hidden behind `tool_calls` and `ToolMessage`.",
         },
       ],
     },
@@ -298,7 +298,7 @@ export const lcObservability = {
   minutes: 60,
   level: "Intermediate",
   intro:
-    "Frameworks hide the prompts and calls you wrote by hand on Day 6, which makes debugging harder unless you can see inside. This lesson covers LangChain's run configuration (tags, metadata, callbacks), streaming internal events, LangSmith tracing, retries, fallbacks, rate limiting, caching and concurrency control: the tools that make a LangChain app production-worthy.",
+    "Frameworks hide the prompts and calls you wrote by hand on Day 9, which makes debugging harder unless you can see inside. This lesson covers LangChain's run configuration (tags, metadata, callbacks), streaming internal events, LangSmith tracing, retries, fallbacks, rate limiting, caching and concurrency control: the tools that make a LangChain app production-worthy.",
   sections: [
     {
       h: "Run config: tags, metadata and callbacks",
@@ -456,7 +456,7 @@ export const frameworksCompare = {
           table: {
             head: ["Situation", "Reasonable choice"],
             rows: [
-              ["Simple RAG or extraction with strict control", "Plain SDK + your own code (Days 4–6)"],
+              ["Simple RAG or extraction with strict control", "Plain SDK + your own code (Days 4–5 and 9)"],
               ["Retrieval-heavy product over many document types", "LlamaIndex, or LangChain loaders + your pipeline"],
               ["Agent with tools, memory, approvals, long workflows", "LangGraph (via `create_agent` or custom graphs)"],
               ["Search-style production pipelines, enterprise search teams", "Haystack"],

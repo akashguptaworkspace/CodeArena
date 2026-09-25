@@ -205,7 +205,7 @@ export const lcAgentQs = {
       q: "How do LangChain and LangGraph relate?",
       level: "Intermediate",
       answer:
-        "LangChain provides the components (models, prompts, tools, retrievers) and, in 1.x, the high-level `create_agent`. LangGraph is the lower-level runtime that create_agent is built on: graphs of nodes and edges with state, checkpointers, streaming and human-in-the-loop. Use create_agent for standard tool-calling agents and LangGraph directly for custom multi-step workflows (Days 10–12).",
+        "LangChain provides the components (models, prompts, tools, retrievers) and, in 1.x, the high-level `create_agent`. LangGraph is the lower-level runtime that create_agent is built on: graphs of nodes and edges with state, checkpointers, streaming and human-in-the-loop. Use create_agent for standard tool-calling agents and LangGraph directly for custom multi-step workflows (Days 13–15).",
     },
   ],
 };

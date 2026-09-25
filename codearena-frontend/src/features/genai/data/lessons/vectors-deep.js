@@ -24,7 +24,7 @@ def score_report(pairs_relevant, pairs_irrelevant, embed):
         {
           list: [
             "Choose thresholds **per model** (and re-check after changing models).",
-            "Prefer ranking plus a reranker score (Day 8) for \"is this relevant?\" decisions; rerankers are better calibrated.",
+            "Prefer ranking plus a reranker score (Day 10) for \"is this relevant?\" decisions; rerankers are better calibrated.",
             "For RAG, you usually still send the top-k and let the prompt's \"I don't know\" rule handle weak matches.",
           ],
         },

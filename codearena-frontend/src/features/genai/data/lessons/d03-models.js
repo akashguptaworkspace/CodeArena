@@ -200,7 +200,7 @@ Perplexity = e^loss: roughly "how many tokens the model is choosing between". Lo
               ["Wrong format, tone or style", "Better prompt with examples; then SFT if it must be consistent at scale"],
               ["A narrow, repetitive task (classification, extraction) at high volume", "Fine-tune a **small** model to match a big one's quality at lower cost and latency"],
               ["Weak multi-step reasoning", "A reasoning model, or break the task into steps / tools"],
-              ["Needs actions (look up an order, run SQL)", "Tool calling (Day 4 and Day 10)"],
+              ["Needs actions (look up an order, run SQL)", "Tool calling (Days 12 and 13)"],
             ],
           },
         },
@@ -215,7 +215,7 @@ Perplexity = e^loss: roughly "how many tokens the model is choosing between". Lo
             ],
           },
         },
-        "You'll do a hands-on LoRA fine-tune on Day 15.",
+        "You'll do a hands-on LoRA fine-tune on Day 17.",
       ],
     },
   ],
@@ -636,7 +636,7 @@ for alt in r.choices[0].logprobs.content[0].top_logprobs:
     {
       h: "Constrained decoding and reasoning models",
       blocks: [
-        "Decoding can also be **constrained**: at each step, the server masks out tokens that would break a grammar or JSON schema, so the output is guaranteed to parse. That's how **structured outputs / JSON mode** work (Day 4).",
+        "Decoding can also be **constrained**: at each step, the server masks out tokens that would break a grammar or JSON schema, so the output is guaranteed to parse. That's how **structured outputs / JSON mode** work (Day 5).",
         {
           note: "Not every model accepts sampling settings. Many reasoning models, and the newest Claude models, reject `temperature`/`top_p` and are steered with a reasoning **effort** or thinking setting instead. Check the model's docs, and keep sampling parameters configurable per model rather than hard-coded in shared request code.",
         },
@@ -780,10 +780,10 @@ export const limits = {
           table: {
             head: ["Risk", "What happens", "Covered in"],
             rows: [
-              ["**Prompt injection**", "Instructions hidden in user input, web pages, emails or documents hijack the model (\"ignore previous instructions and ...\")", "Day 4, Day 16"],
+              ["**Prompt injection**", "Instructions hidden in user input, web pages, emails or documents hijack the model (\"ignore previous instructions and ...\")", "Day 5, Day 16"],
               ["**Jailbreaks**", "Users craft prompts to bypass safety rules", "Day 16"],
               ["**Data leakage**", "The model reveals its system prompt, other users' data in shared context, or secrets you put in the prompt", "Day 16"],
-              ["**Excessive agency**", "An agent with powerful tools takes harmful actions after being manipulated", "Days 10–14"],
+              ["**Excessive agency**", "An agent with powerful tools takes harmful actions after being manipulated", "Days 12–16"],
               ["**Privacy / compliance**", "Personal data sent to third-party APIs; retention; cross-border transfer. India's **DPDP Act 2023** governs personal data", "Day 16"],
             ],
           },
@@ -809,7 +809,7 @@ export const limits = {
               ["**Verification pass** (self-check or a second model)", "Unsupported claims, reasoning errors"],
               ["**Guardrails**: input/output filters, moderation, allow-lists for tools", "Injection, harmful output, excessive agency"],
               ["**Human in the loop**", "High-stakes decisions (money, health, legal)"],
-              ["**Evals and monitoring**", "Measuring all of the above over time (Day 9, Day 16)"],
+              ["**Evals and monitoring**", "Measuring all of the above over time (Day 11, Day 16)"],
             ],
           },
         },
@@ -963,8 +963,8 @@ export const landscape = {
             head: ["Type", "Examples", "Used for"],
             rows: [
               ["Multimodal chat", "GPT-4o-class, Claude, Gemini, Llama/Qwen vision models", "Reading images, screenshots, charts, PDFs"],
-              ["Embedding models", "text-embedding-3, BGE, E5, Cohere Embed", "Search and RAG (Day 5)"],
-              ["Rerankers", "Cohere Rerank, BGE reranker", "Re-ordering search results (Day 8)"],
+              ["Embedding models", "text-embedding-3, BGE, E5, Cohere Embed", "Search and RAG (Day 8)"],
+              ["Rerankers", "Cohere Rerank, BGE reranker", "Re-ordering search results (Day 10)"],
               ["Speech-to-text / text-to-speech", "Whisper, Deepgram, ElevenLabs, Sarvam", "Voice bots, call analytics"],
               ["Image / video generation", "DALL·E / GPT image, Imagen, Stable Diffusion, Flux", "Creative tools, marketing"],
               ["Guard / safety models", "Llama Guard, moderation APIs", "Filtering unsafe input and output"],

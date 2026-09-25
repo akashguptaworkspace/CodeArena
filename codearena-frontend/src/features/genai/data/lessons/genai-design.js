@@ -201,7 +201,7 @@ Status: job table → UI polls or receives SSE/WebSocket updates`,
         blocks: [
           {
             list: [
-              "**Document ACLs** copied onto chunks at ingestion, synced from the source system; filtered at retrieval (Day 8).",
+              "**Document ACLs** copied onto chunks at ingestion, synced from the source system; filtered at retrieval (Day 10).",
               "**Identity from SSO/auth**, never from the prompt; tools act as the user.",
               "**PII:** classify and mask before external model calls where required; choose providers and regions matching residency rules; limit log retention.",
               "**Audit logs:** who asked what, which documents and tools were used, what actions were approved; immutable and searchable.",

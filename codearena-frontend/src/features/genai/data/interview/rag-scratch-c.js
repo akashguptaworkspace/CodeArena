@@ -9,7 +9,7 @@ export const ragEvalQs = {
       level: "Intermediate",
       common: true,
       answer:
-        "Separately evaluate retrieval (recall@k, MRR on labelled question → source pairs) and generation (faithfulness to the retrieved sources, answer correctness against reference answers, relevance, citation accuracy), plus refusal accuracy on unanswerable questions. Use a golden set built from real questions, run it on every change, and add production signals like thumbs up/down and fallback rates. Day 9 covers tools like RAGAS and LLM-as-judge.",
+        "Separately evaluate retrieval (recall@k, MRR on labelled question → source pairs) and generation (faithfulness to the retrieved sources, answer correctness against reference answers, relevance, citation accuracy), plus refusal accuracy on unanswerable questions. Use a golden set built from real questions, run it on every change, and add production signals like thumbs up/down and fallback rates. Day 11 covers tools like RAGAS and LLM-as-judge.",
     },
     {
       id: "faithfulness",

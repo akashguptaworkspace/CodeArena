@@ -1,7 +1,7 @@
 // Day 6: RAG from scratch. Shape: see ./index.js
-import { grounding, ragFailures, ragWhy } from "./d06-concepts.js";
-import { deepChunking, deepCitations, deepHistory, deepLoading, deepPipeline } from "./d06-deep.js";
-import { chunkLab, ragTests } from "./d06-builds.js";
+import { grounding, ragFailures, ragWhy } from "./rag-scratch-concepts.js";
+import { deepChunking, deepCitations, deepHistory, deepLoading, deepPipeline } from "./rag-scratch-deep.js";
+import { chunkLab, ragTests } from "./rag-scratch-builds.js";
 
 const base = {
   loading: {
@@ -21,7 +21,7 @@ const base = {
 QUERYING (online, per question)
   question → (rewrite) → embed → retrieve top-k → (rerank) → build prompt → LLM → answer + citations`,
           },
-          "Today covers the whole pipeline in its simplest form. Day 8 adds the bracketed steps.",
+          "Today covers the whole pipeline in its simplest form. Day 10 adds the bracketed steps.",
         ],
       },
       {
@@ -221,7 +221,7 @@ def recursive_chunks(text: str, max_tokens: int = 500, seps=SEPARATORS) -> list[
               "**Structure-aware (Markdown/HTML headers):** split by headings and keep the heading path as metadata, e.g. `Leave Policy > Maternity Leave > Eligibility`. Prepend it to the chunk text before embedding; it adds a lot of meaning to short chunks.",
               "**Semantic chunking:** embed sentences and start a new chunk where the similarity between consecutive sentences drops (a topic shift). Can help unstructured text; costs more to index. Measure before adopting.",
               "**Special content:** keep tables whole with their caption; keep code blocks whole; for FAQs, one question + answer per chunk.",
-              "**Parent–child:** index small chunks for precise retrieval but send their larger parent section to the LLM (Day 8).",
+              "**Parent–child:** index small chunks for precise retrieval but send their larger parent section to the LLM (Day 10).",
             ],
           },
           {
@@ -576,7 +576,7 @@ def chat_turn(history, question, tenant):
     minutes: 300,
     level: "Intermediate",
     intro:
-      "Build **DocChat v1**: upload PDFs, ask questions, and get streamed answers with page citations. No LangChain: plain Python, FastAPI and your vector store. This is Project 1 of your portfolio; you'll improve it over Days 7–9 and deploy it.",
+      "Build **DocChat v1**: upload PDFs, ask questions, and get streamed answers with page citations. No LangChain: plain Python, FastAPI and your vector store. This is Project 1 of your portfolio; you'll improve it on Days 10–11 and deploy it.",
     sections: [
       {
         h: "Scope for today",
@@ -659,7 +659,7 @@ async def answer_stream(question: str, owner_id: int, history: list[dict]):
               "Upload 3 PDFs, ask 10 questions, and at least 7 answers are correct with valid citations.",
               "Unanswerable questions get the fallback sentence.",
               "User A can't retrieve user B's chunks (write a test).",
-              "`eval/questions.jsonl` has 20 question → expected source/page pairs (you'll use it on Day 9).",
+              "`eval/questions.jsonl` has 20 question → expected source/page pairs (you'll use it on Day 11).",
               "Commit and push. README: architecture diagram and the list of what's next (framework, hybrid search, evals).",
             ],
           },

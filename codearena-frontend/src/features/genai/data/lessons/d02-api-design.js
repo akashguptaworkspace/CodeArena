@@ -242,7 +242,7 @@ async def upload_document(file: UploadFile = File(...)):
     return {"id": target.stem, "filename": file.filename, "bytes": size}`,
         },
         {
-          warn: "Validate type **and** signature, cap the size, store under a generated name, and in production put files in S3 rather than on the server's disk (Day 16). Never trust `file.filename` as a path; it can contain `../`.",
+          warn: "Validate type **and** signature, cap the size, store under a generated name, and in production put files in S3 rather than on the server's disk (Day 18). Never trust `file.filename` as a path; it can contain `../`.",
         },
         "Downloads: return `FileResponse(path, filename=\"report.pdf\")` for files on disk, or `StreamingResponse` for generated content.",
       ],
