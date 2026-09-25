@@ -1,5 +1,10 @@
 // Day 5: Embeddings & vector databases. Shape: see ./index.js
-export default {
+import { embedModels, searchHistory } from "./d05-search.js";
+import { retrievalMetrics, vectorOps } from "./d05-ops.js";
+import { deepHnsw, deepSimilarity, deepTradeoffs, deepVectorDbs } from "./d05-deep.js";
+import { miniVectorDb } from "./d05-builds.js";
+
+const base = {
   similarity: {
     minutes: 50,
     level: "Beginner",
@@ -431,7 +436,7 @@ SET hnsw.ef_search = 100;      -- per session / query`,
       },
     ],
     practice: [
-      "Generate 200K random normalised vectors with NumPy; time brute-force search vs an HNSW index (the `hnswlib` package, or pgvector).",
+      "Generate 200K clustered normalised vectors with NumPy (random noise around a few hundred topic vectors, like real embeddings); time brute-force search vs an HNSW index (the `hnswlib` package, or pgvector).",
       "Measure recall@10 of the HNSW index against brute force at `ef_search` 10, 40 and 100.",
     ],
   },
@@ -701,4 +706,29 @@ def pg_search(qvec, k=5):
       "Add Qdrant as a third column in your comparison.",
     ],
   },
+};
+
+// Append deeper sections (d05-deep.js) to the original lessons.
+function deepen(lesson, extra) {
+  return {
+    ...lesson,
+    minutes: lesson.minutes + extra.minutes,
+    sections: [...lesson.sections, ...extra.sections],
+    revise: [...lesson.revise, ...extra.revise],
+    interview: [...(lesson.interview ?? []), ...(extra.interview ?? [])],
+  };
+}
+
+export default {
+  "search-history": searchHistory,
+  similarity: deepen(base.similarity, deepSimilarity),
+  "embed-models": embedModels,
+  "vector-dbs": deepen(base["vector-dbs"], deepVectorDbs),
+  hnsw: deepen(base.hnsw, deepHnsw),
+  "retrieval-metrics": retrievalMetrics,
+  "vector-ops": vectorOps,
+  tradeoffs: deepen(base.tradeoffs, deepTradeoffs),
+  "mini-vectordb": miniVectorDb,
+  "semantic-search": base["semantic-search"],
+  "compare-dbs": base["compare-dbs"],
 };

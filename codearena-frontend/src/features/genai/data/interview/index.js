@@ -21,7 +21,7 @@
  *
  * Run `npm run sync:catalog` in the backend after adding or renaming questions.
  */
-export const INTERVIEW_DAYS = new Set(["d01", "d02", "d03"]);
+export const INTERVIEW_DAYS = new Set(["d01", "d02", "d03", "d04", "d05", "d06", "d07"]);
 
 export const interviewId = (dayId, questionId) => `genai-${dayId}-iq-${questionId}`;
 
@@ -29,6 +29,10 @@ const LOADERS = {
   d01: () => import("./d01.js").then((m) => m.default),
   d02: () => import("./d02.js").then((m) => m.default),
   d03: () => import("./d03.js").then((m) => m.default),
+  d04: () => import("./d04.js").then((m) => m.default),
+  d05: () => import("./d05.js").then((m) => m.default),
+  d06: () => import("./d06.js").then((m) => m.default),
+  d07: () => import("./d07.js").then((m) => m.default),
 };
 
 export function loadInterview(dayId) {

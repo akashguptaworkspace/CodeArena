@@ -1,5 +1,9 @@
 // Day 7: LangChain & LlamaIndex. Shape: see ./index.js
-export default {
+import { frameworksCompare, lcObservability, lcOverview, lcTools } from "./d07-new.js";
+import { deepLcel, deepLlamaindex, deepMemory, deepRetrievers } from "./d07-deep.js";
+import { lcOfflineLab } from "./d07-builds.js";
+
+const base = {
   lcel: {
     minutes: 70,
     level: "Intermediate",
@@ -288,9 +292,12 @@ chain.invoke({"history": history, "question": "What about interns?"})`,
         ],
       },
       {
-        h: "RunnableWithMessageHistory",
+        h: "RunnableWithMessageHistory (legacy)",
         blocks: [
-          "LangChain can wrap a chain to load and save history automatically by session id:",
+          {
+            warn: "Deprecated in LangChain 1.x: `RunnableWithMessageHistory` and the in-memory chat history classes now emit deprecation warnings and point to LangGraph persistence. Learn it to read existing code; for new code pass history explicitly from your own database, or use `create_agent` with a checkpointer (see the tools lesson).",
+          },
+          "Older LangChain code wraps a chain to load and save history automatically by session id:",
           {
             lang: "python",
             code: `from langchain_core.runnables.history import RunnableWithMessageHistory
@@ -307,7 +314,7 @@ chat = RunnableWithMessageHistory(
 )
 chat.invoke({"question": "How many casual leaves?"}, config={"configurable": {"session_id": "u1-c9"}})`,
           },
-          "Swap the in-memory store for a persistent one (Redis, Postgres, MongoDB integrations exist) in real apps. For agents, LangGraph's **checkpointers** (Day 11) are now the recommended way to persist conversation state.",
+          "In today's LangChain, conversation state is persisted with LangGraph **checkpointers** (Days 7 and 11), or you keep history in your own tables and pass it in as shown above.",
         ],
       },
       {
@@ -317,8 +324,10 @@ chat.invoke({"question": "How many casual leaves?"}, config={"configurable": {"s
             lang: "python",
             code: `from langchain_core.messages import trim_messages
 
-trimmer = trim_messages(max_tokens=2000, strategy="last", token_counter=llm,
-                        include_system=True, start_on="human")
+from langchain_core.messages.utils import count_tokens_approximately
+
+trimmer = trim_messages(max_tokens=2000, strategy="last", token_counter=count_tokens_approximately,
+                        include_system=True, start_on="human")      # or token_counter=llm for exact counts
 chain = {"history": lambda x: trimmer.invoke(x["history"]), "question": lambda x: x["question"]} | prompt | llm`,
           },
           {
@@ -329,15 +338,14 @@ chain = {"history": lambda x: trimmer.invoke(x["history"]), "question": lambda x
     ],
     revise: [
       "History is an input: `MessagesPlaceholder(\"history\")` in the prompt.",
-      "`RunnableWithMessageHistory` loads/saves by `session_id` via `config={\"configurable\": {...}}`.",
-      "Use persistent stores in production; LangGraph checkpointers for agents.",
+      "`RunnableWithMessageHistory` (legacy, deprecated in 1.x) loads/saves by `session_id`; new code uses your own DB or LangGraph checkpointers with a `thread_id`.",
       "`trim_messages` keeps history within a token budget.",
       "Owning history in your DB is often simpler for audit and deletion.",
     ],
     interview: [
       {
         q: "How would you implement memory in a LangChain chatbot?",
-        a: "Store messages per conversation in a persistent store, load and trim them (trim_messages or a summary of older turns) into a MessagesPlaceholder, and pass the session id through config, either with RunnableWithMessageHistory or explicitly in my own code. For agents I'd use LangGraph checkpointers. Long-term user memory (preferences, facts) would be a separate store retrieved like RAG.",
+        a: "Store messages per conversation in a persistent store, load and trim them (trim_messages or a summary of older turns) into a MessagesPlaceholder, and pass the session id through config, either explicitly from my own database or, in LangChain 1.x, with create_agent and a LangGraph checkpointer keyed by thread_id (RunnableWithMessageHistory is the older, now deprecated way). Long-term user memory (preferences, facts) would be a separate store retrieved like RAG.",
       },
     ],
     practice: [
@@ -567,4 +575,29 @@ LangChain loaders for new file types, LangGraph for the agent in Project 2.`,
       "Prepare a 60-second spoken version of your comparison for interviews.",
     ],
   },
+};
+
+// Append deeper sections (d07-deep.js) to the original lessons.
+function deepen(lesson, extra) {
+  return {
+    ...lesson,
+    minutes: lesson.minutes + extra.minutes,
+    sections: [...lesson.sections, ...extra.sections],
+    revise: [...lesson.revise, ...extra.revise],
+    interview: [...(lesson.interview ?? []), ...(extra.interview ?? [])],
+  };
+}
+
+export default {
+  "lc-overview": lcOverview,
+  lcel: deepen(base.lcel, deepLcel),
+  retrievers: deepen(base.retrievers, deepRetrievers),
+  "lc-tools": lcTools,
+  memory: deepen(base.memory, deepMemory),
+  "lc-observability": lcObservability,
+  llamaindex: deepen(base.llamaindex, deepLlamaindex),
+  "frameworks-compare": frameworksCompare,
+  "lc-offline-lab": lcOfflineLab,
+  "docchat-langchain": base["docchat-langchain"],
+  "compare-readme": base["compare-readme"],
 };

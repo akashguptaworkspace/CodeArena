@@ -1,13 +1,15 @@
 // Day 5 practice: embeddings & vector databases. Shape: see ./index.js
+import { keywordGroup, metricGroup, modelGroup, qdrantGroup, quantGroup } from "./d05-more.js";
+
 export default {
   intro:
-    "Eight exercises that take you from a NumPy search to real vector databases (Chroma and Postgres with pgvector), plus an HNSW speed test. You'll see exactly what a vector DB does for you.",
+    "Twenty-one exercises from keyword search to production vector databases: build an inverted index and BM25 baseline, compare BM25 with embeddings, check score distributions, Matryoshka truncation and Hindi/Hinglish retrieval, implement and apply retrieval metrics, use Chroma, Qdrant (with tenant-isolation tests and blue-green re-indexing) and pgvector, benchmark HNSW, and compress vectors with int8 and binary quantisation. Spread them over several days if you need to.",
   setup: [
     {
       lang: "bash",
       code: `mkdir -p ~/genai-practice/day05 && cd ~/genai-practice/day05
 uv init --no-readme .
-uv add openai python-dotenv numpy chromadb "psycopg[binary]" pgvector hnswlib
+uv add openai python-dotenv numpy chromadb qdrant-client rank_bm25 "psycopg[binary]" pgvector hnswlib
 cp ../day03/llm.py ../day03/.env .
 
 # Postgres with pgvector (needs Docker Desktop running)
@@ -29,6 +31,7 @@ FAQS = [
     },
   ],
   groups: [
+    keywordGroup,
     {
       title: "Search without a database",
       exercises: [
@@ -114,6 +117,8 @@ cached_embed(texts)      # fetched 0`,
         },
       ],
     },
+    modelGroup,
+    metricGroup,
     {
       title: "Chroma",
       exercises: [
@@ -188,6 +193,7 @@ print(res["ids"][0], res["documents"][0])`,
         },
       ],
     },
+    qdrantGroup,
     {
       title: "Postgres + pgvector",
       exercises: [
@@ -277,17 +283,21 @@ SELECT '[0.267,0.534,0.802]'::vector <-> '[0.267,0.534,0.802]'::vector AS euclid
           title: "Brute force vs HNSW: speed and recall",
           level: "Hard",
           task: [
-            "Generate 100,000 random normalised vectors (384 dimensions). Time 100 brute-force top-10 queries vs an `hnswlib` index. Measure recall@10 (how many of the true top 10 HNSW found) at `ef` = 10, 50 and 200.",
+            "Generate 50,000 normalised 384-dimensional vectors that cluster around 500 \"topics\" (like real embeddings do). Time 100 brute-force top-10 queries vs an `hnswlib` index. Measure recall@10 (how many of the true top 10 HNSW found) at `ef` = 10, 50 and 200.",
           ],
           solution: `import time
 import hnswlib
 import numpy as np
 
 rng = np.random.default_rng(0)
-N, D, K = 100_000, 384, 10
-data = rng.standard_normal((N, D)).astype(np.float32)
-data /= np.linalg.norm(data, axis=1, keepdims=True)
-queries = data[rng.choice(N, 100, replace=False)] + 0.01 * rng.standard_normal((100, D)).astype(np.float32)
+N, D, K = 50_000, 384, 10
+
+def normalise(x):
+    return (x / np.linalg.norm(x, axis=1, keepdims=True)).astype(np.float32)
+
+topics = normalise(rng.standard_normal((500, D)))              # real embeddings cluster by topic
+data = normalise(topics[rng.integers(0, 500, N)] + 0.075 * rng.standard_normal((N, D)))
+queries = normalise(topics[rng.integers(0, 500, 100)] + 0.075 * rng.standard_normal((100, D)))
 
 t = time.perf_counter()
 truth = [np.argsort(-(data @ q))[:K] for q in queries]
@@ -307,7 +317,8 @@ for ef in [10, 50, 200]:
     recall = np.mean([len(set(l) & set(tr)) / K for l, tr in zip(labels, truth)])
     print(f"ef={ef:<4} {ms:.2f} ms/query  recall@10={recall:.2f}")`,
           explanation: [
-            "Brute force compares each query with all 100,000 vectors. HNSW visits only a small part of its graph, so it's much faster.",
+            "Brute force compares each query with all 50,000 vectors. HNSW visits only a small part of its graph, so it's much faster.",
+            "The data is clustered on purpose. With purely random vectors every point is almost equally far from every other, recall looks terrible, and the benchmark tells you nothing about real embeddings.",
             "`ef` is how many candidates HNSW keeps while searching: higher `ef` → better recall but slower queries. This is the main knob you tune in production.",
             "Recall@10 = overlap between HNSW's top 10 and the true top 10. 0.95+ is typical with sensible settings.",
             "(Time per query is total seconds × 1000 ms ÷ 100 queries, hence `* 10`.)",
@@ -348,5 +359,6 @@ for dims in [1536, 512]:
         },
       ],
     },
+    quantGroup,
   ],
 };

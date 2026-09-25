@@ -1,13 +1,15 @@
 // Day 6 practice: RAG from scratch. Shape: see ./index.js
+import { chunkGroup2, contextGroup, debugGroup, groundGroup, parseGroup } from "./d06-more.js";
+
 export default {
   intro:
-    "Nine exercises that build a complete RAG pipeline piece by piece, with no framework: load, clean, chunk, retrieve, answer with citations, refuse when unsure, handle follow-ups, and serve it over an API. Each piece is small enough to understand fully.",
+    "Twenty exercises that build a complete RAG pipeline piece by piece, with no framework: load and clean documents, detect scanned pages, turn tables into chunks, chunk by tokens, headings and topics, retrieve, remove duplicates with MMR, fit a token budget, answer with citations and verified quotes, handle outdated documents, refuse when unsure, handle follow-ups, diagnose failures, and serve it over an API. Spread them over several days if you need to.",
   setup: [
     {
       lang: "bash",
       code: `mkdir -p ~/genai-practice/day06/docs && cd ~/genai-practice/day06
 uv init --no-readme .
-uv add openai python-dotenv numpy tiktoken pypdf "fastapi[standard]"
+uv add openai python-dotenv numpy tiktoken pypdf pydantic "fastapi[standard]"
 cp ../day03/llm.py ../day03/.env .`,
     },
     "Create these three small policy files in `docs/`. They're your test corpus (you can add real PDFs later).",
@@ -137,6 +139,7 @@ print(clean(raw))
         },
       ],
     },
+    parseGroup,
     {
       title: "Chunking",
       exercises: [
@@ -232,6 +235,7 @@ for c in ALL:
         },
       ],
     },
+    chunkGroup2,
     {
       title: "The RAG pipeline",
       exercises: [
@@ -394,6 +398,9 @@ print("without rewrite:", retrieve("What about interns?", k=1)[0]["heading_path"
         },
       ],
     },
+    contextGroup,
+    groundGroup,
+    debugGroup,
     {
       title: "Serve it",
       exercises: [

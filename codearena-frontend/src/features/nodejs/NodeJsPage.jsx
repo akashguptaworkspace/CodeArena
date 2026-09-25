@@ -4,6 +4,7 @@ import { DesignSummary } from "@/features/system-design/components/DesignSummary
 import { DesignToolbar } from "@/features/system-design/components/DesignToolbar";
 import { useDesignTrack } from "@/features/system-design/hooks/useDesignTrack";
 import { DEFAULT_DESIGN_FILTERS } from "@/features/system-design/utils/designFilters";
+import { CourseShareButtons } from "@/features/share/components/CourseShareButtons";
 import { usePersistentState } from "@/shared/hooks/usePersistentState";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { PageIntro } from "@/shared/layout/PageIntro";
@@ -19,7 +20,7 @@ export function NodeJsPage() {
 
   return (
     <Stack gap="section">
-      <PageIntro eyebrow="Tier 2 backend rounds" title="Node.js 100">
+      <PageIntro eyebrow="Tier 2 backend rounds" title="Node.js 100" actions={<CourseShareButtons moduleId="nodejs" />}>
         <p>
           The Node.js questions backend interviewers ask most, from the event loop to production. Open a question,
           write your answer as you'd say it in the interview, then reveal the model answer and tick the key points you

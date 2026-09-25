@@ -254,7 +254,7 @@ graph.invoke(inputs, config={"callbacks": [CallbackHandler()], "configurable": {
           {
             lang: "python",
             code: `r = claude.messages.create(
-    model="claude-opus-5", max_tokens=1024,
+    model="claude-opus-5", max_tokens=16000,
     system=[{"type": "text", "text": LONG_STABLE_SYSTEM_PROMPT,
              "cache_control": {"type": "ephemeral"}}],          # cache everything up to here
     messages=[{"role": "user", "content": question}],

@@ -40,6 +40,16 @@ npm run dev
 | `VITE_APP_URL` | current origin | Public site URL, used in link previews and share links. |
 | `VITE_ENABLE_PAYWALL` | `false` | `true` locks paid modules unless the user owns them. Keep `false` until payments are live. |
 
+### Link previews (LinkedIn, WhatsApp, X, Slack)
+
+Preview crawlers don't run JavaScript, so each module needs its own HTML page with its own `<meta>` tags.
+
+- The preview text and image for each module live in the `share` field in `src/config/modules.js`.
+- `npm run build` writes `dist/<module>/index.html` for every live module (see `vite.config.js`), and `nginx.conf` serves it for `/<module>` and every URL under it. `vite preview` does the same, so you can check locally with `curl -s localhost:4173/genai | grep og:title`.
+- Preview images are 1200 × 627 PNGs: `public/og-image.png` (DSA, `scripts/og-image.py`) and `public/og/<module>.png` (`python3 scripts/og-images.py`, needs Pillow).
+- Every module page has LinkedIn and share buttons (`features/share/components/CourseShareButtons.jsx`).
+- LinkedIn caches previews: after deploying a change, paste the URL into [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) to refresh it.
+
 ## Project structure
 
 Code is organised **by feature**. Each module is a self-contained folder; shared building blocks live in `shared/`.
@@ -56,7 +66,7 @@ src/
   config/
     app.js                     Product name and tagline
     env.js                     VITE_* settings
-    modules.js                 Module registry: id, title, path, status, access, price, highlights
+    modules.js                 Module registry: id, title, path, status, access, price, highlights, share (link preview)
 
   features/
     home/                      Home page: a card per module with progress and access state

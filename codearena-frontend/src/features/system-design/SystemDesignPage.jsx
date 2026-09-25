@@ -7,6 +7,7 @@ import { PracticeGuide } from "@/features/system-design/components/PracticeGuide
 import { DESIGN_TRACKS } from "@/features/system-design/data/systemDesign";
 import { useDesignTrack } from "@/features/system-design/hooks/useDesignTrack";
 import { DEFAULT_DESIGN_FILTERS } from "@/features/system-design/utils/designFilters";
+import { CourseShareButtons } from "@/features/share/components/CourseShareButtons";
 import { usePersistentState } from "@/shared/hooks/usePersistentState";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { PageIntro } from "@/shared/layout/PageIntro";
@@ -30,7 +31,11 @@ export function SystemDesignPage() {
 
   return (
     <Stack gap="section">
-      <PageIntro eyebrow="Tier 2 design rounds" title="System Design">
+      <PageIntro
+        eyebrow="Tier 2 design rounds"
+        title="System Design"
+        actions={<CourseShareButtons moduleId="system-design" />}
+      >
         <p>
           The 100 questions most often asked in high-level design and machine-coding rounds. Open a question to see
           what to cover and the follow-up interviewers usually add, then move it through the stages as you practise.

@@ -1,5 +1,10 @@
 // Day 4: LLM APIs & prompt engineering. Shape: see ./index.js
-export default {
+import { apiBasics, costControl, multimodal } from "./d04-apis.js";
+import { injection, promptCraft } from "./d04-prompts.js";
+import { deepPrompting, deepReliability, deepRoles, deepStreaming, deepStructured, deepTools } from "./d04-deep.js";
+import { promptLab, visionExtract } from "./d04-builds.js";
+
+const base = {
   roles: {
     minutes: 45,
     level: "Beginner",
@@ -71,7 +76,7 @@ text = r.choices[0].message.content`,
 import anthropic
 r = anthropic.Anthropic().messages.create(
     model="claude-opus-5",
-    max_tokens=1024,
+    max_tokens=16000,
     system=SYSTEM,
     messages=[{"role": "user", "content": q}],
 )
@@ -399,7 +404,7 @@ print(ticket.category, ticket.urgency, ticket.customer_wants_refund)`,
             code: `import anthropic
 response = anthropic.Anthropic().messages.parse(
     model="claude-opus-5",
-    max_tokens=1024,
+    max_tokens=16000,
     messages=[{"role": "user", "content": f"Extract the ticket fields:\\n{ticket_text}"}],
     output_format=Ticket,
 )
@@ -526,7 +531,7 @@ for chunk in stream:
         print(delta, end="", flush=True)
 
 # Anthropic
-with anthropic_client.messages.stream(model="claude-opus-5", max_tokens=1024, messages=messages) as s:
+with anthropic_client.messages.stream(model="claude-opus-5", max_tokens=16000, messages=messages) as s:
     for text in s.text_stream:
         print(text, end="", flush=True)
     final = s.get_final_message()          # full message + usage at the end`,
@@ -756,7 +761,7 @@ tools = [{
 
 messages = [{"role": "user", "content": "Where is my order 4521?"}]
 while True:
-    r = client.messages.create(model="claude-opus-5", max_tokens=1024, tools=tools, messages=messages)
+    r = client.messages.create(model="claude-opus-5", max_tokens=16000, tools=tools, messages=messages)
     if r.stop_reason != "tool_use":
         break
     messages.append({"role": "assistant", "content": r.content})
@@ -865,7 +870,7 @@ def ask(prompt: str) -> str: ...`,
           {
             lang: "python",
             code: `try:
-    r = claude.messages.create(model="claude-opus-5", max_tokens=1024, messages=msgs)
+    r = claude.messages.create(model="claude-opus-5", max_tokens=16000, messages=msgs)
 except anthropic.BadRequestError as e:        # 400: prompt too long, bad params. Don't retry.
     ...
 except anthropic.AuthenticationError:         # 401: bad key
@@ -1240,8 +1245,8 @@ class Completion:
 
 class LLMProvider(Protocol):
     name: str
-    async def complete(self, system: str, messages: list[dict], max_tokens: int = 1024) -> Completion: ...
-    def stream(self, system: str, messages: list[dict], max_tokens: int = 1024) -> AsyncIterator[str]: ...`,
+    async def complete(self, system: str, messages: list[dict], max_tokens: int = 4096) -> Completion: ...
+    def stream(self, system: str, messages: list[dict], max_tokens: int = 4096) -> AsyncIterator[str]: ...`,
           },
           "`Protocol` is structural typing (like a TypeScript interface): any class with these methods fits, without inheriting from anything.",
         ],
@@ -1259,14 +1264,14 @@ class OpenAIProvider:
     def __init__(self, model: str):
         self.client, self.model = AsyncOpenAI(), model
 
-    async def complete(self, system, messages, max_tokens=1024):
+    async def complete(self, system, messages, max_tokens=4096):
         r = await self.client.chat.completions.create(
             model=self.model, max_tokens=max_tokens,
             messages=[{"role": "system", "content": system}, *messages])
         return Completion(r.choices[0].message.content, r.usage.prompt_tokens,
                           r.usage.completion_tokens, self.model)
 
-    async def stream(self, system, messages, max_tokens=1024):
+    async def stream(self, system, messages, max_tokens=4096):
         s = await self.client.chat.completions.create(
             model=self.model, max_tokens=max_tokens, stream=True,
             messages=[{"role": "system", "content": system}, *messages])
@@ -1284,13 +1289,13 @@ class AnthropicProvider:
     def __init__(self, model: str):
         self.client, self.model = AsyncAnthropic(), model
 
-    async def complete(self, system, messages, max_tokens=1024):
+    async def complete(self, system, messages, max_tokens=4096):
         r = await self.client.messages.create(
             model=self.model, max_tokens=max_tokens, system=system, messages=messages)
         text = "".join(b.text for b in r.content if b.type == "text")
         return Completion(text, r.usage.input_tokens, r.usage.output_tokens, self.model)
 
-    async def stream(self, system, messages, max_tokens=1024):
+    async def stream(self, system, messages, max_tokens=4096):
         async with self.client.messages.stream(
             model=self.model, max_tokens=max_tokens, system=system, messages=messages) as s:
             async for text in s.text_stream:
@@ -1314,7 +1319,7 @@ class FallbackProvider:
     name = "fallback"
     def __init__(self, providers: list[LLMProvider]):
         self.providers = providers
-    async def complete(self, system, messages, max_tokens=1024):
+    async def complete(self, system, messages, max_tokens=4096):
         last = None
         for p in self.providers:
             try:
@@ -1325,9 +1330,9 @@ class FallbackProvider:
 
 class FakeProvider:                                # tests: fast, free, deterministic
     name = "fake"
-    async def complete(self, system, messages, max_tokens=1024):
+    async def complete(self, system, messages, max_tokens=4096):
         return Completion("fake answer", 10, 2, "fake")
-    async def stream(self, system, messages, max_tokens=1024):
+    async def stream(self, system, messages, max_tokens=4096):
         for word in "fake streamed answer".split():
             yield word + " "
 
@@ -1361,4 +1366,34 @@ def get_llm() -> LLMProvider:                      # FastAPI dependency
       "Swap your stream-chat app to use `get_llm()` and prove switching providers needs only an env change.",
     ],
   },
+};
+
+// Append deeper sections (d04-deep.js) to the original lessons.
+function deepen(lesson, extra) {
+  return {
+    ...lesson,
+    minutes: lesson.minutes + extra.minutes,
+    sections: [...lesson.sections, ...extra.sections],
+    revise: [...lesson.revise, ...extra.revise],
+    interview: [...(lesson.interview ?? []), ...(extra.interview ?? [])],
+  };
+}
+
+export default {
+  "api-basics": apiBasics,
+  roles: deepen(base.roles, deepRoles),
+  prompting: deepen(base.prompting, deepPrompting),
+  "prompt-craft": promptCraft,
+  structured: deepen(base.structured, deepStructured),
+  streaming: deepen(base.streaming, deepStreaming),
+  tools: deepen(base.tools, deepTools),
+  multimodal,
+  injection,
+  "cost-control": costControl,
+  reliability: deepen(base.reliability, deepReliability),
+  "stream-chat": base["stream-chat"],
+  extractor: base.extractor,
+  adapter: base.adapter,
+  "prompt-lab": promptLab,
+  "vision-extract": visionExtract,
 };

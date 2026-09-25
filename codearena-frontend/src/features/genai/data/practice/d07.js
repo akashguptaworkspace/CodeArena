@@ -1,13 +1,15 @@
 // Day 7 practice: LangChain & LlamaIndex. Shape: see ./index.js
+import { agentGroup, essentialsGroup, liGroup2, retrievalExtraGroup, testObsGroup } from "./d07-more.js";
+
 export default {
   intro:
-    "Eight exercises that rebuild what you wrote by hand yesterday, now with LangChain (and one with LlamaIndex): LCEL chains, structured output, parallel steps, loaders and splitters, retrievers, a RAG chain with sources, and chat history.",
+    "Twenty exercises that rebuild what you wrote by hand, now with LangChain 1.x and LlamaIndex: translate old imports, LCEL chains, routing, structured output, parallel steps, streaming intermediate events, loaders and splitters, retrievers (custom and hybrid), a RAG chain with sources, chat history, tools, create_agent with memory and middleware, callback logging, offline tests with fake models, and a LlamaIndex ingestion pipeline. Spread them over several days if you need to.",
   setup: [
     {
       lang: "bash",
       code: `mkdir -p ~/genai-practice/day07 && cd ~/genai-practice/day07
 uv init --no-readme .
-uv add langchain-core langchain-openai langchain-text-splitters langchain-community python-dotenv
+uv add langchain langchain-core langchain-openai langchain-text-splitters langchain-community langchain-classic langgraph rank_bm25 llama-index-core python-dotenv
 cp ../day03/.env . && cp -r ../day06/docs .`,
     },
     "Create `lc.py` so every exercise gets the same model and embeddings, whichever provider your `.env` points at:",
@@ -31,6 +33,7 @@ embeddings = OpenAIEmbeddings(
     { note: "LangChain changes quickly. If an import fails, check the current docs for that class; the ideas stay the same." },
   ],
   groups: [
+    essentialsGroup,
     {
       title: "LCEL basics",
       exercises: [
@@ -213,6 +216,7 @@ for doc in mmr.invoke(query):
         },
       ],
     },
+    retrievalExtraGroup,
     {
       title: "RAG chains and memory",
       exercises: [
@@ -294,6 +298,8 @@ for question in ["My name is Asha and I'm learning RAG.", "What am I learning, a
         },
       ],
     },
+    agentGroup,
+    testObsGroup,
     {
       title: "LlamaIndex",
       exercises: [
@@ -345,5 +351,6 @@ for q in ["How many casual leaves do interns get?", "How long must passwords be?
         },
       ],
     },
+    liGroup2,
   ],
 };

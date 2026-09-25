@@ -1,5 +1,9 @@
 // Day 6: RAG from scratch. Shape: see ./index.js
-export default {
+import { grounding, ragFailures, ragWhy } from "./d06-concepts.js";
+import { deepChunking, deepCitations, deepHistory, deepLoading, deepPipeline } from "./d06-deep.js";
+import { chunkLab, ragTests } from "./d06-builds.js";
+
+const base = {
   loading: {
     minutes: 50,
     level: "Beginner",
@@ -672,4 +676,29 @@ async def answer_stream(question: str, owner_id: int, history: list[dict]):
       "Add a \"Delete document\" endpoint that also deletes its chunks from the vector store.",
     ],
   },
+};
+
+// Append deeper sections (d06-deep.js) to the original lessons.
+function deepen(lesson, extra) {
+  return {
+    ...lesson,
+    minutes: lesson.minutes + extra.minutes,
+    sections: [...lesson.sections, ...extra.sections],
+    revise: [...lesson.revise, ...extra.revise],
+    interview: [...(lesson.interview ?? []), ...(extra.interview ?? [])],
+  };
+}
+
+export default {
+  "rag-why": ragWhy,
+  loading: deepen(base.loading, deepLoading),
+  chunking: deepen(base.chunking, deepChunking),
+  pipeline: deepen(base.pipeline, deepPipeline),
+  grounding,
+  citations: deepen(base.citations, deepCitations),
+  history: deepen(base.history, deepHistory),
+  "rag-failures": ragFailures,
+  "chunk-lab": chunkLab,
+  "rag-tests": ragTests,
+  "docchat-v1": base["docchat-v1"],
 };

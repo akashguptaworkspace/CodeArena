@@ -1,20 +1,26 @@
 // Day 4 practice: LLM APIs & prompt engineering. Shape: see ./index.js
+import { apiGroup, costGroup, memoryGroup, promptGroup, securityGroup, structGroup, toolGroup, visionGroup } from "./d04-more.js";
+
 export default {
   intro:
-    "Eleven exercises using a real LLM: a chat loop with memory, prompt techniques you can measure, reliable JSON output, streaming, and your first tool-calling loop. They all use the `llm.py` helper from Day 3.",
+    "Thirty exercises using a real LLM: raw HTTP calls and error handling, a chat loop with memory (rolling summaries, a safe SQLite store), prompt techniques you can measure, prompt chains, self-critique and dynamic few-shot, reliable JSON output, streaming, tool calling (including parallel calls), images, attacking your own app with prompt injection, and cost control in code. They all use the `llm.py` helper from Day 3. Spread them over several days if you need to.",
   setup: [
     {
       lang: "bash",
       code: `mkdir -p ~/genai-practice/day04 && cd ~/genai-practice/day04
 uv init --no-readme .
-uv add openai python-dotenv pydantic "fastapi[standard]"
+uv add openai python-dotenv pydantic "fastapi[standard]" httpx tiktoken pillow
 cp ../day03/llm.py ../day03/.env .       # reuse yesterday's helper and settings`,
     },
     {
-      note: "Everything here works with OpenAI, Gemini or Ollama through `llm.py`. With Ollama, use a model that supports tool calling (for example `qwen2.5` or `llama3.1`) for the tools exercise.",
+      note: "Everything here works with OpenAI, Gemini or Ollama through `llm.py`. With Ollama, use a model that supports tool calling (for example `qwen2.5` or `llama3.1`) for the tools exercises, and a vision model (for example `qwen2.5vl`) for the image exercise.",
+    },
+    {
+      note: "Exercises that use `client.chat.completions.parse(...)` need structured-output support. OpenAI and Gemini's OpenAI-compatible endpoint support it, and so do recent Ollama versions; if your provider rejects it, switch `.env` to one of those for these exercises.",
     },
   ],
   groups: [
+    apiGroup,
     {
       title: "Chat API basics",
       exercises: [
@@ -109,6 +115,7 @@ if choice.finish_reason == "length":
         },
       ],
     },
+    memoryGroup,
     {
       title: "Prompt techniques you can measure",
       exercises: [
@@ -251,6 +258,7 @@ else:
         },
       ],
     },
+    promptGroup,
     {
       title: "Structured output",
       exercises: [
@@ -350,6 +358,7 @@ for field, values in entities.model_dump().items():
         },
       ],
     },
+    structGroup,
     {
       title: "Streaming and tool calling",
       exercises: [
@@ -490,5 +499,9 @@ def chat_stream(body: ChatIn):
         },
       ],
     },
+    toolGroup,
+    visionGroup,
+    securityGroup,
+    costGroup,
   ],
 };

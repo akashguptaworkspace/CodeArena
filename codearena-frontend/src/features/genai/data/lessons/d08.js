@@ -78,7 +78,7 @@ fused = rrf([vector_ids, bm25_ids])`,
               "**Postgres:** pgvector for vectors plus full-text search (`tsvector`, `ts_rank`) for keywords, merged with RRF in SQL or Python.",
               "**Elasticsearch / OpenSearch:** BM25 is native; add a vector field; hybrid queries are supported.",
               "**Pinecone, Weaviate, MongoDB Atlas:** have hybrid options.",
-              "**LangChain:** `EnsembleRetriever([bm25_retriever, vector_retriever], weights=[0.4, 0.6])`.",
+              "**LangChain:** `EnsembleRetriever([bm25_retriever, vector_retriever], weights=[0.4, 0.6])` (import it from `langchain_classic.retrievers` in LangChain 1.x; `BM25Retriever` is in `langchain_community.retrievers`).",
             ],
           },
           {

@@ -5,6 +5,7 @@ import { DesignSummary } from "@/features/system-design/components/DesignSummary
 import { DesignToolbar } from "@/features/system-design/components/DesignToolbar";
 import { useDesignTrack } from "@/features/system-design/hooks/useDesignTrack";
 import { DEFAULT_DESIGN_FILTERS } from "@/features/system-design/utils/designFilters";
+import { CourseShareButtons } from "@/features/share/components/CourseShareButtons";
 import { usePersistentState } from "@/shared/hooks/usePersistentState";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { PageIntro } from "@/shared/layout/PageIntro";
@@ -27,7 +28,7 @@ export function SqlPage() {
 
   return (
     <Stack gap="section">
-      <PageIntro eyebrow="Tier 2 backend rounds" title="SQL">
+      <PageIntro eyebrow="Tier 2 backend rounds" title="SQL" actions={<CourseShareButtons moduleId="sql" />}>
         <p>
           Write the query for the tables you're given, then learn the MySQL concepts behind it. Write your answer first,
           reveal the model answer, and tick the key points you got right.

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router";
+import { CourseShareButtons } from "@/features/share/components/CourseShareButtons";
 import { usePersistentState } from "@/shared/hooks/usePersistentState";
 import { useDocumentTitle } from "@/shared/hooks/useDocumentTitle";
 import { PageIntro } from "@/shared/layout/PageIntro";
@@ -34,7 +35,11 @@ export function GenAiPage() {
 
   return (
     <Stack gap="section">
-      <PageIntro eyebrow="MERN → GenAI developer" title="GenAI 20-Day Sprint">
+      <PageIntro
+        eyebrow="MERN → GenAI developer"
+        title="GenAI 20-Day Sprint"
+        actions={<CourseShareButtons moduleId="genai" />}
+      >
         <p>
           A beginner-to-advanced plan for full-stack developers moving into GenAI roles: {GENAI_TOTAL_HOURS} hours over
           20 days, no deep ML maths. Each day has concepts to learn, something to build and interview questions to
