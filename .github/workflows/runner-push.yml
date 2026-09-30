@@ -1,0 +1,11 @@
+name: push check workflow
+on: 
+ push:
+  branches: [main]
+jobs:
+  print:
+   runs-on: ubuntu-latest
+   steps:
+     - name: "first push command test "
+       run: echo "hello devloper " 
+    
