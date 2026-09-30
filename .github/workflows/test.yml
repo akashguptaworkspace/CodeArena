@@ -1,4 +1,4 @@
-name: code-arena-workflow
+name: code-arena-schudle-workflow
 
 on:
  schedule:
