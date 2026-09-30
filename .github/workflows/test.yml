@@ -1,0 +1,13 @@
+name: code-arena-workflow
+
+on:
+ schedule:
+   - cron: "0 0 * * *"
+
+jobs: 
+ run-script:
+  runs-on: ubuntu-latest
+
+  steps:
+    - name : print name
+      run: echo "schedule work flows"
